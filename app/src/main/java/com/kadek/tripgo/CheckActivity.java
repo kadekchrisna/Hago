@@ -73,7 +73,21 @@ public class CheckActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        mTextViewStatus.setText(new StringBuilder("Status: ").append(String.valueOf(currentUser.isEmailVerified())));
+
+
+        if (currentUser.isEmailVerified()){
+
+            mTextViewStatus.setText(new StringBuilder("Status: ").append(String.valueOf(currentUser.isEmailVerified())));
+            Intent mainIntent = new Intent(CheckActivity.this, MainActivity.class);
+            startActivity(mainIntent);
+            finish();
+
+        }else {
+
+            mTextViewStatus.setText("Status: false");
+
+        }
+
 
 
     }
@@ -95,7 +109,7 @@ public class CheckActivity extends AppCompatActivity {
 
     private void sendToStart() {
 
-        Intent redirectIntent = new Intent(this, RegisterActivity.class);
+        Intent redirectIntent = new Intent(this, WelcomeActivity.class);
         startActivity(redirectIntent);
         finish();
     }

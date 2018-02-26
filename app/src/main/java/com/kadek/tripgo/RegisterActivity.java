@@ -83,6 +83,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
+                    mProgressDialog.dismiss();
+
                     String userUid = mAuth.getCurrentUser().getUid();
 
 
@@ -92,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(checkIntent);
 
                 }else {
+                    mProgressDialog.hide();
                     Toast.makeText(RegisterActivity.this, "You got some Error. ", Toast.LENGTH_LONG).show();
                 }
 
