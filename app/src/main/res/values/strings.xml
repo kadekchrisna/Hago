@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TripGo</string>
+    <string name="Email">Please confirm your email and press the Refresh Button.</string>
+
 </resources>

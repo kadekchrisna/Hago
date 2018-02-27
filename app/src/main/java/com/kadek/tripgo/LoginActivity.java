@@ -17,6 +17,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressLogin;
     private Toolbar mToolbar;
+
+    private DatabaseReference mUserDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +85,36 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    mProgressLogin.dismiss();
-                    Intent checkIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    checkIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(checkIntent);
-                    finish();
+
+
+                    FirebaseUser currentUser = mAuth.getCurrentUser();
+                    String uid = currentUser.getUid();
+                    String deviceToken = FirebaseInstanceId.getInstance().getToken();
+                    mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("device_token");
+
+                    mUserDatabase.setValue(deviceToken).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (task.isSuccessful()){
+
+                                mProgressLogin.dismiss();
+                                Intent checkIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                checkIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(checkIntent);
+                                finish();
+
+                            }else {
+                                mProgressLogin.hide();
+                                Toast.makeText(LoginActivity.this, "Please check the form and try again. ", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+
+
+
                 }else{
 
                     mProgressLogin.hide();

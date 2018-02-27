@@ -18,7 +18,7 @@ public class CheckActivity extends AppCompatActivity {
 
     private TextView mTextViewStatus;
     private FirebaseAuth mAuth;
-    private Button mButtonSendEmail, mButtonCancel, mButtonCheck;
+    private Button mButtonCancel, mButtonRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,25 +26,17 @@ public class CheckActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_check);
 
-        mTextViewStatus = (TextView)findViewById(R.id.textView2);
-        mButtonSendEmail = (Button)findViewById(R.id.button2);
-        mButtonCancel = (Button)findViewById(R.id.button3);
-        mButtonCheck = (Button)findViewById(R.id.button4);
+        mTextViewStatus = (TextView)findViewById(R.id.check_textstatus);
+        mButtonCancel = (Button)findViewById(R.id.check_buttoncancel);
+        mButtonRefresh = (Button)findViewById(R.id.check_buttonrefresh);
         mTextViewStatus.setText("Status: false");
 
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser.sendEmailVerification();
 
 
-        mButtonSendEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                FirebaseUser currentUser = mAuth.getCurrentUser();
-                currentUser.sendEmailVerification();
-
-
-            }
-        });
 
         mButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +48,7 @@ public class CheckActivity extends AppCompatActivity {
             }
         });
 
-        mButtonCheck.setOnClickListener(new View.OnClickListener() {
+        mButtonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAuth.getCurrentUser().reload().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -75,12 +67,11 @@ public class CheckActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-
-
         if (currentUser.isEmailVerified()){
 
             mTextViewStatus.setText(new StringBuilder("Status: ").append(String.valueOf(currentUser.isEmailVerified())));
             Intent mainIntent = new Intent(CheckActivity.this, MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(mainIntent);
             finish();
 
@@ -89,9 +80,6 @@ public class CheckActivity extends AppCompatActivity {
             Toast.makeText(this, "Please Check Your Email. ", Toast.LENGTH_SHORT).show();
 
         }
-
-
-
     }
 
     @Override
@@ -123,7 +111,7 @@ public class CheckActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
 
-        if (currentUser.isEmailVerified() == true){
+        if (currentUser.isEmailVerified()){
 
             Toast.makeText(this, "User Verified", Toast.LENGTH_SHORT).show();
             Intent checkIntent = new Intent(CheckActivity.this, MainActivity.class);
