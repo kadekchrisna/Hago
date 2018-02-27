@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +30,7 @@ public class CheckActivity extends AppCompatActivity {
         mButtonSendEmail = (Button)findViewById(R.id.button2);
         mButtonCancel = (Button)findViewById(R.id.button3);
         mButtonCheck = (Button)findViewById(R.id.button4);
+        mTextViewStatus.setText("Status: false");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -84,7 +86,7 @@ public class CheckActivity extends AppCompatActivity {
 
         }else {
 
-            mTextViewStatus.setText("Status: false");
+            Toast.makeText(this, "Please Check Your Email. ", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -112,5 +114,27 @@ public class CheckActivity extends AppCompatActivity {
         Intent redirectIntent = new Intent(this, WelcomeActivity.class);
         startActivity(redirectIntent);
         finish();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+
+        if (currentUser.isEmailVerified() == true){
+
+            Toast.makeText(this, "User Verified", Toast.LENGTH_SHORT).show();
+            Intent checkIntent = new Intent(CheckActivity.this, MainActivity.class);
+            startActivity(checkIntent);
+            finish();
+
+        }else{
+
+            Toast.makeText(this, "Please Click The Refresh Button", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 }

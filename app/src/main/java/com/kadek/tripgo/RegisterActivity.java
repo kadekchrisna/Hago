@@ -91,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                     mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userUid);
 
                     Intent checkIntent = new Intent(RegisterActivity.this, CheckActivity.class);
+                    checkIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(checkIntent);
 
                 }else {
