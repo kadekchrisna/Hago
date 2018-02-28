@@ -1,17 +1,28 @@
 package com.kadek.tripgo;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AccountFragment extends Fragment {
+
+    private Button mLogoutButton;
+    private View mMainView;
+
+    private FirebaseAuth mAuth;
 
 
     public AccountFragment() {
@@ -23,7 +34,31 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        mMainView = inflater.inflate(R.layout.fragment_account, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mLogoutButton = (Button) mMainView.findViewById(R.id.account_logout_button);
+
+        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mAuth.signOut();
+                sendToStart();
+
+
+            }
+        });
+
+        return mMainView;
+
+    }
+
+    private void sendToStart() {
+
+        Intent redirectIntent = new Intent(getContext(), WelcomeActivity.class);
+        startActivity(redirectIntent);
     }
 
 }

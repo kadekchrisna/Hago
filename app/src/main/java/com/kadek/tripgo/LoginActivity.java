@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                     mProgressLogin.show();
                     loginUser(email, password);
                 }else {
+
                     Toast.makeText(LoginActivity.this, "PLease Fill Form Correctly", Toast.LENGTH_SHORT).show();
                 }
 

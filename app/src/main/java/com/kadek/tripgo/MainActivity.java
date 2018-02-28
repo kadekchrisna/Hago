@@ -1,10 +1,16 @@
 package com.kadek.tripgo;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Button mLogoutButton;
 
+    private BottomNavigationView mMainNav;
+    private FrameLayout mMainFrame;
+
+    private HomeFragment homeFragment;
+    private NotificationFragment notificationFragment;
+    private AccountFragment accountFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,18 +35,51 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mLogoutButton = (Button) findViewById(R.id.main_logout_button);
+        mMainFrame = (FrameLayout) findViewById(R.id.main_frame);
+        mMainNav = (BottomNavigationView) findViewById(R.id.main_nav);
+
+        homeFragment = new HomeFragment();
+        notificationFragment = new NotificationFragment();
+        accountFragment = new AccountFragment();
+
+        setFragment(homeFragment);
 
 
-        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+        mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                sendToStart();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
 
+                    case R.id.nav_home:
+                        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
+                        setFragment(homeFragment);
+                        return true;
+
+                    case R.id.nav_notif:
+                        mMainNav.setItemBackgroundResource(R.color.colorAccent);
+                        setFragment(notificationFragment);
+                        return true;
+
+                    case R.id.nav_account:
+                        mMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
+                        setFragment(accountFragment);
+                        return true;
+
+                        default:
+                            return false;
+
+                }
             }
         });
 
+
+    }
+
+    private void setFragment(android.support.v4.app.Fragment fragment) {
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
 
     }
 
