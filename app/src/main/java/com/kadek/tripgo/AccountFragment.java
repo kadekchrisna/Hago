@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
  */
 public class AccountFragment extends Fragment {
 
-    private Button mLogoutButton;
+    private Button mLogoutButton, mPlaceButton;
     private View mMainView;
 
     private FirebaseAuth mAuth;
@@ -39,6 +39,17 @@ public class AccountFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
         mLogoutButton = (Button) mMainView.findViewById(R.id.account_logout_button);
+        mPlaceButton = (Button) mMainView.findViewById(R.id.account_places);
+
+        mPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent placesIntent = new Intent(getContext(), AddPlaceActivity.class);
+                startActivity(placesIntent);
+
+            }
+        });
 
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
