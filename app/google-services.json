@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "657145736506-d5c98nt3shechq92h5pojeasnq8iobn0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kadek.tripgo",
+            "certificate_hash": "5fb57b906ef6540dbe08bbbb14625ff2939c8b64"
+          }
+        },
+        {
           "client_id": "657145736506-njlpqt3qkcrqgm9qnnov9nin04rq4s61.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

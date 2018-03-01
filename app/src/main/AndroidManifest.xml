@@ -28,7 +28,8 @@
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".WelcomeActivity" />
-        <activity android:name=".CheckActivity"></activity>
+        <activity android:name=".CheckActivity" />
+        <activity android:name=".AddPlaceActivity"></activity>
     </application>
 
 </manifest>
