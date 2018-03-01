@@ -52,7 +52,11 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".EditPlacesActivity"></activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".EditPlacesActivity"
+            android:parentActivityName=".AddPlaceActivity"></activity>
     </application>
 
 </manifest>
