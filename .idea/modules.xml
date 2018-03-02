@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TripGo.iml" filepath="$PROJECT_DIR$/TripGo.iml" />
-      <module fileurl="file://C:\Users\K\StudioProjects\TripGo\TripGo.iml" filepath="C:\Users\K\StudioProjects\TripGo\TripGo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\K\StudioProjects\TripGo\app\app.iml" filepath="C:\Users\K\StudioProjects\TripGo\app\app.iml" />
     </modules>
   </component>
 </project>

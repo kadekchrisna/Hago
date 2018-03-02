@@ -1,5 +1,6 @@
 package com.kadek.tripgo;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,8 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +42,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import id.zelory.compressor.Compressor;
@@ -50,15 +56,20 @@ public class EditPlacesActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private FirebaseUser currentUser;
 
+    private Spinner mDropdown;
     private Button mLatlongButton, mSaveButton, mCancelButton;
     private TextView mTextviewPlaceName;
-    private DatabaseReference mPlacesDatabase;
+    private DatabaseReference mPlacesDatabase, mUserPlaceDatabase;
     private ProgressDialog mProgressDialog;
     private StorageReference mImageStorage;
     private static final int GALLERY_PICK = 1;
     private ImageButton mImageButton1, mImageButton2, mImageButton3, mImageButton4;
     private TextInputLayout mInputName, mInputPhone, mInputPrice, mInputDescription, mInputYoutubeId;
     private LatLng mLatlong;
+    private ArrayAdapter<CharSequence> mArrayAdapter;
+    private String mCategory;
+    private String placeUid = FirebaseDatabase.getInstance().getReference().child("Places").push().getKey();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +78,9 @@ public class EditPlacesActivity extends AppCompatActivity {
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String currentUid = currentUser.getUid();
-        mPlacesDatabase = FirebaseDatabase.getInstance().getReference().child("Places").child(currentUid);
+
+        mPlacesDatabase = FirebaseDatabase.getInstance().getReference().child("Places").child(placeUid);
+        mUserPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Owner").child(currentUid);
         mImageStorage = FirebaseStorage.getInstance().getReference();
 
         mImageButton1 = (ImageButton) findViewById(R.id.edit_imagebutton1);
@@ -75,6 +88,8 @@ public class EditPlacesActivity extends AppCompatActivity {
         mImageButton3 = (ImageButton) findViewById(R.id.edit_imagebutton3);
         mImageButton4 = (ImageButton) findViewById(R.id.edit_imagebutton4);
 
+        mDropdown = (Spinner) findViewById(R.id.edit_spinner_category);
+        mArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_dropdown_item);
         mInputName = (TextInputLayout) findViewById(R.id.edit_input_nameplace);
         mInputPhone = (TextInputLayout) findViewById(R.id.edit_input_phone);
         mInputPrice = (TextInputLayout) findViewById(R.id.edit_input_price);
@@ -89,6 +104,21 @@ public class EditPlacesActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Edit Places");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mDropdown.setAdapter(mArrayAdapter);
+        mDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                mCategory  = adapterView.getItemAtPosition(i).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         mLatlongButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +164,47 @@ public class EditPlacesActivity extends AppCompatActivity {
                 String description = mInputDescription.getEditText().getText().toString();
                 String youtube = mInputYoutubeId.getEditText().getText().toString();
                 String latlong = mLatlong.toString();
+                String category = mCategory;
+
+                Map update_hashMap = new HashMap();
+                update_hashMap.put("name", name);
+                update_hashMap.put("phone", phone);
+                update_hashMap.put("price", price);
+                update_hashMap.put("description", description);
+                update_hashMap.put("youtube", youtube);
+                update_hashMap.put("latlong", latlong);
+                update_hashMap.put("category", category);
+
+
+                mPlacesDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+
+                        if (task.isSuccessful()){
+
+                            mUserPlaceDatabase.child(placeUid).child("places").setValue(placeUid).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_SHORT).show();
+                                    mProgressDialog.dismiss();
+                                        Intent backIntent = new Intent(EditPlacesActivity.this, AddPlaceActivity.class);
+                                        startActivity(backIntent);
+                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        finish();
+
+                                }
+                            });
+
+                        }else {
+                            Toast.makeText(EditPlacesActivity.this, "Error Uploading", Toast.LENGTH_SHORT).show();
+                            mProgressDialog.hide();
+                        }
+
+                    }
+                });
+
+
 
             }
         });
@@ -200,8 +271,8 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                 final byte[] thumb_byte = baos.toByteArray();
 
-                StorageReference filepath = mImageStorage.child("places_images").child(current_user_id + ".jpg");
-                final StorageReference thumb_filepath = mImageStorage.child("places_images").child("thumbs").child(current_user_id + ".jpg");
+                StorageReference filepath = mImageStorage.child("places_images").child(current_user_id).child(placeUid + ".jpg");
+                final StorageReference thumb_filepath = mImageStorage.child("places_images").child("thumbs").child(current_user_id).child(placeUid + ".jpg");
 
                 filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override

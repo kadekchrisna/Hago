@@ -55,8 +55,11 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".EditPlacesActivity"
-            android:parentActivityName=".AddPlaceActivity"></activity>
+        <activity
+            android:name=".EditPlacesActivity"
+            android:parentActivityName=".AddPlaceActivity" />
+        <activity android:name=".BahariActivity"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>
