@@ -36,7 +36,7 @@
             android:name=".LoginActivity"
             android:parentActivityName=".WelcomeActivity" />
         <activity android:name=".CheckActivity" />
-        <activity android:name=".AddPlaceActivity" />
+        <activity android:name=".PlaceActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -56,10 +56,12 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name=".EditPlacesActivity"
-            android:parentActivityName=".AddPlaceActivity" />
-        <activity android:name=".BahariActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:name=".AddPlacesActivity"
+            android:parentActivityName=".PlaceActivity" />
+        <activity
+            android:name=".BahariActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".EditPlacesActivity"></activity>
     </application>
 
 </manifest>

@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kadek.tripgo.EditPlacesActivity">
+    tools:context="com.kadek.tripgo.AddPlacesActivity">
 
     <include
-        android:id="@+id/edit_places_app_bar"
+        android:id="@+id/add_places_app_bar"
         layout="@layout/app_bar_layout" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/edit_places_app_bar">
+        android:layout_below="@id/add_places_app_bar">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -21,27 +21,27 @@
 
 
             <Button
-                android:id="@+id/edit_button_addlatong"
+                android:id="@+id/add_button_addlatong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="23dp"
                 android:text="@string/koordinat_tempat"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_spinner_category" />
+                app:layout_constraintTop_toBottomOf="@+id/add_spinner_category" />
 
             <TextView
-                android:id="@+id/edit_textview_placesname"
+                android:id="@+id/add_textview_placesname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="34dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_spinner_category" />
+                app:layout_constraintTop_toBottomOf="@+id/add_spinner_category" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/edit_input_phone"
+                android:id="@+id/add_input_phone"
                 android:layout_width="395dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -49,7 +49,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_input_nameplace">
+                app:layout_constraintTop_toBottomOf="@+id/add_input_nameplace">
 
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
@@ -58,7 +58,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/edit_input_price"
+                android:id="@+id/add_input_price"
                 android:layout_width="395dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -66,7 +66,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_input_phone">
+                app:layout_constraintTop_toBottomOf="@+id/add_input_phone">
 
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/edit_input_nameplace"
+                android:id="@+id/add_input_nameplace"
                 android:layout_width="395dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -93,7 +93,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/edit_input_youtube"
+                android:id="@+id/add_input_youtube"
                 android:layout_width="395dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -101,7 +101,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_input_price">
+                app:layout_constraintTop_toBottomOf="@+id/add_input_price">
 
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
@@ -110,7 +110,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/edit_input_description"
+                android:id="@+id/add_input_description"
                 android:layout_width="395dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -118,7 +118,7 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_input_youtube">
+                app:layout_constraintTop_toBottomOf="@+id/add_input_youtube">
 
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
@@ -127,50 +127,53 @@
             </android.support.design.widget.TextInputLayout>
 
             <ImageButton
-                android:id="@+id/edit_imagebutton1"
+                android:id="@+id/add_imagebutton1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="14dp"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_input_description"
+                app:layout_constraintTop_toBottomOf="@+id/add_input_description"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
 
             <ImageButton
-                android:id="@+id/edit_imagebutton2"
+                android:id="@+id/add_imagebutton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="52dp"
                 android:layout_marginTop="14dp"
                 android:visibility="invisible"
-                app:layout_constraintStart_toEndOf="@+id/edit_imagebutton1"
-                app:layout_constraintTop_toBottomOf="@+id/edit_input_description"
+                app:layout_constraintStart_toEndOf="@+id/add_imagebutton1"
+                app:layout_constraintTop_toBottomOf="@+id/add_input_description"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
 
             <ImageButton
-                android:id="@+id/edit_imagebutton3"
+                android:id="@+id/add_imagebutton3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="52dp"
                 android:layout_marginTop="14dp"
                 android:visibility="invisible"
-                app:layout_constraintEnd_toStartOf="@+id/edit_imagebutton4"
-                app:layout_constraintTop_toBottomOf="@+id/edit_input_description"
+                app:layout_constraintEnd_toStartOf="@+id/add_imagebutton4"
+                app:layout_constraintTop_toBottomOf="@+id/add_input_description"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
 
             <ImageButton
-                android:id="@+id/edit_imagebutton4"
+                android:id="@+id/add_imagebutton4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:layout_marginTop="14dp"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_input_description"
+                app:layout_constraintTop_toBottomOf="@+id/add_input_description"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
 
             <Button
-                android:id="@+id/edit_button_save"
+                android:id="@+id/add_button_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -179,20 +182,20 @@
                 android:text="Save"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_button_addlatong" />
+                app:layout_constraintTop_toBottomOf="@+id/add_button_addlatong" />
 
             <Button
-                android:id="@+id/edit_button_cancel"
+                android:id="@+id/add_button_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="56dp"
                 android:layout_marginTop="24dp"
                 android:text="Cancel"
-                app:layout_constraintEnd_toStartOf="@+id/edit_button_save"
-                app:layout_constraintTop_toBottomOf="@+id/edit_button_addlatong" />
+                app:layout_constraintEnd_toStartOf="@+id/add_button_save"
+                app:layout_constraintTop_toBottomOf="@+id/add_button_addlatong" />
 
             <Spinner
-                android:id="@+id/edit_spinner_category"
+                android:id="@+id/add_spinner_category"
                 android:layout_width="395dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -200,7 +203,7 @@
                 android:layout_marginTop="22dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_imagebutton1" />
+                app:layout_constraintTop_toBottomOf="@+id/add_imagebutton1" />
 
         </android.support.constraint.ConstraintLayout>
 
