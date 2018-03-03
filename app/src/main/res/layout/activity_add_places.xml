@@ -132,9 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="14dp"
-                android:adjustViewBounds="true"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
+                android:adjustViewBounds="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/add_input_description"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
@@ -145,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="52dp"
                 android:layout_marginTop="14dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintStart_toEndOf="@+id/add_imagebutton1"
                 app:layout_constraintTop_toBottomOf="@+id/add_input_description"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
@@ -156,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="52dp"
                 android:layout_marginTop="14dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintEnd_toStartOf="@+id/add_imagebutton4"
                 app:layout_constraintTop_toBottomOf="@+id/add_input_description"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
@@ -167,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:layout_marginTop="14dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/add_input_description"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
