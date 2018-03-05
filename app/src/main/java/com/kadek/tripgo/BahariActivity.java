@@ -1,6 +1,7 @@
 package com.kadek.tripgo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -64,6 +66,19 @@ public class BahariActivity extends AppCompatActivity {
                 viewHolder.setName(model.getName());
                 viewHolder.setPrice(model.getPrice());
                 viewHolder.setThumb_image(model.getThumb_image(), getApplicationContext());
+
+                final String placeUid = getRef(position).getKey();
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent detailIntent = new Intent(BahariActivity.this, DetailActivity.class);
+                        detailIntent.putExtra("placeUid", placeUid);
+                        startActivity(detailIntent);
+
+                    }
+                });
 
             }
         };
