@@ -61,7 +61,7 @@ public class PlaceActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Maintain");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         currentUid = mCurrentUser.getUid();
@@ -107,8 +107,8 @@ public class PlaceActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(final OwnerViewHolder viewHolder, Owner model, final int position) {
 
-                final String user_id = getRef(position).getKey();
-                mPlaceDatabase.child(user_id).addValueEventListener(new ValueEventListener() {
+                final String place_id = getRef(position).getKey();
+                mPlaceDatabase.child(place_id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(final DataSnapshot dataSnapshot) {
 
@@ -138,7 +138,7 @@ public class PlaceActivity extends AppCompatActivity {
                                         if (i == 0){
 
                                             Intent editIntent = new Intent(PlaceActivity.this, EditPlacesActivity.class);
-                                            editIntent.putExtra("user_id", user_id);
+                                            editIntent.putExtra("place_id", place_id);
                                             startActivity(editIntent);
 
                                         }

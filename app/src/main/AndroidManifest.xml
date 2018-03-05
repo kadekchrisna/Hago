@@ -36,7 +36,8 @@
             android:name=".LoginActivity"
             android:parentActivityName=".WelcomeActivity" />
         <activity android:name=".CheckActivity" />
-        <activity android:name=".PlaceActivity" />
+        <activity android:name=".PlaceActivity"
+            android:parentActivityName=".MainActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -61,7 +62,8 @@
         <activity
             android:name=".BahariActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".EditPlacesActivity"></activity>
+        <activity android:name=".EditPlacesActivity"
+            android:parentActivityName=".PlaceActivity"></activity>
     </application>
 
 </manifest>

@@ -58,7 +58,7 @@ public class AddPlacesActivity extends AppCompatActivity {
     private int GALLERY_PICK;
     private ImageButton mImageButton1, mImageButton2, mImageButton3, mImageButton4;
     private TextInputLayout mInputName, mInputPhone, mInputPrice, mInputDescription, mInputYoutubeId;
-    private LatLng mLatlong;
+    private String mLatlong;
     private ArrayAdapter<CharSequence> mArrayAdapter;
     private String mCategory;
     private String placeUid = FirebaseDatabase.getInstance().getReference().child("Places").push().getKey();
@@ -87,7 +87,7 @@ public class AddPlacesActivity extends AppCompatActivity {
         mImageButton4 = (ImageButton) findViewById(R.id.add_imagebutton4);
 
         mDropdown = (Spinner) findViewById(R.id.add_spinner_category);
-        mArrayAdapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_dropdown_item);
+        mArrayAdapter = ArrayAdapter.createFromResource(AddPlacesActivity.this, R.array.category, android.R.layout.simple_spinner_dropdown_item);
         mInputName = (TextInputLayout) findViewById(R.id.add_input_nameplace);
         mInputPhone = (TextInputLayout) findViewById(R.id.add_input_phone);
         mInputPrice = (TextInputLayout) findViewById(R.id.add_input_price);
@@ -161,7 +161,7 @@ public class AddPlacesActivity extends AppCompatActivity {
                 String price = mInputPrice.getEditText().getText().toString();
                 String description = mInputDescription.getEditText().getText().toString();
                 String youtube = mInputYoutubeId.getEditText().getText().toString();
-                String latlong = mLatlong.toString();
+                String latlong = mLatlong;
                 String category = mCategory;
 
                 Map update_hashMap = new HashMap();
@@ -174,13 +174,17 @@ public class AddPlacesActivity extends AppCompatActivity {
                 update_hashMap.put("category", category);
 
 
+                final Map update_hashMap_owner = new HashMap();
+                update_hashMap_owner.put("place", placeUid);
+
+
                 mPlacesDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
 
                         if (task.isSuccessful()){
 
-                            mUserPlaceDatabase.child(placeUid).child("places").setValue(placeUid).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            mUserPlaceDatabase.child(placeUid).updateChildren(update_hashMap_owner).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
 
@@ -553,7 +557,7 @@ public class AddPlacesActivity extends AppCompatActivity {
 
                 Place place = PlacePicker.getPlace(AddPlacesActivity.this, data);
                 mTextviewPlaceName.setText(place.getLatLng().toString());
-                mLatlong = place.getLatLng();
+                mLatlong = place.getLatLng().toString();
             }
 
         }
