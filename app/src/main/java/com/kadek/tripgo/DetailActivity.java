@@ -16,6 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DetailActivity extends AppCompatActivity {
 
     private String name;
+    private
 
     DatabaseReference mPlaceDatabase;
 
@@ -30,14 +31,6 @@ public class DetailActivity extends AppCompatActivity {
 
         mPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Places").child(placeUid);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         mPlaceDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -45,9 +38,11 @@ public class DetailActivity extends AppCompatActivity {
 
                 String name = dataSnapshot.child("name").getValue().toString();
 
+
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
                 getSupportActionBar().setTitle(name);
+
 
 
 
