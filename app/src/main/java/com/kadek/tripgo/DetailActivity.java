@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.DeadObjectException;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -155,6 +156,13 @@ public class DetailActivity extends AppCompatActivity {
                 startActivity(youtubeIntent);
 
 
+            }
+        });
+        mChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent chatIntent = new Intent(DetailActivity.this, ChatActivity.class);
+                startActivity(chatIntent);
             }
         });
 
