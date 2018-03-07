@@ -58,7 +58,8 @@ public class AddPlacesActivity extends AppCompatActivity {
     private int GALLERY_PICK;
     private ImageButton mImageButton1, mImageButton2, mImageButton3, mImageButton4;
     private TextInputLayout mInputName, mInputPhone, mInputPrice, mInputDescription, mInputYoutubeId;
-    private String mLatlong;
+    private LatLng mLatlong;
+    private Double mLongitude, mLatitude;
     private ArrayAdapter<CharSequence> mArrayAdapter;
     private String mCategory;
     private String placeUid = FirebaseDatabase.getInstance().getReference().child("Places").push().getKey();
@@ -161,7 +162,6 @@ public class AddPlacesActivity extends AppCompatActivity {
                 String price = mInputPrice.getEditText().getText().toString();
                 String description = mInputDescription.getEditText().getText().toString();
                 String youtube = mInputYoutubeId.getEditText().getText().toString();
-                String latlong = mLatlong;
                 String category = mCategory;
 
                 Map update_hashMap = new HashMap();
@@ -170,7 +170,8 @@ public class AddPlacesActivity extends AppCompatActivity {
                 update_hashMap.put("price", price);
                 update_hashMap.put("description", description);
                 update_hashMap.put("youtube", youtube);
-                update_hashMap.put("latlong", latlong);
+                update_hashMap.put("latitude", mLatitude);
+                update_hashMap.put("longitude", mLongitude);
                 update_hashMap.put("category", category);
 
 
@@ -557,7 +558,9 @@ public class AddPlacesActivity extends AppCompatActivity {
 
                 Place place = PlacePicker.getPlace(AddPlacesActivity.this, data);
                 mTextviewPlaceName.setText(place.getLatLng().toString());
-                mLatlong = place.getLatLng().toString();
+                mLatlong = place.getLatLng();
+                mLatitude = mLatlong.latitude;
+                mLongitude = mLatlong.longitude;
             }
 
         }

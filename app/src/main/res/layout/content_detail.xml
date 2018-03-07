@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/detail_image_slider"
-            android:layout_below="@+id/button2">
+            android:layout_below="@+id/detail_button_go">
 
 
             <LinearLayout
@@ -74,10 +74,10 @@
             >
 
             <ImageButton
-                android:id="@+id/button3"
+                android:id="@+id/detail_imgbutton_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView5"
+                android:layout_alignStart="@+id/detail_text_description"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/colorPrimary"
@@ -85,10 +85,10 @@
                 android:text="Button" />
 
             <ImageButton
-                android:id="@+id/button4"
+                android:id="@+id/detail_imgbutton_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView5"
+                android:layout_alignStart="@+id/detail_text_description"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/colorPrimary"
@@ -103,13 +103,13 @@
             android:layout_below="@+id/detail_linear_button"
             android:layout_margin="@dimen/text_margin"
             android:text="@string/large_text"
-            android:id="@+id/textView5" />
+            android:id="@+id/detail_text_description" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/detail_button_go"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/textView5"
+            android:layout_alignEnd="@+id/detail_text_description"
             android:layout_below="@+id/detail_text_name"
             android:layout_marginBottom="20dp"
             android:layout_marginEnd="22dp"

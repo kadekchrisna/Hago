@@ -61,7 +61,8 @@ public class EditPlacesActivity extends AppCompatActivity {
     private int GALLERY_PICK;
     private ImageButton mImageButton1, mImageButton2, mImageButton3, mImageButton4;
     private TextInputLayout mInputName, mInputPhone, mInputPrice, mInputDescription, mInputYoutubeId;
-    private String mLatlong;
+    private LatLng mLatlong;
+    private Double mLongitude, mLatitude;
     private ArrayAdapter<CharSequence> mArrayAdapter;
     private String mCategory;
     private DatabaseReference mPlaceDatabase, mUserPlaceDatabase;
@@ -148,7 +149,8 @@ public class EditPlacesActivity extends AppCompatActivity {
                     String description = dataSnapshot.child("description").getValue().toString();
                     String category = dataSnapshot.child("category").getValue().toString();
                     String youtube = dataSnapshot.child("youtube").getValue().toString();
-                    mLatlong = dataSnapshot.child("latlong").getValue().toString();
+                    String latitude = dataSnapshot.child("latitude").getValue().toString();
+                    String longitude = dataSnapshot.child("longitude").getValue().toString();
                     downloadUrl = dataSnapshot.child("image").getValue().toString();
                     thumb_downloadUrl = dataSnapshot.child("thumb_image").getValue().toString();
                     downloadUrl2 = dataSnapshot.child("image2").getValue().toString();
@@ -158,6 +160,10 @@ public class EditPlacesActivity extends AppCompatActivity {
                     downloadUrl4 = dataSnapshot.child("image4").getValue().toString();
                     thumb_downloadUrl4 = dataSnapshot.child("thumb_image4").getValue().toString();
 
+
+                    mLatitude = Double.parseDouble(latitude);
+                    mLongitude = Double.parseDouble(longitude);
+
                     mInputName.getEditText().setText(name);
                     mInputPrice.getEditText().setText(price);
                     mInputPhone.getEditText().setText(phone);
@@ -165,7 +171,7 @@ public class EditPlacesActivity extends AppCompatActivity {
                     mInputDescription.getEditText().setText(description);
                     int spinnerLocation = mArrayAdapter.getPosition(category);
                     mDropdown.setSelection(spinnerLocation);
-                    mTextviewPlaceName.setText(mLatlong);
+                    mTextviewPlaceName.setText(latitude + "," + longitude);
 
                     mImageButton1.setScaleType(FIT_XY);
                     Picasso.with(EditPlacesActivity.this).load(thumb_downloadUrl).into(mImageButton1);
@@ -251,7 +257,7 @@ public class EditPlacesActivity extends AppCompatActivity {
                 String price = mInputPrice.getEditText().getText().toString();
                 String description = mInputDescription.getEditText().getText().toString();
                 String youtube = mInputYoutubeId.getEditText().getText().toString();
-                String latlong = mLatlong;
+
                 String category = mCategory;
 
                 Map update_hashMap = new HashMap();
@@ -260,7 +266,8 @@ public class EditPlacesActivity extends AppCompatActivity {
                 update_hashMap.put("price", price);
                 update_hashMap.put("description", description);
                 update_hashMap.put("youtube", youtube);
-                update_hashMap.put("latlong", latlong);
+                update_hashMap.put("latitude", mLatitude);
+                update_hashMap.put("longitude", mLongitude);
                 update_hashMap.put("category", category);
 
                 final Map update_hashMap_owner = new HashMap();
@@ -652,7 +659,9 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                 Place place = PlacePicker.getPlace(EditPlacesActivity.this, data);
                 mTextviewPlaceName.setText(place.getLatLng().toString());
-                mLatlong = place.getLatLng().toString();
+                mLatlong = place.getLatLng();
+                mLatitude = mLatlong.latitude;
+                mLongitude = mLatlong.longitude;
             }
 
         }
