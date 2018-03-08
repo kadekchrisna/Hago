@@ -317,6 +317,10 @@ public class ChatActivity extends AppCompatActivity {
             messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
             messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
 
+            Map notifMap = new HashMap();
+            notifMap.put("from", mCurrentUserId);
+            notifMap.put("chat_id", push_id);
+
             mChatMessageView.setText("");
 
 
@@ -335,6 +339,20 @@ public class ChatActivity extends AppCompatActivity {
                     if(databaseError != null){
 
                         Log.d("CHAT_LOG", databaseError.getMessage().toString());
+
+                    }
+
+                }
+            });
+
+
+            mRootRef.child("Notifchat").child(mChatUser).updateChildren(notifMap, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                    if (databaseError !=null){
+
+                        Log.d("CHAT_LOG_NOTIF", databaseError.getMessage().toString());
 
                     }
 
