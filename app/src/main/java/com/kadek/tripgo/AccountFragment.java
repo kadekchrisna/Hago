@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class AccountFragment extends Fragment {
 
-    private Button mLogoutButton, mPlaceButton, mConvButton;
+    private Button mLogoutButton, mPlaceButton, mConvButton, mEventButton;
     private View mMainView;
 
     private FirebaseAuth mAuth;
@@ -68,6 +68,13 @@ public class AccountFragment extends Fragment {
                 Intent convIntent = new Intent(getContext(), ConversationActivity.class);
                 startActivity(convIntent);
 
+            }
+        });
+
+        mEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
             }
         });
 

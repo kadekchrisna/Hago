@@ -38,5 +38,14 @@
         android:layout_marginBottom="34dp"
         android:text="Conv" />
 
+    <Button
+        android:id="@+id/account_event_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/account_conv_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="Event" />
+
 
 </RelativeLayout>

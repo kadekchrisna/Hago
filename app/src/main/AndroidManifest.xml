@@ -26,6 +26,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,9 +41,7 @@
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".WelcomeActivity" />
-        <activity android:name=".CheckActivity" >
-
-        </activity>
+        <activity android:name=".CheckActivity" />
         <activity
             android:name=".PlaceActivity"
             android:parentActivityName=".MainActivity" />
@@ -77,14 +76,16 @@
             android:name=".DetailActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".YoutubeActivity" />
-        <activity android:name=".ChatActivity" >
+        <activity android:name=".ChatActivity">
             <intent-filter>
                 <action android:name="com.kadek.tripgo_TARGET_NOTIFICATION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConversationActivity"></activity>
+        <activity android:name=".ConversationActivity" />
+        <activity android:name=".EventAddActivity" />
+        <activity android:name=".EventActivity"></activity>
     </application>
 
 </manifest>
