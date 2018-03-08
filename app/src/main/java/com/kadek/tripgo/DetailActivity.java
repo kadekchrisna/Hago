@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,14 +32,15 @@ import static android.widget.ImageView.ScaleType.FIT_XY;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private String name, phone, youtubeId;
+    private String name, phone, youtubeId, ownerId, userId;
     private TextView mNamePlace;
     private Button mGoButton;
     private Double mLongitude, mLatitude;
     private ImageView mImageView1, mImageView2, mImageView3, mImageView4;
     private ImageButton mPhoneDialer, mChat, mYoutubePlayer;
+    private FirebaseAuth mAuth;
 
-    private DatabaseReference mPlaceDatabase;
+    private DatabaseReference mPlaceDatabase, mUserDatabase;
 
     private String downloadUrl, thumb_downloadUrl, downloadUrl2, thumb_downloadUrl2, downloadUrl3, thumb_downloadUrl3, downloadUrl4, thumb_downloadUrl4;
 
@@ -48,6 +50,9 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         final String placeUid = getIntent().getStringExtra("placeUid");
+        mAuth = FirebaseAuth.getInstance();
+        userId = mAuth.getCurrentUser().getUid();
+
 
         mNamePlace = (TextView) findViewById(R.id.detail_text_name);
         mGoButton = (Button) findViewById(R.id.detail_button_go);
@@ -58,6 +63,7 @@ public class DetailActivity extends AppCompatActivity {
         mPhoneDialer = (ImageButton) findViewById(R.id.detail_imgbutton_phone);
         mChat = (ImageButton) findViewById(R.id.detail_imgbutton_chat);
         mYoutubePlayer = (ImageButton) findViewById(R.id.detail_image_playvid);
+
 
 
 
@@ -75,6 +81,7 @@ public class DetailActivity extends AppCompatActivity {
                     phone = dataSnapshot.child("phone").getValue().toString();
                     String description = dataSnapshot.child("description").getValue().toString();
                     String youtube = dataSnapshot.child("youtube").getValue().toString();
+                    ownerId = dataSnapshot.child("owner").getValue().toString();
                     String latitude = dataSnapshot.child("latitude").getValue().toString();
                     String longitude = dataSnapshot.child("longitude").getValue().toString();
                     downloadUrl = dataSnapshot.child("image").getValue().toString();
@@ -87,6 +94,15 @@ public class DetailActivity extends AppCompatActivity {
                     thumb_downloadUrl4 = dataSnapshot.child("thumb_image4").getValue().toString();
 
                     youtubeId = youtube;
+                    if (ownerId.equals(userId)){
+
+                        mChat.setVisibility(View.INVISIBLE);
+                    }else {
+
+                        mChat.setVisibility(View.VISIBLE);
+
+                    }
+
 
                     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                     setSupportActionBar(toolbar);
@@ -122,6 +138,9 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+
+
+
 
         mGoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +181,8 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent chatIntent = new Intent(DetailActivity.this, ChatActivity.class);
+                chatIntent.putExtra("user_name", name);
+                chatIntent.putExtra("user_id", ownerId);
                 startActivity(chatIntent);
             }
         });

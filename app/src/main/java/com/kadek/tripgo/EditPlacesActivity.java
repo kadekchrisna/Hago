@@ -269,6 +269,7 @@ public class EditPlacesActivity extends AppCompatActivity {
                 update_hashMap.put("latitude", mLatitude);
                 update_hashMap.put("longitude", mLongitude);
                 update_hashMap.put("category", category);
+                update_hashMap.put("owner", currentUid);
 
                 final Map update_hashMap_owner = new HashMap();
                 update_hashMap_owner.put("place", placeUid);

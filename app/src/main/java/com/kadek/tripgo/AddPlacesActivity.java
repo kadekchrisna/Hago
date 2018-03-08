@@ -76,7 +76,7 @@ public class AddPlacesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_places);
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String currentUid = currentUser.getUid();
+        final String currentUid = currentUser.getUid();
 
         mPlacesDatabase = FirebaseDatabase.getInstance().getReference().child("Places").child(placeUid);
         mUserPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Owner").child(currentUid);
@@ -173,6 +173,7 @@ public class AddPlacesActivity extends AppCompatActivity {
                 update_hashMap.put("latitude", mLatitude);
                 update_hashMap.put("longitude", mLongitude);
                 update_hashMap.put("category", category);
+                update_hashMap.put("owner", currentUid);
 
 
                 final Map update_hashMap_owner = new HashMap();
