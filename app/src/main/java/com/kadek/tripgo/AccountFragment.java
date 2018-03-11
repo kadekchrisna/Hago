@@ -39,6 +39,7 @@ public class AccountFragment extends Fragment {
         mLogoutButton = (Button) mMainView.findViewById(R.id.account_logout_button);
         mPlaceButton = (Button) mMainView.findViewById(R.id.account_places);
         mConvButton = (Button) mMainView.findViewById(R.id.account_conv_button);
+        mEventButton = (Button) mMainView.findViewById(R.id.account_event_button);
 
         mPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +75,9 @@ public class AccountFragment extends Fragment {
         mEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent eventIntent = new Intent(getContext(), EventActivity.class);
+                startActivity(eventIntent);
                 
             }
         });

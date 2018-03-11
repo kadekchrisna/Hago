@@ -53,18 +53,48 @@
                     android:hint="Deskripsi Lengkap" />
             </android.support.design.widget.TextInputLayout>
 
+            <EditText
+                android:id="@+id/event_date_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:hint="@string/event_mulai"
+                android:clickable="true"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/event_input_description" />
+            <EditText
+                android:id="@+id/event_date_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:hint="@string/event_berakhir"
+                android:clickable="true"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/event_date_start" />
+
             <ImageButton
                 android:id="@+id/event_imagebutton1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="24dp"
                 android:adjustViewBounds="false"
                 android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_input_description"
+                app:layout_constraintTop_toBottomOf="@id/event_date_end"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
 
             <Button

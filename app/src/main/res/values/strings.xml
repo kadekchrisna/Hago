@@ -42,5 +42,7 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="explore">Go Explore!</string>
+    <string name="event_berakhir">Event Berakhir</string>
+    <string name="event_mulai">Event Mulai</string>
 
 </resources>

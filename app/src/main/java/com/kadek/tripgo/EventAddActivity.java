@@ -1,5 +1,6 @@
 package com.kadek.tripgo;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -20,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -27,7 +31,10 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import id.zelory.compressor.Compressor;
@@ -49,6 +56,9 @@ public class EventAddActivity extends AppCompatActivity {
 
     private Boolean clicked = false;
     private String downloadUrl, thumb_downloadUrl;
+    private EditText mStart, mEnd;
+    private Calendar myCalendar, myCalendarEnd;
+
     private String eventUid = FirebaseDatabase.getInstance().getReference().child("Event").push().getKey();
 
     @Override
@@ -56,12 +66,21 @@ public class EventAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
 
+        myCalendar = Calendar.getInstance();
+        myCalendarEnd = Calendar.getInstance();
+
         mToolbar = (Toolbar) findViewById(R.id.event_add_app_bar);
         mEventName = (TextInputLayout) findViewById(R.id.event_input_eventname);
         mEventDescription = (TextInputLayout) findViewById(R.id.event_input_description);
         mEventImage = (ImageButton) findViewById(R.id.event_imagebutton1);
         mSave = (Button) findViewById(R.id.event_button_save);
         mCancel = (Button) findViewById(R.id.event_button_cancel);
+
+        mStart = (EditText) findViewById(R.id.event_date_start);
+        mEnd = (EditText) findViewById(R.id.event_date_end);
+
+
+
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Tambah Event");
@@ -74,6 +93,50 @@ public class EventAddActivity extends AppCompatActivity {
         mEventOwnerDatabase = FirebaseDatabase.getInstance().getReference().child("EventOwner").child(currentUid).child(eventUid);
 
         mImageStorage = FirebaseStorage.getInstance().getReference();
+
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+        };
+        final DatePickerDialog.OnDateSetListener dateEnd = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendarEnd.set(Calendar.YEAR, year);
+                myCalendarEnd.set(Calendar.MONTH, monthOfYear);
+                myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabelEnd();
+            }
+
+        };
+
+        mStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(EventAddActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        mEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(EventAddActivity.this, dateEnd, myCalendarEnd
+                        .get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
+                        myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
 
         mSave.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +154,9 @@ public class EventAddActivity extends AppCompatActivity {
                 Map eventMap = new HashMap();
                 eventMap.put("name", name);
                 eventMap.put("description", description);
+                eventMap.put("event_start", myCalendar);
+                eventMap.put("event_end", myCalendarEnd);
+                eventMap.put("timestamp", ServerValue.TIMESTAMP);
 
                 final Map eventOwn = new HashMap();
                 eventOwn.put("event",eventUid);
@@ -160,13 +226,13 @@ public class EventAddActivity extends AppCompatActivity {
                                                         if (task.isSuccessful()){
 
 
-                                                            mEventDatabase.child("image").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            mEventDatabase.child("event_image").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
 
                                                                     if (task.isSuccessful()){
 
-                                                                        mEventDatabase.child("thumb_image").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        mEventDatabase.child("event_thumb_image").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                             @Override
                                                                             public void onComplete(@NonNull Task<Void> task) {
 
@@ -249,8 +315,8 @@ public class EventAddActivity extends AppCompatActivity {
 
                 final byte[] thumb_byte = baos.toByteArray();
                 if (GALLERY_PICK == 1) {
-                    StorageReference filepath = mImageStorage.child("places_images").child(current_user_id).child(eventUid + ".jpg");
-                    final StorageReference thumb_filepath = mImageStorage.child("places_images").child("thumbs").child(current_user_id).child(eventUid + ".jpg");
+                    StorageReference filepath = mImageStorage.child("event_images").child(current_user_id).child(eventUid + ".jpg");
+                    final StorageReference thumb_filepath = mImageStorage.child("event_images").child("thumbs").child(current_user_id).child(eventUid + ".jpg");
                     filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -265,8 +331,8 @@ public class EventAddActivity extends AppCompatActivity {
                                         if (thumb_task.isSuccessful()) {
 
                                             Map update_hashMap = new HashMap();
-                                            update_hashMap.put("image", downloadUrl);
-                                            update_hashMap.put("thumb_image", thumb_downloadUrl);
+                                            update_hashMap.put("event_image", downloadUrl);
+                                            update_hashMap.put("event_thumb_image", thumb_downloadUrl);
                                             mEventDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -301,5 +367,17 @@ public class EventAddActivity extends AppCompatActivity {
             }
 
         }
+    }
+    private void updateLabel() {
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        mStart.setText(sdf.format(myCalendar.getTime()));
+    }
+    private void updateLabelEnd() {
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        mEnd.setText(sdf.format(myCalendarEnd.getTime()));
     }
 }
