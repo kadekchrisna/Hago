@@ -27,17 +27,22 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import id.zelory.compressor.Compressor;
+
+import static android.widget.ImageView.ScaleType.FIT_XY;
 
 public class EventAddActivity extends AppCompatActivity {
 
@@ -78,9 +83,6 @@ public class EventAddActivity extends AppCompatActivity {
 
         mStart = (EditText) findViewById(R.id.event_date_start);
         mEnd = (EditText) findViewById(R.id.event_date_end);
-
-
-
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Tambah Event");
@@ -150,13 +152,16 @@ public class EventAddActivity extends AppCompatActivity {
 
                 String name = mEventName.getEditText().getText().toString();
                 String description = mEventDescription.getEditText().getText().toString();
+                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                String start = mStart.getText().toString();
+                String end = mEnd.getText().toString();
 
                 Map eventMap = new HashMap();
                 eventMap.put("name", name);
                 eventMap.put("description", description);
-                eventMap.put("event_start", myCalendar);
-                eventMap.put("event_end", myCalendarEnd);
-                eventMap.put("timestamp", ServerValue.TIMESTAMP);
+                eventMap.put("event_start", start);
+                eventMap.put("event_end", end);
+                eventMap.put("timestamp", currentDateTimeString);
 
                 final Map eventOwn = new HashMap();
                 eventOwn.put("event",eventUid);
@@ -172,7 +177,15 @@ public class EventAddActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
 
-                                    mProgressDialog.dismiss();
+                                    if (task.isSuccessful()) {
+
+                                        Toast.makeText(EventAddActivity.this, "Success Uploading", Toast.LENGTH_SHORT).show();
+                                        mProgressDialog.dismiss();
+                                        //Intent backIntent = new Intent(EventAddActivity.this, EventActivity.class);
+                                        //startActivity(backIntent);
+                                        //backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        //finish();
+                                    }
 
                                 }
                             });
@@ -339,7 +352,8 @@ public class EventAddActivity extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(EventAddActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
                                                         mProgressDialog.dismiss();
-                                                        mEventImage.setImageResource(R.drawable.ic_clear_black_24dp);
+                                                        mEventImage.setScaleType(FIT_XY);
+                                                        Picasso.with(EventAddActivity.this).load(thumb_downloadUrl).into(mEventImage);
                                                         clicked = true;
 
                                                     }

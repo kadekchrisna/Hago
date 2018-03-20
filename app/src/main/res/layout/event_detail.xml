@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/app_bar_layout" android:id="@+id/event_detail_app_bar"></include>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/event_detail_app_bar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/event_detail_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:srcCompat="@drawable/palceholder" />
+
+            <TextView
+                android:id="@+id/event_detail_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_detail_image"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:text="Event Name"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/event_detail_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_detail_name"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:text="Here's the description"/>
+
+            <TextView
+                android:id="@+id/event_detail_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_detail_description"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorPrimary"
+                android:padding="10sp"
+                android:text="INFO PROMO"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_detail_info"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/border"
+                android:padding="10sp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Masa Berlaku"
+                    android:textSize="12sp"/>
+                <TextView
+                    android:id="@+id/event_detail_mulai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Masa Berakhir"
+                    android:textSize="12sp"/>
+                <TextView
+                    android:id="@+id/event_detail_akhir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+
+    </ScrollView>
+
+
+
+</RelativeLayout>

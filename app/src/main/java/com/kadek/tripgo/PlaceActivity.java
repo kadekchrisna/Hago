@@ -61,7 +61,7 @@ public class PlaceActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Maintain");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         currentUid = mCurrentUser.getUid();
