@@ -162,9 +162,13 @@ public class EventAddActivity extends AppCompatActivity {
                 eventMap.put("event_start", start);
                 eventMap.put("event_end", end);
                 eventMap.put("timestamp", currentDateTimeString);
+                eventMap.put("event_image", downloadUrl);
+                eventMap.put("event_thumb_image", thumb_downloadUrl);
 
                 final Map eventOwn = new HashMap();
                 eventOwn.put("event",eventUid);
+
+
 
 
                 mEventDatabase.updateChildren(eventMap).addOnCompleteListener(new OnCompleteListener() {
@@ -179,12 +183,14 @@ public class EventAddActivity extends AppCompatActivity {
 
                                     if (task.isSuccessful()) {
 
+
                                         Toast.makeText(EventAddActivity.this, "Success Uploading", Toast.LENGTH_SHORT).show();
                                         mProgressDialog.dismiss();
-                                        //Intent backIntent = new Intent(EventAddActivity.this, EventActivity.class);
-                                        //startActivity(backIntent);
-                                        //backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        //finish();
+                                        Intent backIntent = new Intent(EventAddActivity.this, EventActivity.class);
+                                        startActivity(backIntent);
+                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        finish();
+
                                     }
 
                                 }
@@ -343,22 +349,11 @@ public class EventAddActivity extends AppCompatActivity {
                                         thumb_downloadUrl = thumb_task.getResult().getDownloadUrl().toString();
                                         if (thumb_task.isSuccessful()) {
 
-                                            Map update_hashMap = new HashMap();
-                                            update_hashMap.put("event_image", downloadUrl);
-                                            update_hashMap.put("event_thumb_image", thumb_downloadUrl);
-                                            mEventDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(EventAddActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
-                                                        mProgressDialog.dismiss();
-                                                        mEventImage.setScaleType(FIT_XY);
-                                                        Picasso.with(EventAddActivity.this).load(thumb_downloadUrl).into(mEventImage);
-                                                        clicked = true;
-
-                                                    }
-                                                }
-                                            });
+                                            Toast.makeText(EventAddActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
+                                            mProgressDialog.dismiss();
+                                            mEventImage.setScaleType(FIT_XY);
+                                            Picasso.with(EventAddActivity.this).load(thumb_downloadUrl).into(mEventImage);
+                                            clicked = true;
 
                                         } else {
                                             Toast.makeText(EventAddActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();

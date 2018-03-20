@@ -85,7 +85,8 @@
         </activity>
         <activity android:name=".ConversationActivity" />
         <activity android:name=".EventAddActivity" />
-        <activity android:name=".EventActivity"></activity>
+        <activity android:name=".EventActivity" />
+        <activity android:name=".EventDetailActivity"></activity>
     </application>
 
 </manifest>
