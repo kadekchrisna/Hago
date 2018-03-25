@@ -14,11 +14,19 @@ public class Event {
     public String event_thumb_image;
     public String description;
 
-    public Event(String name, String event_image, String event_start, String event_end, String event_thumb_image, String description) {
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String timestamp;
+
+    public Event(String name, String event_image, String event_thumb_image, String description) {
         this.name = name;
         this.event_image = event_image;
-        this.event_start = event_start;
-        this.event_end = event_end;
         this.event_thumb_image = event_thumb_image;
         this.description = description;
     }
