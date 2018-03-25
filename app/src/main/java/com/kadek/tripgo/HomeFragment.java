@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class HomeFragment extends Fragment {
 
-    private Button mBahariButton;
+    private Button mBahariButton, mQrButton;
     private View mViewHome;
 
     private FirebaseAuth mAuth;
@@ -36,6 +36,7 @@ public class HomeFragment extends Fragment {
         mViewHome = inflater.inflate(R.layout.fragment_home, container, false);
 
         mBahariButton = (Button) mViewHome.findViewById(R.id.home_button_bahari);
+        mQrButton = (Button) mViewHome.findViewById(R.id.home_button_qr);
 
         mBahariButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +44,14 @@ public class HomeFragment extends Fragment {
 
                 Intent backIntent = new Intent(getContext(), BahariActivity.class);
                 startActivity(backIntent);
+            }
+        });
+
+        mQrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent qrIntent = new Intent(getContext(), QrActivity.class);
+                startActivity(qrIntent);
             }
         });
 

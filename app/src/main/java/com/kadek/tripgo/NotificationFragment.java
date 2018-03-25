@@ -14,17 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 
@@ -88,6 +81,18 @@ public class NotificationFragment extends Fragment {
                 viewHolder.setName(event.getName());
                 viewHolder.setDescription(event.getDescription());
                 viewHolder.setThumb_image(event.getEvent_thumb_image(), getContext());
+
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent editIntent = new Intent(getContext(), EventDetailActivity.class);
+                        //editIntent.putExtra("event_id", event_id);
+                        startActivity(editIntent);
+
+                    }
+                });
 
             }
         };
