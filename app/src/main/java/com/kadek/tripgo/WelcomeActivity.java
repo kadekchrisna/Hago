@@ -1,5 +1,6 @@
 package com.kadek.tripgo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -28,6 +29,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.HashMap;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -37,6 +43,10 @@ public class WelcomeActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private ProgressDialog mProgressDialog;
+    private FirebaseUser mUser;
+
+    private DatabaseReference mUserDatabase;
 
     private static final String TAG = "MAIN_ACTIVITY";
 
@@ -53,7 +63,49 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if (firebaseAuth.getCurrentUser() != null){
-                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+
+                    if (mAuth.getCurrentUser().getUid() != null){
+                        final FirebaseUser currentUser = mAuth.getCurrentUser();
+                        final String uid = currentUser.getUid();
+                        String deviceToken = FirebaseInstanceId.getInstance().getToken();
+                        HashMap<String, String> userMap = new HashMap<>();
+                        userMap.put("name", currentUser.getDisplayName());
+                        userMap.put("image", currentUser.getPhotoUrl().toString());
+                        userMap.put("thumb_image", currentUser.getPhotoUrl().toString());
+                        userMap.put("device_token", deviceToken);
+
+                        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+
+                        mUserDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                                if (task.isSuccessful()){
+
+                                    mProgressDialog.dismiss();
+                                    Intent checkIntent = new Intent(WelcomeActivity.this, MainActivity.class);
+                                    checkIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(checkIntent);
+
+                                }else{
+                                    mProgressDialog.hide();
+                                    Toast.makeText(WelcomeActivity.this, "Please check internet connection and try again.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+
+
+
+
+                    }else {
+
+                        mProgressDialog.hide();
+                        Toast.makeText(WelcomeActivity.this, "Please check internet connection and try again.", Toast.LENGTH_SHORT).show();
+
+                    }
+
+
                 }
 
             }
@@ -99,6 +151,8 @@ public class WelcomeActivity extends AppCompatActivity {
         else
             connected = false;
         if (connected == true){
+
+            //if successfully connected
 
         }
         else {
@@ -158,7 +212,13 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {
+
+        mProgressDialog = new ProgressDialog(WelcomeActivity.this);
+        mProgressDialog.setTitle("Logging In");
+        mProgressDialog.setMessage("Please Wait...");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -167,10 +227,12 @@ public class WelcomeActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+
                             Log.d(TAG, "signInWithCredential:success");
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            mProgressDialog.hide();
                         }
 
                         // ...

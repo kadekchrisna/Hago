@@ -28,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class AccountFragment extends Fragment {
 
-    private Button mLogoutButton, mPlaceButton, mConvButton, mEventButton;
+    private Button mLogoutButton, mPlaceButton, mConvButton, mEventButton, mStuffButton;
     private View mMainView;
 
     private GoogleApiClient mGoogleClient;
@@ -52,6 +52,7 @@ public class AccountFragment extends Fragment {
         mPlaceButton = (Button) mMainView.findViewById(R.id.account_places);
         mConvButton = (Button) mMainView.findViewById(R.id.account_conv_button);
         mEventButton = (Button) mMainView.findViewById(R.id.account_event_button);
+        mStuffButton = (Button) mMainView.findViewById(R.id.account_stuff_button);
 
         mPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +128,13 @@ public class AccountFragment extends Fragment {
                 Intent eventIntent = new Intent(getContext(), EventActivity.class);
                 startActivity(eventIntent);
                 
+            }
+        });
+
+        mStuffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startActivity(new Intent(getContext(), StuffActivity.class));
             }
         });
 

@@ -92,7 +92,7 @@
         <activity android:name=".EventAddActivity" />
         <activity android:name=".EventActivity" />
         <activity android:name=".EventDetailActivity" />
-        <activity android:name=".QrActivity"></activity>
+        <activity android:name=".QrActivity" />
     </application>
 
 </manifest>

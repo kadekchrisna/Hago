@@ -155,6 +155,7 @@ public class AddPlacesActivity extends AppCompatActivity {
                 mProgressDialog = new ProgressDialog(AddPlacesActivity.this);
                 mProgressDialog.setTitle("Saving Changes");
                 mProgressDialog.setMessage("Please Wait...");
+                mProgressDialog.setCanceledOnTouchOutside(false);
                 mProgressDialog.show();
 
                 String name = mInputName.getEditText().getText().toString();
