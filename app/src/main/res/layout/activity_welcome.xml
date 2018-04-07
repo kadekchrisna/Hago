@@ -7,14 +7,13 @@
     tools:context="com.kadek.tripgo.WelcomeActivity">
 
 
-
     <TextView
         android:id="@+id/welcome_textview"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="320dp"
         android:gravity="center_horizontal"
         android:text="Welcome To ChatSys"
         android:textColor="#000000"
@@ -49,6 +48,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome_register_button" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/welcome_google_login"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_login_buton"></com.google.android.gms.common.SignInButton>
 
 
 </android.support.constraint.ConstraintLayout>

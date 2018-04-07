@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,10 +87,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser !=null){
 
-            if (currentUser.isEmailVerified() == true){
+            Toast.makeText(this, "User Verified", Toast.LENGTH_SHORT).show();
+
+            /*if (currentUser.isEmailVerified() == true){
 
                 Toast.makeText(this, "User Verified", Toast.LENGTH_SHORT).show();
 
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(checkIntent);
                 finish();
 
-            }
+            }*/
 
 
         }else {

@@ -3,12 +3,23 @@ package com.kadek.tripgo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -20,6 +31,7 @@ public class AccountFragment extends Fragment {
     private Button mLogoutButton, mPlaceButton, mConvButton, mEventButton;
     private View mMainView;
 
+    private GoogleApiClient mGoogleClient;
     private FirebaseAuth mAuth;
 
 
@@ -54,11 +66,47 @@ public class AccountFragment extends Fragment {
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Firebase sign out
+                if (Auth.GoogleSignInApi != null) {
+                    // Google sign out
+                    mGoogleClient = new GoogleApiClient.Builder(getContext())
+                            .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                                @Override
+                                public void onConnected(@Nullable Bundle bundle) {
+                                    //SIGN OUT HERE
+                                    Auth.GoogleSignInApi.signOut(mGoogleClient).setResultCallback(
+                                            new ResultCallback<Status>() {
+                                                @Override
+                                                public void onResult(Status status) {
+                                                    Auth.GoogleSignInApi.revokeAccess(mGoogleClient).setResultCallback(
+                                                            new ResultCallback<Status>() {
+                                                                @Override
+                                                                public void onResult(@NonNull Status status) {
 
-                mAuth.signOut();
-                sendToStart();
+                                                                    sendToStart();
+                                                                    mAuth.signOut();
 
+                                                                }
+                                                            });
+                                                }
+                                            });
+                                }
 
+                                @Override
+                                public void onConnectionSuspended(int i) {/*ignored*/}
+                            })
+                            .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                                @Override
+                                public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+            /*ignored*/
+                                }
+                            })
+                            .addApi(Auth.GOOGLE_SIGN_IN_API) //IMPORTANT!!!
+                            .build();
+
+                    mGoogleClient.connect();
+
+                }
             }
         });
 
@@ -90,6 +138,7 @@ public class AccountFragment extends Fragment {
 
         Intent redirectIntent = new Intent(getContext(), WelcomeActivity.class);
         startActivity(redirectIntent);
+
     }
 
 }
