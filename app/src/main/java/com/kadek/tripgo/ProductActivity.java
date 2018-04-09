@@ -2,6 +2,9 @@ package com.kadek.tripgo;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -49,10 +52,13 @@ public class ProductActivity extends AppCompatActivity {
 
     private FirebaseUser mCurrentUser;
     private String currentUid;
-    private String mCategory, mIdPlace;
+    private String mCategory, mIdPlace,mLink;
 
     private List<String> list = new ArrayList<String>();
     private Map map = new HashMap();
+
+    private ImageView mIview;
+    private TextView mText;
 
 
 
@@ -79,6 +85,8 @@ public class ProductActivity extends AppCompatActivity {
         mUserPlaceList.setHasFixedSize(true);
         mUserPlaceList.setLayoutManager(new LinearLayoutManager(this));
 
+        mText = (TextView) findViewById(R.id.event_litle_description);
+        mIview = (ImageView) findViewById(R.id.event_image_preview);
 
 
     }
@@ -93,7 +101,7 @@ public class ProductActivity extends AppCompatActivity {
         FirebaseRecyclerAdapter<Owner, LinkViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Owner, LinkViewHolder>(
 
                 Owner.class,
-                R.layout.place_single_layout,
+                R.layout.event_single_layout,
                 LinkViewHolder.class,
                 mUserPlaceDatabase
 
@@ -113,13 +121,40 @@ public class ProductActivity extends AppCompatActivity {
                             list.add(name);
                             map.put(name, mPlace);
 
-                            String price = dataSnapshot.child("price").getValue().toString();
-                            String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
-                            String image = dataSnapshot.child("image").getValue().toString();
+                            mLink = dataSnapshot.child("link").getValue().toString();
+
+                            viewHolder.setPrice(mLink);
+
+                            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    CharSequence option[] = new CharSequence[]{"Go", "Delete"};
+                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ProductActivity.this);
+                                    builder.setTitle("Select Options");
+                                    builder.setItems(option, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            if (i == 0){
+
+                                                Intent intent = new Intent();
+                                                intent.setAction(Intent.ACTION_VIEW);
+                                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                                                intent.setData(Uri.parse(mLink));
+                                                startActivity(intent);
+
+                                            }
+                                            if (i == 1){
+
+                                            }
+
+                                        }
+                                    });
+                                    builder.show();
+                                }
+                            });
 
 
-                            viewHolder.setPrice(price);
-                            viewHolder.setThumb_image(thumb_image, getApplicationContext());
 
                         }
 
@@ -208,7 +243,7 @@ public class ProductActivity extends AppCompatActivity {
 
         }
         public void setPrice(String price) {
-            TextView mPlaceStatus = (TextView) mView.findViewById(R.id.place_price);
+            TextView mPlaceStatus = (TextView) mView.findViewById(R.id.event_single_name);
             mPlaceStatus.setText(price);
         }
 
