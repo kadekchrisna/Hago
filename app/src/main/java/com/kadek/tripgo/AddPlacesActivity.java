@@ -101,7 +101,7 @@ public class AddPlacesActivity extends AppCompatActivity {
         mTextviewPlaceName = (TextView) findViewById(R.id.add_textview_placesname);
         mToolbar = (Toolbar) findViewById(R.id.add_places_app_bar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Tambah Tempat Wisata");
+        getSupportActionBar().setTitle("Tambah Product Wisata");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mDropdown.setAdapter(mArrayAdapter);

@@ -134,7 +134,7 @@ public class AccountFragment extends Fragment {
         mStuffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(getContext(), StuffActivity.class));
+                startActivity(new Intent(getContext(), ProductActivity.class));
             }
         });
 

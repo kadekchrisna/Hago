@@ -43,22 +43,33 @@
                     android:id="@+id/detail_image1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/palceholder"/>
+                    android:maxHeight="300dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/palceholder" />
+
                 <ImageView
                     android:id="@+id/detail_image2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/palceholder"/>
+                    android:maxHeight="300dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/palceholder" />
+
                 <ImageView
                     android:id="@+id/detail_image3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/palceholder"/>
+                    android:maxHeight="300dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/palceholder" />
+
                 <ImageView
                     android:id="@+id/detail_image4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/palceholder"/>
+                    android:maxHeight="300dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/palceholder" />
 
 
             </LinearLayout>
@@ -115,6 +126,37 @@
             android:layout_marginEnd="22dp"
             android:text="Button"
             tools:text="@string/explore" />
+
+        <ImageView
+            android:id="@+id/detail_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_text_description"
+            android:maxHeight="250dp"
+            android:src="@drawable/palceholder" />
+
+
+        <TextView
+            android:id="@+id/detail_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detail_product"
+            android:textSize="20dp"
+            android:text="Product Name"
+            android:textStyle="bold"
+            android:layout_marginTop="23dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:id="@+id/detail_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_product_name"
+            android:textSize="18dp"
+            android:text="Price"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"/>
+
 
     </RelativeLayout>
 
