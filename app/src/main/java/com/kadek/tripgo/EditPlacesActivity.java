@@ -357,7 +357,7 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                                                                 mProgressDialog.dismiss();
                                                                                 clicked = false;
-                                                                                mImageButton1.setImageResource(R.drawable.ic_add_black_24dp);
+                                                                                mImageButton1.setImageResource(R.drawable.baseline_add_24);
 
 
                                                                             }
@@ -440,7 +440,7 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                                                                 mProgressDialog.dismiss();
                                                                                 clicked2 = false;
-                                                                                mImageButton2.setImageResource(R.drawable.ic_add_black_24dp);
+                                                                                mImageButton2.setImageResource(R.drawable.baseline_add_24);
 
 
                                                                             }
@@ -524,7 +524,7 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                                                                 mProgressDialog.dismiss();
                                                                                 clicked3 = false;
-                                                                                mImageButton3.setImageResource(R.drawable.ic_add_black_24dp);
+                                                                                mImageButton3.setImageResource(R.drawable.baseline_add_24);
 
 
                                                                             }
@@ -607,7 +607,7 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                                                                 mProgressDialog.dismiss();
                                                                                 clicked4 = false;
-                                                                                mImageButton4.setImageResource(R.drawable.ic_add_black_24dp);
+                                                                                mImageButton4.setImageResource(R.drawable.baseline_add_24);
 
 
                                                                             }

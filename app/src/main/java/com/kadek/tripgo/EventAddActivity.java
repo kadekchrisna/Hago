@@ -258,7 +258,7 @@ public class EventAddActivity extends AppCompatActivity {
 
                                                                                 mProgressDialog.dismiss();
                                                                                 clicked = false;
-                                                                                mEventImage.setImageResource(R.drawable.ic_add_black_24dp);
+                                                                                mEventImage.setImageResource(R.drawable.baseline_add_24);
 
 
                                                                             }

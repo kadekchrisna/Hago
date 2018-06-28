@@ -128,7 +128,7 @@ public class NotificationFragment extends Fragment {
         public void setThumb_image(final String thumb_image, final Context ctx){
 
             final ImageView mEventImage = (ImageView) mView.findViewById(R.id.event_image_preview);
-            Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.palceholder).into(mEventImage);
+            Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.placeholder).into(mEventImage);
 
         }
 

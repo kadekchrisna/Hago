@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
@@ -41,6 +42,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.zelory.compressor.Compressor;
+
+import static android.widget.ImageView.ScaleType.FIT_XY;
 
 public class AddPlacesActivity extends AppCompatActivity {
 
@@ -261,7 +264,7 @@ public class AddPlacesActivity extends AppCompatActivity {
 
                                                                                 mProgressDialog.dismiss();
                                                                                 clicked = false;
-                                                                                mImageButton1.setImageResource(R.drawable.ic_add_black_24dp);
+                                                                                mImageButton1.setImageResource(R.drawable.baseline_add_24);
 
 
                                                                             }
@@ -344,7 +347,7 @@ public class AddPlacesActivity extends AppCompatActivity {
 
                                                                                 mProgressDialog.dismiss();
                                                                                 clicked2 = false;
-                                                                                mImageButton2.setImageResource(R.drawable.ic_add_black_24dp);
+                                                                                mImageButton2.setImageResource(R.drawable.baseline_add_24);
 
 
                                                                             }
@@ -428,7 +431,7 @@ public class AddPlacesActivity extends AppCompatActivity {
 
                                                                                 mProgressDialog.dismiss();
                                                                                 clicked3 = false;
-                                                                                mImageButton3.setImageResource(R.drawable.ic_add_black_24dp);
+                                                                                mImageButton3.setImageResource(R.drawable.baseline_add_24);
 
 
                                                                             }
@@ -511,7 +514,7 @@ public class AddPlacesActivity extends AppCompatActivity {
 
                                                                                 mProgressDialog.dismiss();
                                                                                 clicked4 = false;
-                                                                                mImageButton4.setImageResource(R.drawable.ic_add_black_24dp);
+                                                                                mImageButton4.setImageResource(R.drawable.baseline_add_24);
 
 
                                                                             }
@@ -623,7 +626,8 @@ public class AddPlacesActivity extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(AddPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
                                                         mProgressDialog.dismiss();
-                                                        mImageButton1.setImageResource(R.drawable.ic_clear_black_24dp);
+                                                        mImageButton1.setScaleType(FIT_XY);
+                                                        Picasso.with(AddPlacesActivity.this).load(thumb_downloadUrl).into(mImageButton1);
                                                         clicked = true;
 
                                                     }
@@ -675,7 +679,8 @@ public class AddPlacesActivity extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(AddPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
                                                         mProgressDialog.dismiss();
-                                                        mImageButton2.setImageResource(R.drawable.ic_clear_black_24dp);
+                                                        mImageButton2.setScaleType(FIT_XY);
+                                                        Picasso.with(AddPlacesActivity.this).load(thumb_downloadUrl2).into(mImageButton2);
                                                         clicked2 = true;
 
                                                     }
@@ -729,7 +734,8 @@ public class AddPlacesActivity extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(AddPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
                                                         mProgressDialog.dismiss();
-                                                        mImageButton3.setImageResource(R.drawable.ic_clear_black_24dp);
+                                                        mImageButton3.setScaleType(FIT_XY);
+                                                        Picasso.with(AddPlacesActivity.this).load(thumb_downloadUrl3).into(mImageButton3);
                                                         clicked3 = true;
 
                                                     }
@@ -783,7 +789,8 @@ public class AddPlacesActivity extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(AddPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
                                                         mProgressDialog.dismiss();
-                                                        mImageButton4.setImageResource(R.drawable.ic_clear_black_24dp);
+                                                        mImageButton4.setScaleType(FIT_XY);
+                                                        Picasso.with(AddPlacesActivity.this).load(thumb_downloadUrl4).into(mImageButton4);
                                                         clicked4 = true;
 
                                                     }

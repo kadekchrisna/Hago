@@ -12,7 +12,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/avatar_pic"
+        android:src="@drawable/avatar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,6 +58,6 @@
         android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/name_allusers"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/online_icon" />
+        app:srcCompat="@drawable/online" />
 
 </android.support.constraint.ConstraintLayout>

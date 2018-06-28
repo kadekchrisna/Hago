@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,26 +17,23 @@
         android:text="Judul Event"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
     <TextView
         android:id="@+id/event_litle_description"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:text="Deskripsi"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/event_single_name" />
+        android:layout_below="@id/event_single_name"/>
 
     <ImageView
         android:id="@+id/event_image_preview"
         android:layout_width="70dp"
         android:layout_height="47dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="-74dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/palceholder" />
+        android:layout_toRightOf="@id/event_single_name"
+        app:srcCompat="@drawable/placeholder" />
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

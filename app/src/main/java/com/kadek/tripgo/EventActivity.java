@@ -252,7 +252,7 @@ public class EventActivity extends AppCompatActivity {
         public void setThumb_image(final String thumb_image, final Context ctx){
 
             final ImageView mPlaceImage = (ImageView) mView.findViewById(R.id.event_image_preview);
-            Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.palceholder).into(mPlaceImage, new Callback() {
+            Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.placeholder).into(mPlaceImage, new Callback() {
                 @Override
                 public void onSuccess() {
 
@@ -260,7 +260,7 @@ public class EventActivity extends AppCompatActivity {
 
                 @Override
                 public void onError() {
-                    Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.palceholder).into(mPlaceImage);
+                    Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.placeholder).into(mPlaceImage);
 
                 }
             });

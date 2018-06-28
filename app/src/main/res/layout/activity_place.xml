@@ -26,7 +26,7 @@
         android:layout_marginEnd="33dp"
         android:clickable="true"
         app:backgroundTint="@color/colorWhite"
-        app:srcCompat="@drawable/ic_add_location_black_24dp"
+        app:srcCompat="@drawable/baseline_add_location_24"
         tools:layout_editor_absoluteX="316dp"
         tools:layout_editor_absoluteY="510dp" />
 </RelativeLayout>

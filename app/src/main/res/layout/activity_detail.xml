@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/palceholder" />
+                android:src="@drawable/placeholder" />
 
             <ImageButton
                 android:id="@+id/detail_image_playvid"
@@ -38,7 +38,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:background="@null"
-                app:srcCompat="@drawable/ic_play_circle_filled_white_24dp" />
+                app:srcCompat="@drawable/baseline_play_circle_filled_24" />
 
 
             <android.support.v7.widget.Toolbar

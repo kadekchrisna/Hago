@@ -25,5 +25,5 @@
         android:layout_marginEnd="40dp"
         android:clickable="true"
         app:backgroundTint="@color/colorWhite"
-        app:srcCompat="@drawable/ic_local_offer_black_24dp" />
+        app:srcCompat="@drawable/baseline_local_offer_24" />
 </RelativeLayout>
