@@ -201,7 +201,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
 
 
-                Log.d("TOTALKEYS", "Last Key : " + mLastKey + " | Prev Key : " + mPrevKey + " | Message Key : " + messageKey);
+                //Log.d("TOTALKEYS", "Last Key : " + mLastKey + " | Prev Key : " + mPrevKey + " | Message Key : " + messageKey);
 
                 mAdapter.notifyDataSetChanged();
 

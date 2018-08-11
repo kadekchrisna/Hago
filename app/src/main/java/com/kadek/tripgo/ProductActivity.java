@@ -48,17 +48,19 @@ public class ProductActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     private DatabaseReference mLinkDatabase, mUserPlaceDatabase, mPlaceDatabase;
     private Spinner mDropdown;
-    private RecyclerView mUserPlaceList;
+    private RecyclerView mUserProductList;
 
     private FirebaseUser mCurrentUser;
     private String currentUid;
     private String mCategory, mIdPlace,mLink;
+    private String productUid = FirebaseDatabase.getInstance().getReference().child("Product").push().getKey();
 
     private List<String> list = new ArrayList<String>();
     private Map map = new HashMap();
 
     private ImageView mIview;
     private TextView mText;
+
 
 
 
@@ -79,11 +81,11 @@ public class ProductActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Tambah Souvenir");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Places");
+        mPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Product");
 
-        mUserPlaceList = (RecyclerView) findViewById(R.id.product_list);
-        mUserPlaceList.setHasFixedSize(true);
-        mUserPlaceList.setLayoutManager(new LinearLayoutManager(this));
+        mUserProductList = (RecyclerView) findViewById(R.id.product_list);
+        mUserProductList.setHasFixedSize(true);
+        mUserProductList.setLayoutManager(new LinearLayoutManager(this));
 
         mText = (TextView) findViewById(R.id.event_litle_description);
         mIview = (ImageView) findViewById(R.id.event_image_preview);
@@ -169,7 +171,7 @@ public class ProductActivity extends AppCompatActivity {
             }
         };
 
-        mUserPlaceList.setAdapter(firebaseRecyclerAdapter);
+        mUserProductList.setAdapter(firebaseRecyclerAdapter);
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override

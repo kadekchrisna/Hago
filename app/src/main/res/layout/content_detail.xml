@@ -109,12 +109,13 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/detail_text_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/detail_linear_button"
             android:layout_margin="@dimen/text_margin"
             android:text="@string/large_text"
-            android:id="@+id/detail_text_description" />
+             />
 
         <Button
             android:id="@+id/detail_button_go"
@@ -127,35 +128,16 @@
             android:text="Button"
             tools:text="@string/explore" />
 
-        <ImageView
-            android:id="@+id/detail_product"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/product_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_text_description"
-            android:maxHeight="250dp"
-            android:src="@drawable/placeholder" />
+            android:layout_alignStart="@id/detail_text_description"
+            android:layout_alignEnd="@id/detail_text_description">
 
+        </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/detail_product_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/detail_product"
-            android:textSize="20dp"
-            android:text="Product Name"
-            android:textStyle="bold"
-            android:layout_marginTop="23dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="15dp"/>
-        <TextView
-            android:id="@+id/detail_product_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_product_name"
-            android:textSize="18dp"
-            android:text="Price"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="15dp"/>
 
 
     </RelativeLayout>

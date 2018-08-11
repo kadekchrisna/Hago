@@ -65,9 +65,9 @@ public class DetailActivity extends AppCompatActivity {
         mChat = (ImageButton) findViewById(R.id.detail_imgbutton_chat);
         mYoutubePlayer = (ImageButton) findViewById(R.id.detail_image_playvid);
 
-        mProduct = (TextView) findViewById(R.id.detail_product_name);
-        mProductPic = (ImageView) findViewById(R.id.detail_product);
-        mProductPrice = (TextView) findViewById(R.id.detail_product_price);
+       // mProduct = (TextView) findViewById(R.id.detail_product_name);
+        //mProductPic = (ImageView) findViewById(R.id.detail_product);
+        //mProductPrice = (TextView) findViewById(R.id.detail_product_price);
 
 
         mPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Places").child(placeUid);
@@ -129,7 +129,7 @@ public class DetailActivity extends AppCompatActivity {
 
                     mImageView4.setScaleType(FIT_XY);
                     Picasso.with(DetailActivity.this).load(thumb_downloadUrl4).into(mImageView4);
-                    new Mylink().execute(mLink);
+                    //new Mylink().execute(mLink);
 
                 }
 
@@ -196,6 +196,8 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+    /*
+
     public class Mylink extends AsyncTask<String, Void, String> {
 
         private String pName, pPrice, pLink, link;
@@ -242,7 +244,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
         }
-    }
+    }*/
 
 
 }
