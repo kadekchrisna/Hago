@@ -159,28 +159,37 @@
                 android:layout_below="@id/add_imagebutton3"
                 app:srcCompat="@drawable/baseline_add_24" />
 
-            <Button
-                android:id="@+id/add_button_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="Save"
-                android:textColor="@color/colorWhite"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_below="@id/add_button_addlatong"
-                android:layout_toLeftOf="@id/add_button_cancel"/>
-
-            <Button
-                android:id="@+id/add_button_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="18dp"
                 android:layout_alignEnd="@id/add_imagebutton4"
-                android:text="Cancel"
-                android:layout_below="@id/add_button_addlatong"
-                />
+                android:layout_alignStart="@id/add_imagebutton4">
+
+
+
+                <Button
+                    android:id="@+id/add_button_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_alignEnd="@id/add_imagebutton4"
+                    android:text="Cancel"
+
+                    />
+                <Button
+                    android:id="@+id/add_button_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Save"
+                    android:textColor="@color/colorWhite"
+                    android:layout_weight="2"/>
+
+            </LinearLayout>
 
             <Spinner
                 android:id="@+id/add_spinner_category"

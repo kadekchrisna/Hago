@@ -149,13 +149,13 @@ public class PlaceActivity extends AppCompatActivity {
                                             mProgressDialog.setMessage("Please Wait...");
                                             mProgressDialog.show();
 
-                                            mUserPlaceDatabase.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            mUserPlaceDatabase.child(place_id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 
                                                     if (task.isSuccessful()){
 
-                                                        mPlaceDatabase.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        mPlaceDatabase.child(place_id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()){

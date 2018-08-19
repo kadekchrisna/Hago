@@ -125,7 +125,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                     viewHolder.timeText.setVisibility(View.VISIBLE);
 
                     viewHolder.messageText.setBackgroundResource(R.drawable.message_text_background_other);
-                    viewHolder.messageText.setTextColor(Color.BLACK);
+                    viewHolder.messageText.setTextColor(Color.WHITE);
                     viewHolder.messageTextOther.setVisibility(View.INVISIBLE);
                     viewHolder.timeTextOther.setVisibility(View.INVISIBLE);
                     viewHolder.displayNameOther.setVisibility(View.INVISIBLE);

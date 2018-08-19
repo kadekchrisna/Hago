@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="10dp">
@@ -32,11 +33,11 @@
         android:id="@+id/status_allusers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/name_allusers"
         android:layout_marginStart="16dp"
         android:layout_marginTop="2dp"
-        android:text="User Default Status"
         android:layout_toRightOf="@id/circle_image_alluser"
-        android:layout_below="@id/name_allusers"/>
+        android:text="User Default Status" />
 
     <TextView
         android:id="@+id/date_allusers"

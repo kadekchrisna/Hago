@@ -2,11 +2,13 @@ package com.kadek.tripgo;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -48,7 +50,7 @@ public class EventAddActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private TextInputLayout mEventName, mEventDescription;
-    private Button mSave, mCancel;
+    private Button mSave;
     private ImageButton mEventImage;
 
     private int GALLERY_PICK;
@@ -79,7 +81,6 @@ public class EventAddActivity extends AppCompatActivity {
         mEventDescription = (TextInputLayout) findViewById(R.id.event_input_description);
         mEventImage = (ImageButton) findViewById(R.id.event_imagebutton1);
         mSave = (Button) findViewById(R.id.event_button_save);
-        mCancel = (Button) findViewById(R.id.event_button_cancel);
 
         mStart = (EditText) findViewById(R.id.event_date_start);
         mEnd = (EditText) findViewById(R.id.event_date_end);
@@ -121,6 +122,8 @@ public class EventAddActivity extends AppCompatActivity {
             }
 
         };
+
+
 
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,7 +191,7 @@ public class EventAddActivity extends AppCompatActivity {
                                         mProgressDialog.dismiss();
                                         Intent backIntent = new Intent(EventAddActivity.this, EventActivity.class);
                                         startActivity(backIntent);
-                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         finish();
 
                                     }
@@ -305,7 +308,6 @@ public class EventAddActivity extends AppCompatActivity {
         if (requestCode == GALLERY_PICK && resultCode == RESULT_OK) {
             Uri imageUri = data.getData();
             CropImage.activity(imageUri)
-                    .setAspectRatio(2, 1)
                     .start(EventAddActivity.this);
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -325,7 +327,7 @@ public class EventAddActivity extends AppCompatActivity {
 
                 Bitmap thumb_bitmap = null;
                 thumb_bitmap = new Compressor(this)
-                        .setMaxHeight(720)
+                        .setMaxHeight(2160)
                         .setMaxWidth(1080)
                         .setQuality(75)
                         .compressToBitmap(thumbFilePath);
@@ -365,7 +367,7 @@ public class EventAddActivity extends AppCompatActivity {
                                 });
 
                             } else {
-                                Toast.makeText(EventAddActivity.this, "Error in uploading1", Toast.LENGTH_LONG).show();
+                                Toast.makeText(EventAddActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
                                 mProgressDialog.dismiss();
                             }
                         }
@@ -388,5 +390,33 @@ public class EventAddActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         mEnd.setText(sdf.format(myCalendarEnd.getTime()));
+    }
+
+    public void onBackPressed(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(EventAddActivity.this);
+        builder.setMessage("Apakah anda yakin untuk keluar ?");
+        builder.setCancelable(false);
+        builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.cancel();
+
+            }
+        });
+        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                Intent backIntent = new Intent(EventAddActivity.this, EventActivity.class);
+                startActivity(backIntent);
+                finish();
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
 }

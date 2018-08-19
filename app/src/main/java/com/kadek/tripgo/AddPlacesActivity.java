@@ -1,12 +1,14 @@
 package com.kadek.tripgo;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -40,6 +42,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import id.zelory.compressor.Compressor;
 
@@ -168,12 +172,15 @@ public class AddPlacesActivity extends AppCompatActivity {
                 String youtube = mInputYoutubeId.getEditText().getText().toString();
                 String category = mCategory;
 
+                String mYoutube = getYouTubeId(youtube);
+
                 Map update_hashMap = new HashMap();
                 update_hashMap.put("name", name);
                 update_hashMap.put("phone", phone);
                 update_hashMap.put("price", price);
                 update_hashMap.put("description", description);
-                update_hashMap.put("youtube", youtube);
+                update_hashMap.put("youtube", mYoutube);
+                update_hashMap.put("youtubelink", youtube);
                 update_hashMap.put("latitude", mLatitude);
                 update_hashMap.put("longitude", mLongitude);
                 update_hashMap.put("category", category);
@@ -198,7 +205,7 @@ public class AddPlacesActivity extends AppCompatActivity {
                                     mProgressDialog.dismiss();
                                         Intent backIntent = new Intent(AddPlacesActivity.this, PlaceActivity.class);
                                         startActivity(backIntent);
-                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         finish();
 
                                 }
@@ -821,6 +828,45 @@ public class AddPlacesActivity extends AppCompatActivity {
             }
         }
 
+    }
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddPlacesActivity.this);
+        builder.setMessage("Apakah anda yakin untuk keluar ?");
+        builder.setCancelable(false);
+        builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.cancel();
+
+            }
+        });
+        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                Intent backIntent = new Intent(AddPlacesActivity.this, PlaceActivity.class);
+                backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(backIntent);
+                finish();
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
+    private String getYouTubeId (String youTubeUrl) {
+        String pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(youTubeUrl);
+        if(matcher.find()){
+            return matcher.group();
+        } else {
+            return "error";
+        }
     }
 
 

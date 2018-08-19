@@ -88,7 +88,7 @@ public class NotificationFragment extends Fragment {
                     public void onClick(View view) {
 
                         Intent editIntent = new Intent(getContext(), EventDetailActivity.class);
-                        //editIntent.putExtra("event_id", event_id);
+                        editIntent.putExtra("event_id", event_id);
                         startActivity(editIntent);
 
                     }

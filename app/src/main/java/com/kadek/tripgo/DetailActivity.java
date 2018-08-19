@@ -1,10 +1,13 @@
 package com.kadek.tripgo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -12,13 +15,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -32,15 +39,17 @@ import static android.widget.ImageView.ScaleType.FIT_XY;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private String name, phone, youtubeId, ownerId, userId, mLink;
-    private TextView mNamePlace, mProduct, mProductPrice;
+    private String name, phone, youtubeId, ownerId, userId, mLink, mPrice, mLinkImage, mName, mPlace;
+    private TextView mNamePlace;
     private Button mGoButton;
     private Double mLongitude, mLatitude;
-    private ImageView mImageView1, mImageView2, mImageView3, mImageView4, mProductPic;
+    private ImageView mImageView1, mImageView2, mImageView3, mImageView4, mImageVid;
     private ImageButton mPhoneDialer, mChat, mYoutubePlayer;
+    private RecyclerView mProductRecView;
+
     private FirebaseAuth mAuth;
 
-    private DatabaseReference mPlaceDatabase, mUserDatabase;
+    private DatabaseReference mPlaceDatabase, mProductOwn, mProductList;
 
     private String downloadUrl, thumb_downloadUrl, downloadUrl2, thumb_downloadUrl2, downloadUrl3, thumb_downloadUrl3, downloadUrl4, thumb_downloadUrl4;
 
@@ -51,6 +60,8 @@ public class DetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_detail);
         final String placeUid = getIntent().getStringExtra("placeUid");
+        mPlace = placeUid;
+
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
 
@@ -61,13 +72,18 @@ public class DetailActivity extends AppCompatActivity {
         mImageView2 = (ImageView) findViewById(R.id.detail_image2);
         mImageView3 = (ImageView) findViewById(R.id.detail_image3);
         mImageView4 = (ImageView) findViewById(R.id.detail_image4);
+        mImageVid = (ImageView) findViewById(R.id.detail_image_vid_preview);
         mPhoneDialer = (ImageButton) findViewById(R.id.detail_imgbutton_phone);
         mChat = (ImageButton) findViewById(R.id.detail_imgbutton_chat);
         mYoutubePlayer = (ImageButton) findViewById(R.id.detail_image_playvid);
 
-       // mProduct = (TextView) findViewById(R.id.detail_product_name);
-        //mProductPic = (ImageView) findViewById(R.id.detail_product);
-        //mProductPrice = (TextView) findViewById(R.id.detail_product_price);
+
+        mProductRecView = (RecyclerView) findViewById(R.id.product_list_detail);
+        mProductRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+
+        mProductList = FirebaseDatabase.getInstance().getReference().child("Product");
+        mProductOwn = FirebaseDatabase.getInstance().getReference().child("ProductOwn").child(mPlace);
 
 
         mPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Places").child(placeUid);
@@ -95,10 +111,15 @@ public class DetailActivity extends AppCompatActivity {
                     thumb_downloadUrl3 = dataSnapshot.child("thumb_image3").getValue().toString();
                     downloadUrl4 = dataSnapshot.child("image4").getValue().toString();
                     thumb_downloadUrl4 = dataSnapshot.child("thumb_image4").getValue().toString();
-                    mLink = dataSnapshot.child("link").getValue().toString();
 
 
                     youtubeId = youtube;
+
+                    mImageVid.setScaleType(FIT_XY);
+                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl).into(mImageVid);
+
+
+
                     if (ownerId.equals(userId)){
 
                         mChat.setVisibility(View.INVISIBLE);
@@ -119,17 +140,62 @@ public class DetailActivity extends AppCompatActivity {
                     mNamePlace.setText(name);
 
                     mImageView1.setScaleType(FIT_XY);
-                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl).into(mImageView1);
+                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.placeholder).into(mImageView1, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(DetailActivity.this).load(thumb_downloadUrl).placeholder(R.drawable.placeholder).into(mImageView1);
+
+                        }
+                    });
 
                     mImageView2.setScaleType(FIT_XY);
-                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl2).into(mImageView2);
+                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl2).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.placeholder).into(mImageView2, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(DetailActivity.this).load(thumb_downloadUrl2).placeholder(R.drawable.placeholder).into(mImageView2);
+
+                        }
+                    });
 
                     mImageView3.setScaleType(FIT_XY);
-                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl3).into(mImageView3);
+                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl3).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.placeholder).into(mImageView3, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(DetailActivity.this).load(thumb_downloadUrl3).placeholder(R.drawable.placeholder).into(mImageView3);
+
+                        }
+                    });
 
                     mImageView4.setScaleType(FIT_XY);
-                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl4).into(mImageView4);
-                    //new Mylink().execute(mLink);
+                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl4).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.placeholder).into(mImageView4, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(DetailActivity.this).load(thumb_downloadUrl4).placeholder(R.drawable.placeholder).into(mImageView4);
+
+                        }
+                    });
+
+
 
                 }
 
@@ -195,56 +261,133 @@ public class DetailActivity extends AppCompatActivity {
 
 
 
+
+
     }
-    /*
 
-    public class Mylink extends AsyncTask<String, Void, String> {
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-        private String pName, pPrice, pLink, link;
+        mProductOwn = FirebaseDatabase.getInstance().getReference().child("ProductOwn").child(mPlace);
 
 
-        @Override
-        protected String doInBackground(String... strings) {
-            Document document;
 
-            try {
+        FirebaseRecyclerAdapter<Product, ProductViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Product, ProductViewHolder>(
 
-                document = Jsoup.connect(mLink).get();
-                Elements newsHeadlines = document.select(".c-product-image-gallery__image");
-                Elements mPName = document.select(".c-product-detail__name");
-                Elements mPPrice = document.select(".c-product-detail-price");
-                pName = mPName.tagName("h1").text().toString();
-                pPrice = mPPrice.attr("data-reduced-price").toString();
-                pLink = newsHeadlines.attr("href").toString();
+                Product.class,
+                R.layout.pruduct_single,
+                ProductViewHolder.class,
+                mProductOwn
 
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        ) {
+            @Override
+            protected void populateViewHolder(final ProductViewHolder viewHolder, Product model, int position) {
+                final String place_id = getRef(position).getKey();
+
+                mProductList.child(place_id).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+
+                            mLinkImage = dataSnapshot.child("image").getValue().toString();
+                            mName = dataSnapshot.child("name").getValue().toString();
+                            mPrice = dataSnapshot.child("price").getValue().toString();
+                            mLink = dataSnapshot.child("link").getValue().toString();
+
+
+                            viewHolder.setImage(mLinkImage, getApplicationContext());
+                            viewHolder.setName(mName);
+                            viewHolder.setPrice(mPrice);
+
+                            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    Intent intent = new Intent();
+                                    intent.setAction(Intent.ACTION_VIEW);
+                                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                                    intent.setData(Uri.parse(mLink));
+                                    startActivity(intent);
+
+
+                                }
+                            });
+
+                        }else {
+
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
             }
-            return null;
+        };
+
+
+        mProductRecView.setAdapter(firebaseRecyclerAdapter);
+    }
+
+
+
+    public static class ProductViewHolder extends RecyclerView.ViewHolder {
+
+        View mView;
+
+
+        public ProductViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
         }
 
-        @Override
-        protected void onPostExecute(String result) {
+        public void setName(String name) {
+            TextView mLink = (TextView) mView.findViewById(R.id.product_name_detail);
+            mLink.setText(name);
+        }
 
-            mProduct.setText(pName);
-            mProductPrice.setText(pPrice);
-            Picasso.with(DetailActivity.this).load(pLink).into(mProductPic);
 
-            mProductPic.setOnClickListener(new View.OnClickListener() {
+        public void setPrice(String price){
+            TextView mPlace = (TextView) mView.findViewById(R.id.product_price_detail);
+            mPlace.setText(price);
+        }
+
+
+
+        public void setImage(final String image, final Context ctx){
+
+            final ImageView mPlaceImage = (ImageView) mView.findViewById(R.id.product_image_detail);
+            Picasso.with(ctx).load(image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.placeholder).into(mPlaceImage, new Callback() {
                 @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                    intent.setData(Uri.parse(mLink));
-                    startActivity(intent);
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError() {
+                    Picasso.with(ctx).load(image).placeholder(R.drawable.placeholder).into(mPlaceImage);
+
                 }
             });
 
-
-
         }
-    }*/
+    }
+
+
+
+
+
+
+
 
 
 }

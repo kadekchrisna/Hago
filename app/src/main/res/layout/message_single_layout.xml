@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
     >
 
     <TextView
@@ -12,8 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/name_text_layout"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:padding="15dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="32dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="8dp"
         android:text="Message Text"
         android:textColor="#444444"
         android:textSize="14sp"
@@ -52,24 +58,24 @@
         />
 
 
-
-
     <TextView
         android:id="@+id/message_text_layout_other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_below="@+id/name_text_layout"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_alignParentEnd="true"
-        android:padding="15dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/message_text_background"
+        android:paddingBottom="8dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="8dp"
         android:text="Message Text"
         android:textColor="#444444"
         android:textSize="14sp"
-        android:background="@drawable/message_text_background"
-        android:visibility="invisible"
-
-        />
+        android:visibility="invisible" />
 
 
     <TextView

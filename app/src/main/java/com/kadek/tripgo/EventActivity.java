@@ -104,7 +104,7 @@ public class EventActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(final EventViewHolder viewHolder, Event model, final int position) {
 
-                String event_id = getRef(position).getKey();
+                final String event_id = getRef(position).getKey();
                 mEventDatabase.child(event_id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(final DataSnapshot dataSnapshot) {
@@ -126,33 +126,27 @@ public class EventActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
 
-                                CharSequence option[] = new CharSequence[]{"Edit", "Delete"};
+                                CharSequence option[] = new CharSequence[]{"Delete"};
                                 AlertDialog.Builder builder = new AlertDialog.Builder(EventActivity.this);
                                 builder.setTitle("Select Options");
                                 builder.setItems(option, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, final int i) {
-                                        /*if (i == 0){
 
-                                            Intent editIntent = new Intent(EventActivity.this, EditPlacesActivity.class);
-                                            editIntent.putExtra("event_id", event_id);
-                                            startActivity(editIntent);
-
-                                        }*/
-                                        if (i == 1){
+                                        if (i == 0){
 
                                             mProgressDialog = new ProgressDialog(EventActivity.this);
                                             mProgressDialog.setTitle("Deleting Changes");
                                             mProgressDialog.setMessage("Please Wait...");
                                             mProgressDialog.show();
 
-                                            mEventOwnerDatabase.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            mEventOwnerDatabase.child(event_id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 
                                                     if (task.isSuccessful()){
 
-                                                        mEventDatabase.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        mEventDatabase.child(event_id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()){

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -181,7 +183,7 @@ public class ConversationActivity extends AppCompatActivity {
         public void setMessage(String message, boolean isSeen){
 
             TextView userStatusView = (TextView) mView.findViewById(R.id.status_allusers);
-            userStatusView.setText(message);
+            userStatusView.setText(message.substring(0,100));
 
             if(!isSeen){
                 userStatusView.setTypeface(userStatusView.getTypeface(), Typeface.BOLD);

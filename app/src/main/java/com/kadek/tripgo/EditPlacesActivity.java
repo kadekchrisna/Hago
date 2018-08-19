@@ -42,6 +42,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import id.zelory.compressor.Compressor;
 
@@ -148,7 +150,7 @@ public class EditPlacesActivity extends AppCompatActivity {
                     String phone = dataSnapshot.child("phone").getValue().toString();
                     String description = dataSnapshot.child("description").getValue().toString();
                     String category = dataSnapshot.child("category").getValue().toString();
-                    String youtube = dataSnapshot.child("youtube").getValue().toString();
+                    String youtube = dataSnapshot.child("youtubelink").getValue().toString();
                     String latitude = dataSnapshot.child("latitude").getValue().toString();
                     String longitude = dataSnapshot.child("longitude").getValue().toString();
                     downloadUrl = dataSnapshot.child("image").getValue().toString();
@@ -260,12 +262,15 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                 String category = mCategory;
 
+                String mYoutube = getYouTubeId(youtube);
+
                 Map update_hashMap = new HashMap();
                 update_hashMap.put("name", name);
                 update_hashMap.put("phone", phone);
                 update_hashMap.put("price", price);
                 update_hashMap.put("description", description);
-                update_hashMap.put("youtube", youtube);
+                update_hashMap.put("youtube", mYoutube);
+                update_hashMap.put("youtubelink", youtube);
                 update_hashMap.put("latitude", mLatitude);
                 update_hashMap.put("longitude", mLongitude);
                 update_hashMap.put("category", category);
@@ -918,5 +923,17 @@ public class EditPlacesActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+
+    private String getYouTubeId (String youTubeUrl) {
+        String pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(youTubeUrl);
+        if(matcher.find()){
+            return matcher.group();
+        } else {
+            return "error";
+        }
     }
 }
