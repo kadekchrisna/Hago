@@ -82,13 +82,13 @@ public class WelcomeActivity extends AppCompatActivity {
 
                                 if (task.isSuccessful()){
 
-                                    mProgressDialog.dismiss();
+                                    //mProgressDialog.dismiss();
                                     Intent checkIntent = new Intent(WelcomeActivity.this, MainActivity.class);
                                     checkIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(checkIntent);
 
                                 }else{
-                                    mProgressDialog.hide();
+                                    //mProgressDialog.hide();
                                     Toast.makeText(WelcomeActivity.this, "Please check internet connection and try again.", Toast.LENGTH_SHORT).show();
                                 }
 
@@ -111,8 +111,8 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         };
 
-        mButtonRegister = (Button) findViewById(R.id.welcome_register_button);
-        mButtonLogin = (Button) findViewById(R.id.welcome_login_buton);
+        //mButtonRegister = (Button) findViewById(R.id.welcome_register_button);
+        //mButtonLogin = (Button) findViewById(R.id.welcome_login_buton);
         mGoogleButton = (SignInButton) findViewById(R.id.welcome_google_login);
 
         // Configure Google Sign In
@@ -159,7 +159,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Toast.makeText(this, "Please Check Your Internet Connection", Toast.LENGTH_LONG).show();
         }
 
-        mButtonRegister.setOnClickListener(new View.OnClickListener() {
+        /*mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -177,7 +177,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(loginIntent);
 
             }
-        });
+        });*/
 
     }
 

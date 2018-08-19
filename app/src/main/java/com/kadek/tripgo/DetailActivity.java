@@ -1,5 +1,6 @@
 package com.kadek.tripgo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -60,6 +62,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_detail);
         final String placeUid = getIntent().getStringExtra("placeUid");
         mPlace = placeUid;
@@ -263,14 +266,12 @@ public class DetailActivity extends AppCompatActivity {
         });
 
 
-
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
 
         mProductOwn = FirebaseDatabase.getInstance().getReference().child("ProductOwn").child(mPlace);
 
