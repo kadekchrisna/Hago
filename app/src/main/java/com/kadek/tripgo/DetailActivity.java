@@ -35,6 +35,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
+import static android.widget.ImageView.ScaleType.CENTER_INSIDE;
+import static android.widget.ImageView.ScaleType.FIT_CENTER;
 import static android.widget.ImageView.ScaleType.FIT_XY;
 
 public class DetailActivity extends AppCompatActivity {
@@ -116,7 +118,8 @@ public class DetailActivity extends AppCompatActivity {
                     youtubeId = youtube;
 
                     mImageVid.setScaleType(FIT_XY);
-                    Picasso.with(DetailActivity.this).load(thumb_downloadUrl).into(mImageVid);
+                    mImageVid.getAdjustViewBounds();
+                    Picasso.with(DetailActivity.this).load("https://img.youtube.com/vi/"+ youtube +"/0.jpg").into(mImageVid);
 
 
 
