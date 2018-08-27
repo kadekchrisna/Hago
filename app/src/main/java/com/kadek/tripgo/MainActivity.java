@@ -1,10 +1,14 @@
 package com.kadek.tripgo;
 
-import android.app.Fragment;
+
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,14 +18,20 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private Button mLogoutButton;
 
     private BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
@@ -29,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private NotificationFragment notificationFragment;
     private AccountFragment accountFragment;
+
+
+    int PERMISSION_ALL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,22 @@ public class MainActivity extends AppCompatActivity {
         accountFragment = new AccountFragment();
 
         setFragment(homeFragment);
+
+        String[] PERMISSIONS = {
+
+                android.Manifest.permission.ACCESS_NETWORK_STATE,
+                android.Manifest.permission.INTERNET,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.CAMERA,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+        };
+
+
+
+        if(!hasPermissions(this, PERMISSIONS) == true){
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
 
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -91,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser !=null){
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
 
             Toast.makeText(this, "User Verified", Toast.LENGTH_SHORT).show();
 
@@ -110,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             }*/
 
 
-        }else {
+        } else {
 
             Intent welcomeIntent = new Intent(MainActivity.this, WelcomeActivity.class);
             welcomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -118,13 +147,19 @@ public class MainActivity extends AppCompatActivity {
             finish();
 
         }
+
+
+
     }
 
-    private void sendToStart() {
-
-        Intent redirectIntent = new Intent(this, WelcomeActivity.class);
-        redirectIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(redirectIntent);
-        finish();
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

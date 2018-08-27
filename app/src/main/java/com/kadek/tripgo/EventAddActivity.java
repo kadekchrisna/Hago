@@ -148,64 +148,73 @@ public class EventAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                mProgressDialog = new ProgressDialog(EventAddActivity.this);
-                mProgressDialog.setTitle("Saving Changes");
-                mProgressDialog.setMessage("Please Wait...");
-                mProgressDialog.show();
+                if (mEventName.getEditText().getText().toString().isEmpty() || mEventDescription.getEditText().getText().toString().isEmpty() ||
+                        mStart.getText().toString().isEmpty() || mEnd.getText().toString().isEmpty() || thumb_downloadUrl.isEmpty()){
+                    Toast.makeText(EventAddActivity.this, "Tolong lengkapi dan check from kembali. ", Toast.LENGTH_SHORT).show();
+                }else {
 
-                String name = mEventName.getEditText().getText().toString();
-                String description = mEventDescription.getEditText().getText().toString();
-                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                String start = mStart.getText().toString();
-                String end = mEnd.getText().toString();
+                    mProgressDialog = new ProgressDialog(EventAddActivity.this);
+                    mProgressDialog.setTitle("Saving Changes");
+                    mProgressDialog.setMessage("Please Wait...");
+                    mProgressDialog.show();
 
-                Map eventMap = new HashMap();
-                eventMap.put("name", name);
-                eventMap.put("description", description);
-                eventMap.put("event_start", start);
-                eventMap.put("event_end", end);
-                eventMap.put("timestamp", currentDateTimeString);
-                eventMap.put("event_image", downloadUrl);
-                eventMap.put("event_thumb_image", thumb_downloadUrl);
+                    String name = mEventName.getEditText().getText().toString();
+                    String description = mEventDescription.getEditText().getText().toString();
+                    String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                    String start = mStart.getText().toString();
+                    String end = mEnd.getText().toString();
 
-                final Map eventOwn = new HashMap();
-                eventOwn.put("event",eventUid);
+                    Map eventMap = new HashMap();
+                    eventMap.put("name", name);
+                    eventMap.put("description", description);
+                    eventMap.put("event_start", start);
+                    eventMap.put("event_end", end);
+                    eventMap.put("timestamp", currentDateTimeString);
+                    eventMap.put("event_image", downloadUrl);
+                    eventMap.put("event_thumb_image", thumb_downloadUrl);
 
-
-
-
-                mEventDatabase.updateChildren(eventMap).addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-
-                        if (task.isSuccessful()){
-
-                            mEventOwnerDatabase.updateChildren(eventOwn).addOnCompleteListener(new OnCompleteListener() {
-                                @Override
-                                public void onComplete(@NonNull Task task) {
-
-                                    if (task.isSuccessful()) {
+                    final Map eventOwn = new HashMap();
+                    eventOwn.put("event",eventUid);
 
 
-                                        Toast.makeText(EventAddActivity.this, "Success Uploading", Toast.LENGTH_SHORT).show();
-                                        mProgressDialog.dismiss();
-                                        Intent backIntent = new Intent(EventAddActivity.this, EventActivity.class);
-                                        startActivity(backIntent);
-                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        finish();
+
+
+                    mEventDatabase.updateChildren(eventMap).addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+
+                            if (task.isSuccessful()){
+
+                                mEventOwnerDatabase.updateChildren(eventOwn).addOnCompleteListener(new OnCompleteListener() {
+                                    @Override
+                                    public void onComplete(@NonNull Task task) {
+
+                                        if (task.isSuccessful()) {
+
+
+                                            Toast.makeText(EventAddActivity.this, "Success Uploading", Toast.LENGTH_SHORT).show();
+                                            mProgressDialog.dismiss();
+                                            Intent backIntent = new Intent(EventAddActivity.this, EventActivity.class);
+                                            startActivity(backIntent);
+                                            backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            finish();
+
+                                        }
 
                                     }
+                                });
 
-                                }
-                            });
+                            }else {
+                                mProgressDialog.hide();
+                                Toast.makeText(EventAddActivity.this, "Please check intenet connection and try again. ", Toast.LENGTH_SHORT).show();
+                            }
 
-                        }else {
-                            mProgressDialog.hide();
-                            Toast.makeText(EventAddActivity.this, "Please check intenet connection and try again. ", Toast.LENGTH_SHORT).show();
                         }
+                    });
 
-                    }
-                });
+                }
+
+
 
 
 
@@ -396,7 +405,7 @@ public class EventAddActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(EventAddActivity.this);
         builder.setMessage("Apakah anda yakin untuk keluar ?");
         builder.setCancelable(false);
-        builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -404,12 +413,13 @@ public class EventAddActivity extends AppCompatActivity {
 
             }
         });
-        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Ya!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 Intent backIntent = new Intent(EventAddActivity.this, EventActivity.class);
                 startActivity(backIntent);
+                backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
 
             }

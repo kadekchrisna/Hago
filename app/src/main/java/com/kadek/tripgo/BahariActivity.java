@@ -39,6 +39,7 @@ public class BahariActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mBahariDatabase = FirebaseDatabase.getInstance().getReference().child("Places");
+        mBahariDatabase.keepSynced(true);
 
         mBahariList = (RecyclerView) findViewById(R.id.bahari_list);
         mBahariList.setHasFixedSize(true);

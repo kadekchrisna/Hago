@@ -45,6 +45,7 @@ public class EventDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mEventDatabase = FirebaseDatabase.getInstance().getReference().child("Event").child(mId);
+        mEventDatabase.keepSynced(true);
 
 
         mEventDatabase.addValueEventListener(new ValueEventListener() {

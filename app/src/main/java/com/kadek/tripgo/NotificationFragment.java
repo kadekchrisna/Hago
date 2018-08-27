@@ -66,6 +66,7 @@ public class NotificationFragment extends Fragment {
         super.onStart();
         Log.i("Fragment","onStart");
         mEventDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        mEventDatabase.keepSynced(true);
 
         FirebaseRecyclerAdapter<Event, EventAllViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, EventAllViewHolder>(
                 Event.class,

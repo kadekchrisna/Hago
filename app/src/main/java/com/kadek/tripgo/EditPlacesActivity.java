@@ -1,11 +1,13 @@
 package com.kadek.tripgo;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -237,10 +239,31 @@ public class EditPlacesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent backIntent = new Intent(EditPlacesActivity.this, PlaceActivity.class);
-                startActivity(backIntent);
-                backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditPlacesActivity.this);
+                builder.setMessage("Apakah anda yakin untuk keluar ?");
+                builder.setCancelable(false);
+                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.cancel();
+
+                    }
+                });
+                builder.setPositiveButton("Ya!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Intent backIntent = new Intent(EditPlacesActivity.this, PlaceActivity.class);
+                        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(backIntent);
+                        finish();
+
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
 
             }
         });
@@ -249,65 +272,79 @@ public class EditPlacesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                mProgressDialog = new ProgressDialog(EditPlacesActivity.this);
-                mProgressDialog.setTitle("Saving Changes");
-                mProgressDialog.setMessage("Please Wait...");
-                mProgressDialog.show();
+                if (mInputName.getEditText().getText().toString().isEmpty() || mInputPhone.getEditText().getText().toString().isEmpty() ||
+                        mInputPrice.getEditText().getText().toString().isEmpty() || mInputDescription.getEditText().getText().toString().isEmpty() ||
+                        mInputYoutubeId.getEditText().getText().toString().isEmpty() || mCategory.equals("Pilih Kategori") ||
+                        mLatitude.equals("") || mLongitude.equals("") || thumb_downloadUrl.isEmpty() || thumb_downloadUrl2.isEmpty() ||
+                        thumb_downloadUrl3.isEmpty() || thumb_downloadUrl4.isEmpty()){
+                    Toast.makeText(EditPlacesActivity.this, "Tolong lengkapi dan check from kembali. ", Toast.LENGTH_SHORT).show();
 
-                String name = mInputName.getEditText().getText().toString();
-                String phone = mInputPhone.getEditText().getText().toString();
-                String price = mInputPrice.getEditText().getText().toString();
-                String description = mInputDescription.getEditText().getText().toString();
-                String youtube = mInputYoutubeId.getEditText().getText().toString();
+                }else{
+                    mProgressDialog = new ProgressDialog(EditPlacesActivity.this);
+                    mProgressDialog.setTitle("Saving Changes");
+                    mProgressDialog.setMessage("Please Wait...");
+                    mProgressDialog.show();
 
-                String category = mCategory;
+                    String name = mInputName.getEditText().getText().toString();
+                    String phone = mInputPhone.getEditText().getText().toString();
+                    String price = mInputPrice.getEditText().getText().toString();
+                    String description = mInputDescription.getEditText().getText().toString();
+                    String youtube = mInputYoutubeId.getEditText().getText().toString();
 
-                String mYoutube = getYouTubeId(youtube);
+                    String category = mCategory;
 
-                Map update_hashMap = new HashMap();
-                update_hashMap.put("name", name);
-                update_hashMap.put("phone", phone);
-                update_hashMap.put("price", price);
-                update_hashMap.put("description", description);
-                update_hashMap.put("youtube", mYoutube);
-                update_hashMap.put("youtubelink", youtube);
-                update_hashMap.put("latitude", mLatitude);
-                update_hashMap.put("longitude", mLongitude);
-                update_hashMap.put("category", category);
-                update_hashMap.put("owner", currentUid);
+                    String mYoutube = getYouTubeId(youtube);
 
-                final Map update_hashMap_owner = new HashMap();
-                update_hashMap_owner.put("place", placeUid);
+                    Map update_hashMap = new HashMap();
+                    update_hashMap.put("name", name);
+                    update_hashMap.put("phone", phone);
+                    update_hashMap.put("price", price);
+                    update_hashMap.put("description", description);
+                    update_hashMap.put("youtube", mYoutube);
+                    update_hashMap.put("youtubelink", youtube);
+                    update_hashMap.put("latitude", mLatitude);
+                    update_hashMap.put("longitude", mLongitude);
+                    update_hashMap.put("category", category);
+                    update_hashMap.put("owner", currentUid);
+
+                    final Map update_hashMap_owner = new HashMap();
+                    update_hashMap_owner.put("place", placeUid);
 
 
 
-                mPlaceDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
+                    mPlaceDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
 
-                        if (task.isSuccessful()){
+                            if (task.isSuccessful()){
 
-                            mUserPlaceDatabase.child(placeUid).updateChildren(update_hashMap_owner).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                mUserPlaceDatabase.child(placeUid).updateChildren(update_hashMap_owner).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
 
-                                    Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_SHORT).show();
-                                    mProgressDialog.dismiss();
-                                    Intent backIntent = new Intent(EditPlacesActivity.this, PlaceActivity.class);
-                                    startActivity(backIntent);
-                                    backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    finish();
+                                        Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_SHORT).show();
+                                        mProgressDialog.dismiss();
+                                        Intent backIntent = new Intent(EditPlacesActivity.this, PlaceActivity.class);
+                                        startActivity(backIntent);
+                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        finish();
 
-                                }
-                            });
+                                    }
+                                });
 
-                        }else {
-                            Toast.makeText(EditPlacesActivity.this, "Error Uploading", Toast.LENGTH_SHORT).show();
-                            mProgressDialog.hide();
+                            }else {
+                                Toast.makeText(EditPlacesActivity.this, "Error Uploading", Toast.LENGTH_SHORT).show();
+                                mProgressDialog.hide();
+                            }
+
                         }
+                    });
 
-                    }
-                });
+
+
+                }
+
+
 
 
 
@@ -935,5 +972,33 @@ public class EditPlacesActivity extends AppCompatActivity {
         } else {
             return "error";
         }
+    }
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditPlacesActivity.this);
+        builder.setMessage("Apakah anda yakin untuk keluar ?");
+        builder.setCancelable(false);
+        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.cancel();
+
+            }
+        });
+        builder.setPositiveButton("Ya!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                Intent backIntent = new Intent(EditPlacesActivity.this, PlaceActivity.class);
+                backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(backIntent);
+                finish();
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
 }

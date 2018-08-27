@@ -21,6 +21,12 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 /**
@@ -28,41 +34,60 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class AccountFragment extends Fragment {
 
-    private Button mLogoutButton, mPlaceButton, mConvButton, mEventButton, mStuffButton;
+    private Button mLogoutButton, mConvButton;
+    private Button mAdminButton;
     private View mMainView;
 
+    private DatabaseReference mUserDatabase;
     private GoogleApiClient mGoogleClient;
     private FirebaseAuth mAuth;
 
+
+    String mCode = "1";
 
     public AccountFragment() {
         // Required empty public constructor
     }
 
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup containerAcc,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        mMainView = inflater.inflate(R.layout.fragment_account, container, false);
+        mMainView = inflater.inflate(R.layout.fragment_account, containerAcc, false);
 
         mAuth = FirebaseAuth.getInstance();
 
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+
         mLogoutButton = (Button) mMainView.findViewById(R.id.account_logout_button);
-        mPlaceButton = (Button) mMainView.findViewById(R.id.account_places);
         mConvButton = (Button) mMainView.findViewById(R.id.account_conv_button);
-        mEventButton = (Button) mMainView.findViewById(R.id.account_event_button);
-        mStuffButton = (Button) mMainView.findViewById(R.id.account_stuff_button);
+        mAdminButton =(Button) mMainView.findViewById(R.id.account_admin_button);
 
-        mPlaceButton.setOnClickListener(new View.OnClickListener() {
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        mUserDatabase.child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Intent placesIntent = new Intent(getContext(), PlaceActivity.class);
-                startActivity(placesIntent);
+                if (dataSnapshot.exists()){
+                    String code = dataSnapshot.child("admin").getValue().toString();
+                    if (code.equals(mCode)){
+                        mAdminButton.setVisibility(View.VISIBLE);
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
 
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +124,7 @@ public class AccountFragment extends Fragment {
                             .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
                                 @Override
                                 public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-            /*ignored*/
+                                /*ignored*/
                                 }
                             })
                             .addApi(Auth.GOOGLE_SIGN_IN_API) //IMPORTANT!!!
@@ -120,23 +145,14 @@ public class AccountFragment extends Fragment {
 
             }
         });
-
-        mEventButton.setOnClickListener(new View.OnClickListener() {
+        mAdminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent eventIntent = new Intent(getContext(), EventActivity.class);
-                startActivity(eventIntent);
-                
+                Intent adminIntent = new Intent(getContext(), AdminActivity.class);
+                startActivity(adminIntent);
             }
         });
 
-        mStuffButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), ProductActivity.class));
-            }
-        });
 
         return mMainView;
 

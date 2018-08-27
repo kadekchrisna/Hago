@@ -34,6 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
+import java.util.Map;
+
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -68,15 +70,16 @@ public class WelcomeActivity extends AppCompatActivity {
                         final FirebaseUser currentUser = mAuth.getCurrentUser();
                         final String uid = currentUser.getUid();
                         String deviceToken = FirebaseInstanceId.getInstance().getToken();
-                        HashMap<String, String> userMap = new HashMap<>();
+                        Map userMap = new HashMap<>();
                         userMap.put("name", currentUser.getDisplayName());
                         userMap.put("image", currentUser.getPhotoUrl().toString());
                         userMap.put("thumb_image", currentUser.getPhotoUrl().toString());
                         userMap.put("device_token", deviceToken);
+                        userMap.put("admin", "0");
 
                         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
 
-                        mUserDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        mUserDatabase.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
 
@@ -86,11 +89,13 @@ public class WelcomeActivity extends AppCompatActivity {
                                     Intent checkIntent = new Intent(WelcomeActivity.this, MainActivity.class);
                                     checkIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(checkIntent);
+                                    finish();
 
                                 }else{
                                     //mProgressDialog.hide();
                                     Toast.makeText(WelcomeActivity.this, "Please check internet connection and try again.", Toast.LENGTH_SHORT).show();
                                 }
+
 
                             }
                         });
@@ -206,7 +211,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
 
             }else {
-                
+
             }
 
         }

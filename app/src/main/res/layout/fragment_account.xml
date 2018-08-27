@@ -19,16 +19,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Logout" />
-
-    <Button
-        android:id="@+id/account_places"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/account_logout_button"
-        android:layout_below="@+id/account_logout_button"
-        android:layout_marginTop="43dp"
-        android:text="Place" />
-
     <Button
         android:id="@+id/account_conv_button"
         android:layout_width="wrap_content"
@@ -37,24 +27,16 @@
         android:layout_alignStart="@+id/account_logout_button"
         android:layout_marginBottom="34dp"
         android:text="Conv" />
-
     <Button
-        android:id="@+id/account_event_button"
+        android:id="@+id/account_admin_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/account_conv_button"
+        android:layout_below="@+id/account_logout_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:text="Event" />
+        android:layout_marginTop="34dp"
+        android:visibility="invisible"
+        android:text="Admin" />
 
-    <Button
-        android:id="@+id/account_stuff_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/account_places"
-        android:layout_below="@+id/account_places"
-        android:layout_marginTop="32dp"
-        android:text="Stuff" />
 
 
 </RelativeLayout>

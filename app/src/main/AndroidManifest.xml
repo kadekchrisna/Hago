@@ -33,9 +33,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".WelcomeActivity" />
@@ -93,15 +91,13 @@
         <activity android:name=".ProductActivity" />
         <activity android:name=".ProductAddActivity" />
         <activity android:name=".SplashActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
+        <activity android:name=".AdminActivity"></activity>
     </application>
 
 </manifest>

@@ -89,9 +89,12 @@ public class DetailActivity extends AppCompatActivity {
 
         mProductList = FirebaseDatabase.getInstance().getReference().child("Product");
         mProductOwn = FirebaseDatabase.getInstance().getReference().child("ProductOwn").child(mPlace);
+        mProductList.keepSynced(true);
+        mProductOwn.keepSynced(true);
 
 
         mPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Places").child(placeUid);
+        mPlaceDatabase.keepSynced(true);
 
 
         mPlaceDatabase.addValueEventListener(new ValueEventListener() {
