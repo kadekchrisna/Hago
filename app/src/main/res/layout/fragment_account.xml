@@ -6,36 +6,69 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
+
+    <ImageButton
+        android:id="@+id/account_admin_imagebutton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/baseline_power_settings_new_24"
+        android:background="@color/colorWhite"
+        android:visibility="invisible"
+        android:text="Logout" />
+
+    <RelativeLayout
+        android:id="@+id/account_layout_round"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Account Fragment"
-        android:id="@+id/textView3" />
+        android:layout_alignParentTop="true"
+        >
 
-    <Button
-        android:id="@+id/account_logout_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Logout" />
-    <Button
-        android:id="@+id/account_conv_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/account_logout_button"
-        android:layout_alignStart="@+id/account_logout_button"
-        android:layout_marginBottom="34dp"
-        android:text="Conv" />
-    <Button
-        android:id="@+id/account_admin_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/account_logout_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
-        android:visibility="invisible"
-        android:text="Admin" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/account_imageview"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/avatar"
+
+            android:padding="4dp"
+            android:background="@drawable/roundborder"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/account_imageview"
+            android:background="@color/colorPrimary">
+
+
+
+            <ImageButton
+                android:id="@+id/account_conv_imagebutton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/baseline_message_white_36"
+                android:background="#803f51b5"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Conv" />
+            <ImageButton
+                android:id="@+id/account_logout_imagebutton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/baseline_power_settings_new_black_36"
+                android:background="#803f51b5"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Admin" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 
 

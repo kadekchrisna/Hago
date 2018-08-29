@@ -43,11 +43,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProductActivity extends AppCompatActivity {
@@ -135,11 +137,15 @@ public class ProductActivity extends AppCompatActivity {
                             mPrice = dataSnapshot.child("price").getValue().toString();
                             mIdPlace = dataSnapshot.child("idplace").getValue().toString();
 
+                            int price = Integer.parseInt(mPrice);
+                            mPrice = NumberFormat.getNumberInstance(Locale.US).format(price);
+
+
 
                             viewHolder.setImage(mLink, getApplicationContext());
                             viewHolder.setPlace(mPlace);
                             viewHolder.setName(mName);
-                            viewHolder.setPrice(mPrice);
+                            viewHolder.setPrice("Rp."+mPrice);
 
                             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override

@@ -149,7 +149,8 @@ public class EventAddActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (mEventName.getEditText().getText().toString().isEmpty() || mEventDescription.getEditText().getText().toString().isEmpty() ||
-                        mStart.getText().toString().isEmpty() || mEnd.getText().toString().isEmpty() || thumb_downloadUrl.isEmpty()){
+                        mStart.getText().toString().isEmpty() || mEnd.getText().toString().isEmpty() || thumb_downloadUrl.isEmpty() ||
+                        mEventDescription.getEditText().getText().toString().length() < 40){
                     Toast.makeText(EventAddActivity.this, "Tolong lengkapi dan check from kembali. ", Toast.LENGTH_SHORT).show();
                 }else {
 

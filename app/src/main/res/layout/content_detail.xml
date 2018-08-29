@@ -42,33 +42,33 @@
                 <ImageView
                     android:id="@+id/detail_image1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="300dp"
-                    android:scaleType="fitXY"
+                    android:layout_height="match_parent"
+                    android:maxHeight="280dp"
+                    android:minHeight="280dp"
                     android:src="@drawable/placeholder" />
 
                 <ImageView
                     android:id="@+id/detail_image2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="300dp"
-                    android:scaleType="fitXY"
+                    android:layout_height="match_parent"
+                    android:maxHeight="280dp"
+                    android:minHeight="280dp"
                     android:src="@drawable/placeholder" />
 
                 <ImageView
                     android:id="@+id/detail_image3"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="300dp"
-                    android:scaleType="fitXY"
+                    android:layout_height="match_parent"
+                    android:maxHeight="280dp"
+                    android:minHeight="280dp"
                     android:src="@drawable/placeholder" />
 
                 <ImageView
                     android:id="@+id/detail_image4"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="300dp"
-                    android:scaleType="fitXY"
+                    android:layout_height="match_parent"
+                    android:maxHeight="280dp"
+                    android:minHeight="280dp"
                     android:src="@drawable/placeholder" />
 
 

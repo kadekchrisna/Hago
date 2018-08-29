@@ -122,7 +122,7 @@ public class NotificationFragment extends Fragment {
         }
         public void setDescription(String description) {
             TextView mEventDescription = (TextView) mView.findViewById(R.id.event_litle_description);
-            mEventDescription.setText(description);
+            mEventDescription.setText(description.substring(0,10));
         }
 
 

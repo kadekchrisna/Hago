@@ -19,6 +19,9 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class BahariActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
@@ -107,7 +110,10 @@ public class BahariActivity extends AppCompatActivity {
 
         public void setPrice(String price) {
             TextView mPlaceStatus = (TextView) mView.findViewById(R.id.place_price);
-            mPlaceStatus.setText(price);
+
+            int mPrice = Integer.parseInt(price);
+            price = NumberFormat.getNumberInstance(Locale.US).format(mPrice);
+            mPlaceStatus.setText("Rp"+price);
         }
 
 

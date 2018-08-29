@@ -239,7 +239,7 @@ public class EventActivity extends AppCompatActivity {
 
         public void setDescription(String description) {
             TextView mPlaceStatus = (TextView) mView.findViewById(R.id.event_litle_description);
-            mPlaceStatus.setText(description);
+            mPlaceStatus.setText(description.substring(0,10));
         }
 
 

@@ -2,6 +2,7 @@ package com.kadek.tripgo;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -27,6 +30,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -34,8 +42,8 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class AccountFragment extends Fragment {
 
-    private Button mLogoutButton, mConvButton;
-    private Button mAdminButton;
+    private ImageButton mLogoutButton, mConvButton, mAdminButton;
+    private CircleImageView mProfile;
     private View mMainView;
 
     private DatabaseReference mUserDatabase;
@@ -62,9 +70,10 @@ public class AccountFragment extends Fragment {
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        mLogoutButton = (Button) mMainView.findViewById(R.id.account_logout_button);
-        mConvButton = (Button) mMainView.findViewById(R.id.account_conv_button);
-        mAdminButton =(Button) mMainView.findViewById(R.id.account_admin_button);
+        mLogoutButton = (ImageButton) mMainView.findViewById(R.id.account_logout_imagebutton);
+        mConvButton = (ImageButton) mMainView.findViewById(R.id.account_conv_imagebutton);
+        mAdminButton =(ImageButton) mMainView.findViewById(R.id.account_admin_imagebutton);
+        mProfile = (CircleImageView) mMainView.findViewById(R.id.account_imageview);
 
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -74,6 +83,21 @@ public class AccountFragment extends Fragment {
 
                 if (dataSnapshot.exists()){
                     String code = dataSnapshot.child("admin").getValue().toString();
+                    final String image = dataSnapshot.child("image").getValue().toString();
+
+                    Picasso.with(getContext()).load(image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.avatar).into(mProfile, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(getContext()).load(image).placeholder(R.drawable.placeholder).into(mProfile);
+
+                        }
+                    });
+
                     if (code.equals(mCode)){
                         mAdminButton.setVisibility(View.VISIBLE);
 

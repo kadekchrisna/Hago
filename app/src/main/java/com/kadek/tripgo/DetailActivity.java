@@ -36,6 +36,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import static android.widget.ImageView.ScaleType.CENTER_INSIDE;
 import static android.widget.ImageView.ScaleType.FIT_CENTER;
@@ -303,10 +305,13 @@ public class DetailActivity extends AppCompatActivity {
                             mPrice = dataSnapshot.child("price").getValue().toString();
                             mLink = dataSnapshot.child("link").getValue().toString();
 
+                            int price = Integer.parseInt(mPrice);
+                            mPrice = NumberFormat.getNumberInstance(Locale.US).format(price);
+
 
                             viewHolder.setImage(mLinkImage, getApplicationContext());
                             viewHolder.setName(mName);
-                            viewHolder.setPrice(mPrice);
+                            viewHolder.setPrice("Rp"+mPrice);
 
                             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override
