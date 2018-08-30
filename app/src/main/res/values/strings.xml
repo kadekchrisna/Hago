@@ -2,7 +2,7 @@
     <string name="app_name">TripGo</string>
     <string name="Email">Please confirm your email and press the Refresh Button.</string>
     <string name="nav_home">Home</string>
-    <string name="nav_notif">Notification</string>
+    <string name="nav_notif">Event</string>
     <string name="nav_account">Account</string>
 
     <!-- TODO: Remove or change this placeholder text -->

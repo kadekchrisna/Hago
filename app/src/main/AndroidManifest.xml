@@ -33,7 +33,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".WelcomeActivity" />
@@ -97,7 +97,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminActivity"></activity>
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".BudayaActivity" />
+        <activity android:name=".CagaralamActivity" />
+        <activity android:name=".AgrowisataActivity"></activity>
     </application>
 
 </manifest>

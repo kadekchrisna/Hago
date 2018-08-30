@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -22,50 +21,49 @@ import com.squareup.picasso.Picasso;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class BahariActivity extends AppCompatActivity {
+public class CagaralamActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
-    private RecyclerView mBahariList;
+    private RecyclerView mCagaralamList;
 
-    private DatabaseReference mBahariDatabase;
 
+    private DatabaseReference mCagaralamDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bahari);
+        setContentView(R.layout.activity_cagaralam);
 
-        mToolbar = (Toolbar) findViewById(R.id.bahari_app_bar);
+        mToolbar = (Toolbar) findViewById(R.id.cagaralam_app_bar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Bahari");
+        getSupportActionBar().setTitle("Cagar Alam");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mBahariDatabase = FirebaseDatabase.getInstance().getReference().child("Places");
-        mBahariDatabase.keepSynced(true);
+        mCagaralamDatabase = FirebaseDatabase.getInstance().getReference().child("Places");
+        mCagaralamDatabase.keepSynced(true);
 
-        mBahariList = (RecyclerView) findViewById(R.id.bahari_list);
-        mBahariList.setHasFixedSize(true);
-        mBahariList.setLayoutManager(new LinearLayoutManager(this));
-
-
-
+        mCagaralamList = (RecyclerView) findViewById(R.id.cagaralam_list);
+        mCagaralamList.setHasFixedSize(true);
+        mCagaralamList.setLayoutManager(new LinearLayoutManager(this));
     }
+
+
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        FirebaseRecyclerAdapter<Places, PlacesViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Places, PlacesViewHolder>(
+        FirebaseRecyclerAdapter<Places, BahariActivity.PlacesViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Places, BahariActivity.PlacesViewHolder>(
 
                 Places.class,
                 R.layout.place_single_layout,
-                PlacesViewHolder.class,
-                mBahariDatabase.orderByChild("category").equalTo("Bahari")
+                BahariActivity.PlacesViewHolder.class,
+                mCagaralamDatabase.orderByChild("category").equalTo("Cagar Alam")
 
         ) {
             @Override
-            protected void populateViewHolder(PlacesViewHolder viewHolder, Places model, int position) {
+            protected void populateViewHolder(BahariActivity.PlacesViewHolder viewHolder, Places model, int position) {
 
                 viewHolder.setName(model.getName());
                 viewHolder.setPrice(model.getPrice());
@@ -77,9 +75,11 @@ public class BahariActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        Intent detailIntent = new Intent(BahariActivity.this, DetailActivity.class);
+                        Intent detailIntent = new Intent(CagaralamActivity.this, DetailActivity.class);
                         detailIntent.putExtra("placeUid", placeUid);
                         startActivity(detailIntent);
+                        detailIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        finish();
 
                     }
                 });
@@ -87,9 +87,11 @@ public class BahariActivity extends AppCompatActivity {
             }
         };
 
-        mBahariList.setAdapter(firebaseRecyclerAdapter);
+        mCagaralamList.setAdapter(firebaseRecyclerAdapter);
 
     }
+
+
 
     public static class PlacesViewHolder extends RecyclerView.ViewHolder{
 
@@ -142,7 +144,7 @@ public class BahariActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent backIntent = new Intent(BahariActivity.this, MainActivity.class);
+        Intent backIntent = new Intent(CagaralamActivity.this, MainActivity.class);
         startActivity(backIntent);
         backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         finish();

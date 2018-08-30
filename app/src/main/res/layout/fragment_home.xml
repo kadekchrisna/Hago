@@ -1,4 +1,4 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,39 +6,101 @@
     tools:context="com.kadek.tripgo.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView4"
+
+    <RelativeLayout
+        android:id="@+id/home_relative"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Home Fragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/home_button_bahari"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Bahari"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
 
-    <Button
-        android:id="@+id/home_button_qr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="QR"
-        app:layout_constraintBottom_toTopOf="@+id/home_button_bahari"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/home_button_qr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/baseline_camera_alt_black_24"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:background="#fff"
+            android:padding="20dp"
+            android:text="Scan QR"
+            android:textAllCaps="false"
+            />
 
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/home_linear_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_button_qr"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/home_button_bahari"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#fff"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:text="Bahari" />
+            <Button
+                android:id="@+id/home_button_budaya"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#fff"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:text="Budaya" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/home_linear_mid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_linear_top"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/home_button_cagaralam"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#fff"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:text="Cagaralam" />
+            <Button
+                android:id="@+id/home_button_agrowisata"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#fff"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:text="Argowisata" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

@@ -7,34 +7,73 @@
     tools:context=".AdminActivity">
 
     <include layout="@layout/app_bar_layout" android:id="@+id/admin_app_bar"/>
-
-
-    <Button
-        android:id="@+id/account_event_button"
-        android:layout_width="wrap_content"
+    
+    
+    <LinearLayout
+        android:id="@+id/admin_linear_top"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:text="Event" />
+        android:layout_below="@id/admin_app_bar">
 
-    <Button
-        android:id="@+id/account_stuff_button"
-        android:layout_width="wrap_content"
+
+        <Button
+            android:id="@+id/account_event_button"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:paddingStart="10dp"
+            android:drawableStart="@drawable/baseline_notifications_black_36"
+            android:background="#fff"
+            android:textAllCaps="false"
+            android:text="Event" />
+
+
+        <Button
+            android:id="@+id/account_places"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:paddingStart="10dp"
+            android:drawableStart="@drawable/baseline_add_location_black_36"
+            android:background="#fff"
+            android:textAllCaps="false"
+            android:text="Place" />
+
+        
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/admin_linear_mid"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/account_event_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:text="Stuff" />
+        android:layout_below="@id/admin_linear_top">
 
 
-    <Button
-        android:id="@+id/account_places"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/account_event_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
-        android:text="Place" />
+        <Button
+            android:id="@+id/account_stuff_button"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:paddingStart="10dp"
+            android:drawableStart="@drawable/baseline_local_offer_black_36"
+            android:background="#fff"
+            android:textAllCaps="false"
+            android:text="Stuff" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:text="Place" />
+
+    </LinearLayout>
 
 
 

@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class HomeFragment extends Fragment {
 
-    private Button mBahariButton, mQrButton;
+    private Button mBahariButton, mQrButton, mAgrowisataButton, mCagaralamButton, mBudayaButton;
     private View mViewHome;
 
     private FirebaseAuth mAuth;
@@ -36,6 +36,9 @@ public class HomeFragment extends Fragment {
         mViewHome = inflater.inflate(R.layout.fragment_home, container, false);
 
         mBahariButton = (Button) mViewHome.findViewById(R.id.home_button_bahari);
+        mBudayaButton = (Button) mViewHome.findViewById(R.id.home_button_budaya);
+        mAgrowisataButton = (Button) mViewHome.findViewById(R.id.home_button_agrowisata);
+        mCagaralamButton = (Button) mViewHome.findViewById(R.id.home_button_cagaralam);
         mQrButton = (Button) mViewHome.findViewById(R.id.home_button_qr);
 
         mBahariButton.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +46,33 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
 
                 Intent backIntent = new Intent(getContext(), BahariActivity.class);
+                startActivity(backIntent);
+            }
+        });
+
+        mBudayaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent backIntent = new Intent(getContext(), BudayaActivity.class);
+                startActivity(backIntent);
+
+            }
+        });
+
+        mAgrowisataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent backIntent = new Intent(getContext(), AgrowisataActivity.class);
+                startActivity(backIntent);
+            }
+        });
+
+        mCagaralamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent backIntent = new Intent(getContext(), CagaralamActivity.class);
                 startActivity(backIntent);
             }
         });

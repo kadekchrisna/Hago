@@ -62,4 +62,13 @@ public class AdminActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent backIntent = new Intent(AdminActivity.this, MainActivity.class);
+        startActivity(backIntent);
+        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+    }
 }

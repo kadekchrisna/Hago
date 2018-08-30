@@ -1,18 +1,21 @@
 package com.kadek.tripgo;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -42,9 +45,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class AccountFragment extends Fragment {
 
-    private ImageButton mLogoutButton, mConvButton, mAdminButton;
+    private Button mConvButton, mAdminButton, mLogoutButton;
     private CircleImageView mProfile;
     private View mMainView;
+    private TextView mName;
 
     private DatabaseReference mUserDatabase;
     private GoogleApiClient mGoogleClient;
@@ -70,10 +74,11 @@ public class AccountFragment extends Fragment {
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        mLogoutButton = (ImageButton) mMainView.findViewById(R.id.account_logout_imagebutton);
-        mConvButton = (ImageButton) mMainView.findViewById(R.id.account_conv_imagebutton);
-        mAdminButton =(ImageButton) mMainView.findViewById(R.id.account_admin_imagebutton);
+        mLogoutButton = (Button) mMainView.findViewById(R.id.account_logout_imagebutton);
+        mConvButton = (Button) mMainView.findViewById(R.id.account_conv_imagebutton);
+        mAdminButton =(Button) mMainView.findViewById(R.id.account_admin_imagebutton);
         mProfile = (CircleImageView) mMainView.findViewById(R.id.account_imageview);
+        mName = (TextView) mMainView.findViewById(R.id.account_text_name);
 
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -81,9 +86,12 @@ public class AccountFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+
+
                 if (dataSnapshot.exists()){
                     String code = dataSnapshot.child("admin").getValue().toString();
                     final String image = dataSnapshot.child("image").getValue().toString();
+                    final String name = dataSnapshot.child("name").getValue().toString();
 
                     Picasso.with(getContext()).load(image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.avatar).into(mProfile, new Callback() {
                         @Override
@@ -102,6 +110,9 @@ public class AccountFragment extends Fragment {
                         mAdminButton.setVisibility(View.VISIBLE);
 
                     }
+
+                    mName.setText(name);
+
                 }
 
             }
@@ -116,47 +127,72 @@ public class AccountFragment extends Fragment {
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Firebase sign out
-                if (Auth.GoogleSignInApi != null) {
-                    // Google sign out
-                    mGoogleClient = new GoogleApiClient.Builder(getContext())
-                            .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                                @Override
-                                public void onConnected(@Nullable Bundle bundle) {
-                                    //SIGN OUT HERE
-                                    Auth.GoogleSignInApi.signOut(mGoogleClient).setResultCallback(
-                                            new ResultCallback<Status>() {
-                                                @Override
-                                                public void onResult(Status status) {
-                                                    Auth.GoogleSignInApi.revokeAccess(mGoogleClient).setResultCallback(
-                                                            new ResultCallback<Status>() {
-                                                                @Override
-                                                                public void onResult(@NonNull Status status) {
 
-                                                                    sendToStart();
-                                                                    mAuth.signOut();
 
-                                                                }
-                                                            });
-                                                }
-                                            });
-                                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Apakah anda yakin untuk logout ?");
+                builder.setCancelable(false);
+                builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                                @Override
-                                public void onConnectionSuspended(int i) {/*ignored*/}
-                            })
-                            .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                                @Override
-                                public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                                /*ignored*/
-                                }
-                            })
-                            .addApi(Auth.GOOGLE_SIGN_IN_API) //IMPORTANT!!!
-                            .build();
+                        dialogInterface.cancel();
 
-                    mGoogleClient.connect();
+                    }
+                });
+                builder.setPositiveButton("Ya!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                }
+                        // Firebase sign out
+                        if (Auth.GoogleSignInApi != null) {
+                            // Google sign out
+                            mGoogleClient = new GoogleApiClient.Builder(getContext())
+                                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                                        @Override
+                                        public void onConnected(@Nullable Bundle bundle) {
+                                            //SIGN OUT HERE
+                                            Auth.GoogleSignInApi.signOut(mGoogleClient).setResultCallback(
+                                                    new ResultCallback<Status>() {
+                                                        @Override
+                                                        public void onResult(Status status) {
+                                                            Auth.GoogleSignInApi.revokeAccess(mGoogleClient).setResultCallback(
+                                                                    new ResultCallback<Status>() {
+                                                                        @Override
+                                                                        public void onResult(@NonNull Status status) {
+
+                                                                            sendToStart();
+                                                                            mAuth.signOut();
+
+                                                                        }
+                                                                    });
+                                                        }
+                                                    });
+                                        }
+
+                                        @Override
+                                        public void onConnectionSuspended(int i) {/*ignored*/}
+                                    })
+                                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                                        @Override
+                                        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                                            /*ignored*/
+                                        }
+                                    })
+                                    .addApi(Auth.GOOGLE_SIGN_IN_API) //IMPORTANT!!!
+                                    .build();
+
+                            mGoogleClient.connect();
+
+                        }
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
+
             }
         });
 

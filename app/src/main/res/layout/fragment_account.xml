@@ -7,68 +7,115 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <ImageButton
-        android:id="@+id/account_admin_imagebutton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/baseline_power_settings_new_24"
-        android:background="@color/colorWhite"
-        android:visibility="invisible"
-        android:text="Logout" />
 
     <RelativeLayout
         android:id="@+id/account_layout_round"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentTop="true"
+        android:background="@color/colorPrimaryDark"
         >
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/account_imageview"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/avatar"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/account_imageview"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/avatar"
+                android:layout_centerVertical="true"
+                android:background="@drawable/roundborder"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                />
 
-            android:padding="4dp"
-            android:background="@drawable/roundborder"
-            />
+            <TextView
+                android:id="@+id/account_text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/colorWhite"
+                android:textSize="15dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/account_imageview"
+                android:layout_marginStart="10dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/account_imageview"
-            android:background="@color/colorPrimary">
-
-
-
-            <ImageButton
-                android:id="@+id/account_conv_imagebutton"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/baseline_message_white_36"
-                android:background="#803f51b5"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="Conv" />
-            <ImageButton
-                android:id="@+id/account_logout_imagebutton"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/baseline_power_settings_new_black_36"
-                android:background="#803f51b5"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="Admin" />
-
-        </LinearLayout>
 
     </RelativeLayout>
+
+    <View
+        android:id="@+id/account_line"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#80000000"
+        android:layout_below="@id/account_layout_round"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="18dp"
+        />
+
+    <Button
+        android:id="@+id/account_conv_imagebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:drawableStart="@drawable/baseline_message_black_36"
+        android:paddingStart="20dp"
+        android:layout_below="@id/account_line"
+        android:layout_alignStart="@id/account_line"
+        android:layout_alignEnd="@id/account_line"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#fff"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:text="Pesan" />
+    <Button
+        android:id="@+id/account_logout_imagebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:drawableStart="@drawable/baseline_power_settings_new_black_36"
+        android:layout_above="@id/account_line_bottom"
+        android:layout_alignStart="@id/account_line_bottom"
+        android:layout_alignEnd="@id/account_line_bottom"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingStart="20dp"
+        android:background="#fff"
+        android:text="Logout" />
+
+    <Button
+        android:id="@+id/account_admin_imagebutton"
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:layout_alignEnd="@id/account_line"
+        android:layout_alignStart="@id/account_line"
+        android:layout_below="@id/account_conv_imagebutton"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="20dp"
+        android:drawableStart="@drawable/baseline_video_label_black_36"
+        android:background="#fff"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:text="Pengelola"
+        android:visibility="invisible"
+        android:textAllCaps="false"
+        />
+
+    <View
+        android:id="@+id/account_line_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#80000000"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginBottom="18dp"
+        />
 
 
 

@@ -1,5 +1,6 @@
 package com.kadek.tripgo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -38,8 +39,15 @@ public class QrActivity extends AppCompatActivity implements ZXingScannerView.Re
     @Override
     public void handleResult(Result result) {
 
-        Toast.makeText(getApplicationContext(),result.getText(), Toast.LENGTH_SHORT).show();
-        zXingScannerView.resumeCameraPreview(this);
+        Intent detailIntent = new Intent(QrActivity.this, DetailActivity.class);
+        detailIntent.putExtra("placeUid", String.valueOf(result));
+        startActivity(detailIntent);
+        detailIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+
+
+        //Toast.makeText(getApplicationContext(),result.getText(), Toast.LENGTH_SHORT).show();
+        //zXingScannerView.resumeCameraPreview(this);
 
     }
 }

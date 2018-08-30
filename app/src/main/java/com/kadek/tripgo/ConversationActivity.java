@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -131,7 +133,7 @@ public class ConversationActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         final String userName = dataSnapshot.child("name").getValue().toString();
-                        //String userThumb = dataSnapshot.child("thumb_image").getValue().toString();
+                        String userThumb = dataSnapshot.child("thumb_image").getValue().toString();
 
                         if(dataSnapshot.hasChild("online")) {
 
@@ -141,7 +143,7 @@ public class ConversationActivity extends AppCompatActivity {
                         }
 
                         convViewHolder.setName(userName);
-                        //convViewHolder.setUserImage(userThumb, this);
+                        convViewHolder.setUserImage(userThumb, ConversationActivity.this);
 
                         convViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -186,7 +188,7 @@ public class ConversationActivity extends AppCompatActivity {
         public void setMessage(String message, boolean isSeen){
 
             TextView userStatusView = (TextView) mView.findViewById(R.id.status_allusers);
-            userStatusView.setText(message.substring(0,100));
+            userStatusView.setText(message);
 
             if(!isSeen){
                 userStatusView.setTypeface(userStatusView.getTypeface(), Typeface.BOLD);
@@ -203,10 +205,21 @@ public class ConversationActivity extends AppCompatActivity {
 
         }
 
-        public void setUserImage(String thumb_image, Context ctx){
+        public void setUserImage(final String thumb_image, final Context ctx){
 
-            //CircleImageView userImageView = (CircleImageView) mView.findViewById(R.id.circle_image_alluser);
-            //Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.avatar_pic).into(userImageView);
+            final CircleImageView userImageView = (CircleImageView) mView.findViewById(R.id.circle_image_alluser);
+            Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.placeholder).into(userImageView, new Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError() {
+                    Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.placeholder).into(userImageView);
+
+                }
+            });
 
         }
 

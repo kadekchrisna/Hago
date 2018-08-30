@@ -263,4 +263,13 @@ public class EventActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent backIntent = new Intent(EventActivity.this, AdminActivity.class);
+        startActivity(backIntent);
+        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+    }
 }
