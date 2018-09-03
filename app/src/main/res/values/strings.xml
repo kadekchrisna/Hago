@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TripGo</string>
     <string name="Email">Please confirm your email and press the Refresh Button.</string>
-    <string name="nav_home">Home</string>
+    <string name="nav_home">Tourism</string>
     <string name="nav_notif">Event</string>
     <string name="nav_account">Account</string>
 
@@ -44,6 +44,6 @@
     <string name="explore">Go Explore!</string>
     <string name="event_berakhir">Event Berakhir</string>
     <string name="event_mulai">Event Mulai</string>
-    <string name="checkbox_event">Centang untuk mengaitkan ke tempat Pariwisata</string>
+    <string name="checkbox_event">Centang untuk mengaitkan ke tempat Wisata</string>
 
 </resources>

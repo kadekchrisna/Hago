@@ -52,7 +52,6 @@ public class ConversationActivity extends AppCompatActivity {
 
             setSupportActionBar(mToolbar);
             getSupportActionBar().setTitle("Percakapan");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mConvList = (RecyclerView) findViewById(R.id.conv_list);
         mAuth = FirebaseAuth.getInstance();

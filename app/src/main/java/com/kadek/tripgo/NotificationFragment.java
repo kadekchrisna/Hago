@@ -80,7 +80,7 @@ public class NotificationFragment extends Fragment {
                 final String event_id = getRef(i).getKey();
 
                 viewHolder.setName(event.getName());
-                viewHolder.setDescription(event.getDescription());
+                viewHolder.setDescription(event.getEvent_start());
                 viewHolder.setThumb_image(event.getEvent_thumb_image(), getContext());
 
 
@@ -122,7 +122,7 @@ public class NotificationFragment extends Fragment {
         }
         public void setDescription(String description) {
             TextView mEventDescription = (TextView) mView.findViewById(R.id.event_litle_description);
-            mEventDescription.setText(description.substring(0,10));
+            mEventDescription.setText("Tanggal: "+description);
         }
 
 

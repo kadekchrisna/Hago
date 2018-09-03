@@ -46,10 +46,10 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="#fff"
+                android:background="@drawable/bahari"
                 android:layout_weight="1"
                 android:textAllCaps="false"
-                android:text="Bahari" />
+                android:text="Wisata Bahari" />
             <Button
                 android:id="@+id/home_button_budaya"
                 android:layout_width="match_parent"
@@ -58,10 +58,10 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="#fff"
+                android:background="@drawable/culture"
                 android:layout_weight="1"
                 android:textAllCaps="false"
-                android:text="Budaya" />
+                android:text="Wisata Budaya" />
 
 
         </LinearLayout>
@@ -81,10 +81,10 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="#fff"
+                android:background="@drawable/nature"
                 android:layout_weight="1"
                 android:textAllCaps="false"
-                android:text="Cagaralam" />
+                android:text="Wisata Alam" />
             <Button
                 android:id="@+id/home_button_agrowisata"
                 android:layout_width="match_parent"
@@ -93,10 +93,10 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="#fff"
+                android:background="@drawable/artificial"
                 android:layout_weight="1"
                 android:textAllCaps="false"
-                android:text="Argowisata" />
+                android:text="Wisata Buatan" />
 
         </LinearLayout>
     </RelativeLayout>
