@@ -28,28 +28,45 @@
 
             <TextView
                 android:id="@+id/event_detail_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/event_detail_image"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:text="Event Name"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/event_button_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_location_on_black_48"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorWhite"
+                android:layout_below="@id/event_detail_image"
+                android:layout_alignEnd="@id/event_detail_info"
+                android:visibility="invisible"
+                />
+
             <TextView
                 android:id="@+id/event_detail_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/event_detail_name"
+                android:layout_below="@id/event_linear"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="30dp"
+                android:textAlignment="gravity"
                 android:text="Here's the description"/>
 
             <TextView
                 android:id="@+id/event_detail_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/event_detail_description"
+                android:layout_below="@id/event_button_go"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -61,11 +78,13 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/event_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/event_detail_info"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginBottom="6dp"
                 android:background="@drawable/border"
                 android:padding="10sp"
                 android:orientation="vertical">

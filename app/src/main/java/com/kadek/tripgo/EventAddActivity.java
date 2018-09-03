@@ -13,19 +13,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -36,9 +43,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -52,17 +61,22 @@ public class EventAddActivity extends AppCompatActivity {
     private TextInputLayout mEventName, mEventDescription;
     private Button mSave;
     private ImageButton mEventImage;
+    private Spinner mDropdown;
+    private CheckBox mCheckbox;
+    private List<String> list = new ArrayList<String>();
+    private Map map = new HashMap();
+    private Map eventMap = new HashMap();
 
     private int GALLERY_PICK;
 
-    private DatabaseReference mEventDatabase, mEventOwnerDatabase;
+    private DatabaseReference mEventDatabase, mEventOwnerDatabase, mUserPlaceDatabase, mPlaceDatabase;
     private ProgressDialog mProgressDialog;
     private StorageReference mImageStorage, mImageDelete;
 
     private FirebaseUser currentUser;
 
     private Boolean clicked = false;
-    private String downloadUrl, thumb_downloadUrl;
+    private String downloadUrl, thumb_downloadUrl, mIdPlace, mCategory, mNamePlace;
     private EditText mStart, mEnd;
     private Calendar myCalendar, myCalendarEnd;
 
@@ -73,6 +87,10 @@ public class EventAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
 
+
+        list.add(0, "Pilih Tempat Wisata");
+
+
         myCalendar = Calendar.getInstance();
         myCalendarEnd = Calendar.getInstance();
 
@@ -81,6 +99,8 @@ public class EventAddActivity extends AppCompatActivity {
         mEventDescription = (TextInputLayout) findViewById(R.id.event_input_description);
         mEventImage = (ImageButton) findViewById(R.id.event_imagebutton1);
         mSave = (Button) findViewById(R.id.event_button_save);
+        mCheckbox = (CheckBox) findViewById(R.id.event_checkbox);
+        mDropdown = (Spinner) findViewById(R.id.event_spinner_input);
 
         mStart = (EditText) findViewById(R.id.event_date_start);
         mEnd = (EditText) findViewById(R.id.event_date_end);
@@ -94,8 +114,61 @@ public class EventAddActivity extends AppCompatActivity {
 
         mEventDatabase = FirebaseDatabase.getInstance().getReference().child("Event").child(eventUid);
         mEventOwnerDatabase = FirebaseDatabase.getInstance().getReference().child("EventOwner").child(currentUid).child(eventUid);
+        mUserPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Owner").child(currentUid);
+        mPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Places");
 
         mImageStorage = FirebaseStorage.getInstance().getReference();
+
+
+
+        mUserPlaceDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                final int place_id = (int) dataSnapshot.getChildrenCount();
+
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+
+                    mPlaceDatabase.child(child.getKey()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                            if (dataSnapshot.exists()){
+
+                                String name = dataSnapshot.child("name").getValue().toString();
+                                String mPlace = dataSnapshot.getKey().toString();
+                                list.add(name);
+                                map.put(name, mPlace);
+
+
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+                }
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -144,13 +217,55 @@ public class EventAddActivity extends AppCompatActivity {
         });
 
 
+        mCheckbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (mCheckbox.isChecked()){
+
+                    mDropdown.setVisibility(View.VISIBLE);
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(EventAddActivity.this,
+                            android.R.layout.simple_spinner_dropdown_item, list);
+                    dataAdapter.notifyDataSetChanged();
+                    mDropdown.setAdapter(dataAdapter);
+                    mDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            mCategory = adapterView.getItemAtPosition(i).toString();
+                            mNamePlace = mCategory;
+                            if (map.containsKey(mCategory)){
+
+                                Object key = map.get(mCategory);
+                                mIdPlace = String.valueOf(key);
+                                eventMap.put("idplace", mIdPlace);
+                                Toast.makeText(EventAddActivity.this, ""+key, Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                }else {
+                    mDropdown.setVisibility(View.GONE);
+                }
+
+            }
+        });
+
+
+
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (mEventName.getEditText().getText().toString().isEmpty() || mEventDescription.getEditText().getText().toString().isEmpty() ||
                         mStart.getText().toString().isEmpty() || mEnd.getText().toString().isEmpty() || thumb_downloadUrl.isEmpty() ||
-                        mEventDescription.getEditText().getText().toString().length() < 40){
+                        mEventDescription.getEditText().getText().toString().length() < 40 || (mCheckbox.isChecked() && mCategory.equals("Pilih Tempat Wisata")) ){
                     Toast.makeText(EventAddActivity.this, "Tolong lengkapi dan check from kembali. ", Toast.LENGTH_SHORT).show();
                 }else {
 
@@ -165,7 +280,7 @@ public class EventAddActivity extends AppCompatActivity {
                     String start = mStart.getText().toString();
                     String end = mEnd.getText().toString();
 
-                    Map eventMap = new HashMap();
+
                     eventMap.put("name", name);
                     eventMap.put("description", description);
                     eventMap.put("event_start", start);
@@ -430,4 +545,6 @@ public class EventAddActivity extends AppCompatActivity {
         alertDialog.show();
 
     }
+
+
 }

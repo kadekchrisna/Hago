@@ -44,5 +44,6 @@
     <string name="explore">Go Explore!</string>
     <string name="event_berakhir">Event Berakhir</string>
     <string name="event_mulai">Event Mulai</string>
+    <string name="checkbox_event">Centang untuk mengaitkan ke tempat Pariwisata</string>
 
 </resources>

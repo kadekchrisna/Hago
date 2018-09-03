@@ -1,8 +1,11 @@
 package com.kadek.tripgo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ public class EventDetailActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ImageView mMainImage;
     private TextView mNameEvent, mDescEvent, mEventStartText, mEventEndText;
+    private ImageButton mGo;
 
     private DatabaseReference mEventDatabase;
 
@@ -36,6 +40,7 @@ public class EventDetailActivity extends AppCompatActivity {
         mDescEvent = (TextView) findViewById(R.id.event_detail_description);
         mEventStartText = (TextView) findViewById(R.id.event_detail_mulai);
         mEventEndText = (TextView) findViewById(R.id.event_detail_akhir);
+        mGo = (ImageButton) findViewById(R.id.event_button_go);
 
 
 
@@ -60,6 +65,26 @@ public class EventDetailActivity extends AppCompatActivity {
                     mEventEnd = dataSnapshot.child("event_end").getValue().toString();
                     mEventStart = dataSnapshot.child("event_start").getValue().toString();
                     mEventImage = dataSnapshot.child("event_image").getValue().toString();
+
+
+                    if (dataSnapshot.hasChild("idplace")){
+
+                        mGo.setVisibility(View.VISIBLE);
+                        final String placeUid = dataSnapshot.child("idplace").getValue().toString();
+
+                        mGo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                Intent detailIntent = new Intent(EventDetailActivity.this, DetailActivity.class);
+                                detailIntent.putExtra("placeUid", placeUid);
+                                startActivity(detailIntent);
+                                detailIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                finish();
+                            }
+                        });
+
+                    }
 
 
                     getSupportActionBar().setTitle(mName);
