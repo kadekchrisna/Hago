@@ -157,6 +157,13 @@ public class ConversationActivity extends AppCompatActivity {
                             }
                         });
 
+                        convViewHolder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                return false;
+                            }
+                        });
+
 
                     }
 

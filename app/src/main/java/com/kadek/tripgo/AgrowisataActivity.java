@@ -60,7 +60,7 @@ public class AgrowisataActivity extends AppCompatActivity {
                 Places.class,
                 R.layout.place_single_layout,
                 BahariActivity.PlacesViewHolder.class,
-                mAgrowisataDatabase.orderByChild("category").equalTo("Agrowisata")
+                mAgrowisataDatabase.orderByChild("category").equalTo("Buatan")
 
         ) {
             @Override

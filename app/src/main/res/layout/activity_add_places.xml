@@ -24,7 +24,7 @@
                 android:id="@+id/add_button_addlatong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
+                android:layout_alignStart="@id/add_imagebutton4"
                 android:layout_marginTop="23dp"
                 android:text="@string/koordinat_tempat"
                 android:layout_below="@id/add_imagebutton4"
@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:layout_marginStart="18dp"
+                android:visibility="gone"
                 android:text="TextView"
                 android:layout_below="@id/add_imagebutton4"
                 />

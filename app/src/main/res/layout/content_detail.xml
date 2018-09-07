@@ -43,6 +43,8 @@
                     android:id="@+id/detail_image1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"
                     android:maxHeight="280dp"
                     android:minHeight="280dp"
                     android:src="@drawable/placeholder" />
@@ -51,6 +53,8 @@
                     android:id="@+id/detail_image2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"
                     android:maxHeight="280dp"
                     android:minHeight="280dp"
                     android:src="@drawable/placeholder" />
@@ -59,6 +63,8 @@
                     android:id="@+id/detail_image3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"
                     android:maxHeight="280dp"
                     android:minHeight="280dp"
                     android:src="@drawable/placeholder" />
@@ -67,6 +73,8 @@
                     android:id="@+id/detail_image4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"
                     android:maxHeight="280dp"
                     android:minHeight="280dp"
                     android:src="@drawable/placeholder" />
@@ -81,8 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/detail_image_slider"
-            android:layout_marginBottom="20dp"
-            >
+            android:layout_marginBottom="20dp">
 
             <ImageButton
                 android:id="@+id/detail_imgbutton_phone"
@@ -92,7 +99,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:src="@drawable/baseline_phone_24"
+                android:src="@drawable/baseline_phone_white_36"
+                android:layout_weight="1"
                 android:text="Button" />
 
             <ImageButton
@@ -100,10 +108,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/detail_text_description"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:src="@drawable/baseline_message_24"
+                android:src="@drawable/baseline_message_white_36"
+                android:layout_weight="1"
                 android:text="Button" />
 
         </LinearLayout>
@@ -115,8 +124,9 @@
             android:layout_below="@+id/detail_linear_button"
             android:layout_margin="@dimen/text_margin"
             android:text="@string/large_text"
-             />
+            android:gravity="center_horizontal"
 
+             />
         <Button
             android:id="@+id/detail_button_go"
             android:layout_width="130dp"

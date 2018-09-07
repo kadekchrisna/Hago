@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -49,7 +50,7 @@ import static android.widget.ImageView.ScaleType.FIT_XY;
 public class DetailActivity extends AppCompatActivity {
 
     private String name, phone, youtubeId, ownerId, userId, mLink, mPrice, mLinkImage, mName, mPlace;
-    private TextView mNamePlace;
+    private TextView mNamePlace, mDescPlace;
     private Button mGoButton;
     private Double mLongitude, mLatitude;
     private ImageView mImageView1, mImageView2, mImageView3, mImageView4, mImageVid;
@@ -88,6 +89,7 @@ public class DetailActivity extends AppCompatActivity {
         mPhoneDialer = (ImageButton) findViewById(R.id.detail_imgbutton_phone);
         mChat = (ImageButton) findViewById(R.id.detail_imgbutton_chat);
         mYoutubePlayer = (ImageButton) findViewById(R.id.detail_image_playvid);
+        mDescPlace = (TextView) findViewById(R.id.detail_text_description);
 
 
         mProductRecView = (RecyclerView) findViewById(R.id.product_list_detail);
@@ -160,6 +162,7 @@ public class DetailActivity extends AppCompatActivity {
                                 mLatitude = Double.parseDouble(latitude);
 
                                 mNamePlace.setText(name);
+                                mDescPlace.setText(description);
 
                                 mImageView1.setScaleType(FIT_XY);
                                 Picasso.with(DetailActivity.this).load(thumb_downloadUrl).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.placeholder).into(mImageView1, new Callback() {

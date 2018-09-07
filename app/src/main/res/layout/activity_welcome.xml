@@ -7,16 +7,27 @@
     tools:context="com.kadek.tripgo.WelcomeActivity">
 
 
+    <ImageView
+        android:id="@+id/image_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/tripgo"/>
+
+
+
     <TextView
         android:id="@+id/welcome_textview"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="390dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
+        android:layout_below="@id/image_welcome"
         android:text="Welcome To TripGo"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
         android:textSize="24sp" />
 
     <com.google.android.gms.common.SignInButton
@@ -26,7 +37,8 @@
         android:layout_marginEnd="68dp"
         android:layout_marginStart="68dp"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/welcome_textview"
+        android:layout_marginBottom="60dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@id/welcome_textview"
         android:layout_alignRight="@id/welcome_textview"
 

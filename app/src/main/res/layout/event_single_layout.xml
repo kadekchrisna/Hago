@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="102dp"
         android:text="Judul Event"
         android:textSize="20sp"
@@ -36,10 +36,16 @@
     <ImageView
         android:id="@+id/event_image_preview"
         android:layout_width="70dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="-74dp"
-        android:layout_marginTop="8dp"
-        android:layout_toRightOf="@id/event_single_name"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@id/event_litle_description"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="2dp"
+        android:padding="1dp"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
         app:srcCompat="@drawable/placeholder" />
 
 

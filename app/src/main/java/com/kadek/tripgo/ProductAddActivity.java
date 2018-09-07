@@ -212,12 +212,12 @@ public class ProductAddActivity extends AppCompatActivity {
             try {
 
                 document = Jsoup.connect(mTrueLink).get();
-                Elements newsHeadlines = document.select(".c-product-image-gallery__image");
-                Elements mPName = document.select(".c-product-detail__name");
-                Elements mPPrice = document.select(".c-product-detail-price");
+                Elements newsHeadlines = document.select("source[srcset]");
+                Elements mPName = document.select(".product-detailed__name");
+                Elements mPPrice = document.select(".product-detailed-price");
                 pName = mPName.tagName("h1").text().toString();
                 pPrice = mPPrice.attr("data-reduced-price").toString();
-                pLink = newsHeadlines.attr("href").toString();
+                pLink = newsHeadlines.attr("srcset").toString();
 
             } catch (IOException e) {
                 e.printStackTrace();

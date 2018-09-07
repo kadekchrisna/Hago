@@ -9,8 +9,10 @@
         android:id="@+id/product_owner_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignParentStart="true"
+        android:layout_marginTop="4dp"
+        android:layout_alignTop="@id/product_owner_name"
         android:layout_alignParentTop="true"
+        android:padding="6dp"
         android:layout_alignBottom="@id/product_owner_place"
         android:src="@drawable/placeholder"/>
 
@@ -45,7 +47,7 @@
         android:layout_below="@+id/product_owner_price"
         android:layout_alignStart="@id/product_owner_price"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="6dp"
         android:text="Place"
         android:textSize="15dp"
 
