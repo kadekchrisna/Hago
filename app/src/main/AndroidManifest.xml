@@ -24,9 +24,9 @@
         android:allowBackup="true"
         android:icon="@drawable/tripgo"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@drawable/tripgo"
         android:supportsRtl="true"
-        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <service android:name=".FirebaseMessagingService">
             <intent-filter>
@@ -77,7 +77,8 @@
             android:name=".DetailActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".YoutubeActivity" />
-        <activity android:name=".ChatActivity">
+        <activity android:name=".ChatActivity"
+            android:parentActivityName=".ConversationActivity">
             <intent-filter>
                 <action android:name="com.kadek.tripgo_TARGET_NOTIFICATION" />
 
@@ -85,16 +86,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".ConversationActivity" />
-        <activity android:name=".EventAddActivity"
-            android:parentActivityName=".EventActivity"/>
-        <activity android:name=".EventActivity"
-            android:parentActivityName=".AdminActivity"/>
+        <activity
+            android:name=".EventAddActivity"
+            android:parentActivityName=".EventActivity" />
+        <activity
+            android:name=".EventActivity"
+            android:parentActivityName=".AdminActivity" />
         <activity android:name=".EventDetailActivity" />
         <activity android:name=".QrActivity" />
-        <activity android:name=".ProductActivity"
-            android:parentActivityName=".AdminActivity"/>
-        <activity android:name=".ProductAddActivity"
-            android:parentActivityName=".ProductActivity"/>
+        <activity
+            android:name=".ProductActivity"
+            android:parentActivityName=".AdminActivity" />
+        <activity
+            android:name=".ProductAddActivity"
+            android:parentActivityName=".ProductActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -102,14 +107,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminActivity"
+        <activity
+            android:name=".AdminActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".BudayaActivity"
+        <activity
+            android:name=".BudayaActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".CagaralamActivity"
+        <activity
+            android:name=".CagaralamActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".AgrowisataActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".AgrowisataActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_notif:
-                        mMainNav.setItemBackgroundResource(R.color.black);
+                        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
                         setFragment(notificationFragment);
                         return true;
 

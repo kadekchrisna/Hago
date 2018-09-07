@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -150,6 +151,20 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+        mChatMessageView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (i == KeyEvent.KEYCODE_ENTER)) {
+
+                    sendMessage();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         mChatSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

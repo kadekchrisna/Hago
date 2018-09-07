@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class HomeFragment extends Fragment {
 
     private Button mBahariButton, mQrButton, mAgrowisataButton, mCagaralamButton, mBudayaButton;
+    private Button mSearchButton;
     private View mViewHome;
 
     private FirebaseAuth mAuth;
@@ -40,6 +42,7 @@ public class HomeFragment extends Fragment {
         mAgrowisataButton = (Button) mViewHome.findViewById(R.id.home_button_agrowisata);
         mCagaralamButton = (Button) mViewHome.findViewById(R.id.home_button_cagaralam);
         mQrButton = (Button) mViewHome.findViewById(R.id.home_button_qr);
+        mSearchButton = (Button) mViewHome.findViewById(R.id.home_button_search);
 
         mBahariButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +85,15 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent qrIntent = new Intent(getContext(), QrActivity.class);
                 startActivity(qrIntent);
+            }
+        });
+
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent searchIntent = new Intent(getContext(), SearchActivity.class);
+                startActivity(searchIntent);
             }
         });
 
