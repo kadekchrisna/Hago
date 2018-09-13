@@ -56,6 +56,7 @@ public class ConversationActivity extends AppCompatActivity {
         mConvList = (RecyclerView) findViewById(R.id.conv_list);
         mAuth = FirebaseAuth.getInstance();
 
+
         mCurrent_user_id = mAuth.getCurrentUser().getUid();
         mConvDatabase = FirebaseDatabase.getInstance().getReference().child("Chat").child(mCurrent_user_id);
         mConvDatabase.keepSynced(true);
@@ -79,6 +80,8 @@ public class ConversationActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        final GetTimeAgo timeAgo = new GetTimeAgo();
+
         Query conversationQuery = mConvDatabase.orderByChild("timestamp");
 
         FirebaseRecyclerAdapter<Conv, ConvViewHolder> firebaseConvAdapter = new FirebaseRecyclerAdapter<Conv, ConvViewHolder>(
@@ -101,7 +104,11 @@ public class ConversationActivity extends AppCompatActivity {
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                         String data = dataSnapshot.child("message").getValue().toString();
+                        String time = dataSnapshot.child("time").getValue().toString();
+                        Long timestamp = Long.parseLong(time);
+                        String lasttime = timeAgo.getTimeAgo(timestamp, getApplicationContext());
                         convViewHolder.setMessage(data, conv.isSeen());
+                        convViewHolder.setDate(lasttime);
 
                     }
 
@@ -209,6 +216,13 @@ public class ConversationActivity extends AppCompatActivity {
             TextView userNameView = (TextView) mView.findViewById(R.id.name_allusers);
             userNameView.setText(name);
 
+        }
+
+        public void setDate(String date){
+
+            TextView userDate = (TextView) mView.findViewById(R.id.date_allusers);
+            userDate.setVisibility(View.VISIBLE);
+            userDate.setText(date);
         }
 
         public void setUserImage(final String thumb_image, final Context ctx){

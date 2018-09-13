@@ -162,10 +162,34 @@ public class AddPlacesActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        Intent backIntent = new Intent(AddPlacesActivity.this, PlaceActivity.class);
-                        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(backIntent);
-                        finish();
+                        mProgressDialog = new ProgressDialog(AddPlacesActivity.this);
+                        mProgressDialog.setTitle("Clearing Form");
+                        mProgressDialog.setMessage("Please Wait...");
+                        mProgressDialog.setCanceledOnTouchOutside(false);
+                        mProgressDialog.show();
+
+
+                        if(!thumb_downloadUrl.isEmpty() || !thumb_downloadUrl2.isEmpty() ||
+                                !thumb_downloadUrl3.isEmpty() || !thumb_downloadUrl4.isEmpty()){
+
+                            mPlacesDatabase.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if (task.isSuccessful()){
+
+                                        mProgressDialog.dismiss();
+                                        Intent backIntent = new Intent(AddPlacesActivity.this, PlaceActivity.class);
+                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(backIntent);
+                                        finish();
+                                    }
+
+                                }
+                            });
+
+                        }
+
 
                     }
                 });
@@ -882,10 +906,33 @@ public class AddPlacesActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                Intent backIntent = new Intent(AddPlacesActivity.this, PlaceActivity.class);
-                backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(backIntent);
-                finish();
+                mProgressDialog = new ProgressDialog(AddPlacesActivity.this);
+                mProgressDialog.setTitle("Clearing Form");
+                mProgressDialog.setMessage("Please Wait...");
+                mProgressDialog.setCanceledOnTouchOutside(false);
+                mProgressDialog.show();
+
+
+                if(!thumb_downloadUrl.isEmpty() || !thumb_downloadUrl2.isEmpty() ||
+                        !thumb_downloadUrl3.isEmpty() || !thumb_downloadUrl4.isEmpty()){
+
+                    mPlacesDatabase.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (task.isSuccessful()){
+
+                                mProgressDialog.dismiss();
+                                Intent backIntent = new Intent(AddPlacesActivity.this, PlaceActivity.class);
+                                backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(backIntent);
+                                finish();
+                            }
+
+                        }
+                    });
+
+                }
 
             }
         });

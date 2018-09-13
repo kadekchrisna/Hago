@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
 
-            Toast.makeText(this, "User Verified", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "User Verified", Toast.LENGTH_SHORT).show();
 
             /*if (currentUser.isEmailVerified() == true){
 

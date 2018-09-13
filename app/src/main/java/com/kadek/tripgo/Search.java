@@ -3,7 +3,20 @@ package com.kadek.tripgo;
 public class Search {
 
 
-    public String name, description, image;
+    public String name, description, image, price;
+
+    public Search(String price) {
+        this.price = price;
+    }
+
+    public String getPrice() {
+
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public Search() {
     }

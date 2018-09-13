@@ -23,6 +23,9 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class SearchActivity extends AppCompatActivity {
 
     private EditText mInputSearch;
@@ -99,7 +102,7 @@ public class SearchActivity extends AppCompatActivity {
             protected void populateViewHolder(SearchViewHolder viewHolder, Search model, int position) {
 
 
-                viewHolder.setDetails(getApplicationContext(), model.getName(), model.getDescription(), model.getImage());
+                viewHolder.setDetails(getApplicationContext(), model.getName(), model.getPrice(), model.getImage());
 
                 final String placeUid = getRef(position).getKey();
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -134,14 +137,18 @@ public class SearchActivity extends AppCompatActivity {
         }
 
 
-        public void setDetails(final Context ctx, String name, String desc, final String image){
+        public void setDetails(final Context ctx, String name, String price, final String image){
 
             TextView nameP = (TextView) mView.findViewById(R.id.place_name);
             TextView descP = (TextView) mView.findViewById(R.id.place_price);
             final ImageView imageP = (ImageView) mView.findViewById(R.id.place_image);
 
+
+            int mPrice = Integer.parseInt(price);
+            price = NumberFormat.getNumberInstance(Locale.US).format(mPrice);
+
             nameP.setText(name);
-            descP.setText(desc);
+            descP.setText("Mulai dari Rp"+price);
 
             Picasso.with(ctx).load(image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.placeholder).into(imageP, new Callback() {
                 @Override

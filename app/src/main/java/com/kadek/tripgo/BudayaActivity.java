@@ -68,6 +68,7 @@ public class BudayaActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(BahariActivity.PlacesViewHolder viewHolder, Places model, int position) {
 
+
                 viewHolder.setName(model.getName());
                 viewHolder.setPrice(model.getPrice());
                 viewHolder.setThumb_image(model.getThumb_image(), getApplicationContext());
@@ -118,7 +119,7 @@ public class BudayaActivity extends AppCompatActivity {
 
             int mPrice = Integer.parseInt(price);
             price = NumberFormat.getNumberInstance(Locale.US).format(mPrice);
-            mPlaceStatus.setText("Rp"+price);
+            mPlaceStatus.setText("Mulai dari Rp"+price);
         }
 
 

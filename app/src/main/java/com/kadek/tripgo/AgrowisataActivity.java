@@ -116,7 +116,7 @@ public class AgrowisataActivity extends AppCompatActivity {
 
             int mPrice = Integer.parseInt(price);
             price = NumberFormat.getNumberInstance(Locale.US).format(mPrice);
-            mPlaceStatus.setText("Rp"+price);
+            mPlaceStatus.setText("Mulai dari Rp"+price);
         }
 
 

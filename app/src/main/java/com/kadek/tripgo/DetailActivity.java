@@ -4,9 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,7 +55,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private String name, phone, youtubeId, ownerId, userId, mLink, mPrice, mLinkImage, mName, mPlace;
     private TextView mNamePlace, mDescPlace;
-    private Button mGoButton;
+    private ImageButton mGoButton;
     private Double mLongitude, mLatitude;
     private ImageView mImageView1, mImageView2, mImageView3, mImageView4, mImageVid;
     private ImageButton mPhoneDialer, mChat, mYoutubePlayer;
@@ -80,7 +84,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
         mNamePlace = (TextView) findViewById(R.id.detail_text_name);
-        mGoButton = (Button) findViewById(R.id.detail_button_go);
+        mGoButton = (ImageButton) findViewById(R.id.detail_button_go);
         mImageView1 = (ImageView) findViewById(R.id.detail_image1);
         mImageView2 = (ImageView) findViewById(R.id.detail_image2);
         mImageView3 = (ImageView) findViewById(R.id.detail_image3);
@@ -113,6 +117,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (dataSnapshot.hasChild(mPlace)){
 
                     mPlaceDatabase.addValueEventListener(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -146,11 +151,11 @@ public class DetailActivity extends AppCompatActivity {
 
                                 if (ownerId.equals(userId)){
 
-                                    mChat.setVisibility(View.INVISIBLE);
+                                    mChat.setEnabled(false);
+
                                 }else {
 
                                     mChat.setVisibility(View.VISIBLE);
-
                                 }
 
 

@@ -22,7 +22,8 @@
             android:textSize="24dp"
             android:textStyle="bold"
             android:layout_marginTop="23dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginBottom="15dp"
             />
 
@@ -127,15 +128,19 @@
             android:gravity="center_horizontal"
 
              />
-        <Button
+        <ImageButton
             android:id="@+id/detail_button_go"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_width="68dp"
+            android:layout_height="60dp"
             android:layout_alignEnd="@+id/detail_text_description"
-            android:layout_below="@+id/detail_text_name"
+            android:layout_below="@id/detail_text_name"
+            android:layout_marginTop="2dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginEnd="22dp"
-            android:text="@string/explore"/>
+            android:layout_marginEnd="18dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/poinmap"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/product_list_detail"
