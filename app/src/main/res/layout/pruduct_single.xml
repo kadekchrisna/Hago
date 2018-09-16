@@ -40,12 +40,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/product_name_detail"
         android:layout_alignStart="@id/product_image_detail"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:text="Product Price"
         android:textSize="15dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="14dp"
+
+        />
+    <ImageView
+        android:id="@+id/product_logo_detail"
+        android:layout_width="30dp"
+        android:layout_height="28dp"
+        android:layout_alignTop="@id/product_price_detail"
+        android:layout_alignEnd="@id/product_name_detail"
+        android:src="@drawable/bukalapak"
 
         />
 

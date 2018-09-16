@@ -74,7 +74,7 @@ public class AddPlacesActivity extends AppCompatActivity {
     private Boolean clicked2 = false;
     private Boolean clicked3 = false;
     private Boolean clicked4 = false;
-    private String downloadUrl, thumb_downloadUrl, downloadUrl2, thumb_downloadUrl2, downloadUrl3, thumb_downloadUrl3, downloadUrl4, thumb_downloadUrl4;
+    private String downloadUrl, thumb_downloadUrl="", downloadUrl2, thumb_downloadUrl2="", downloadUrl3, thumb_downloadUrl3="", downloadUrl4, thumb_downloadUrl4="";
 
 
     @Override
@@ -187,6 +187,13 @@ public class AddPlacesActivity extends AppCompatActivity {
 
                                 }
                             });
+
+                        }else{
+                            mProgressDialog.dismiss();
+                            Intent backIntent = new Intent(AddPlacesActivity.this, PlaceActivity.class);
+                            backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(backIntent);
+                            finish();
 
                         }
 
@@ -931,6 +938,13 @@ public class AddPlacesActivity extends AppCompatActivity {
 
                         }
                     });
+
+                }else{
+                    mProgressDialog.dismiss();
+                    Intent backIntent = new Intent(AddPlacesActivity.this, PlaceActivity.class);
+                    backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(backIntent);
+                    finish();
 
                 }
 
