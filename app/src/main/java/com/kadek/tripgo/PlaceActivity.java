@@ -43,12 +43,12 @@ import java.util.Map;
 public class PlaceActivity extends AppCompatActivity {
 
     private FloatingActionButton mAddPlaceFloatButton;
-    private DatabaseReference mUserPlaceDatabase, mPlaceDatabase;
+    private DatabaseReference mUserPlaceDatabase, mPlaceDatabase, mRootPlaceDatabase;
     private StorageReference mImageDelete;
     private RecyclerView mUserPlaceList;
     private Toolbar mToolbar;
     private FirebaseUser mCurrentUser;
-    private String currentUid;
+    private String currentUid, mCat;
 
     private ProgressDialog mProgressDialog;
 
@@ -69,6 +69,7 @@ public class PlaceActivity extends AppCompatActivity {
         currentUid = mCurrentUser.getUid();
         mUserPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Owner").child(currentUid);
         mPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Places");
+        mRootPlaceDatabase = FirebaseDatabase.getInstance().getReference();
 
 
         mUserPlaceList = (RecyclerView) findViewById(R.id.user_place_list);
@@ -88,6 +89,14 @@ public class PlaceActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent backIntent = new Intent(PlaceActivity.this, AdminActivity.class);
+        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(backIntent);
+        finish();
     }
 
     @Override
@@ -120,6 +129,7 @@ public class PlaceActivity extends AppCompatActivity {
                             String price = dataSnapshot.child("price").getValue().toString();
                             String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
                             String image = dataSnapshot.child("image").getValue().toString();
+                            mCat = dataSnapshot.child("category").getValue().toString();
 
 
                             viewHolder.setName(name);
@@ -142,6 +152,7 @@ public class PlaceActivity extends AppCompatActivity {
                                             Intent editIntent = new Intent(PlaceActivity.this, EditPlacesActivity.class);
                                             editIntent.putExtra("place_id", place_id);
                                             startActivity(editIntent);
+                                            Toast.makeText(PlaceActivity.this, ""+mCat, Toast.LENGTH_SHORT).show();
 
                                         }
                                         if (i == 1){
@@ -151,74 +162,85 @@ public class PlaceActivity extends AppCompatActivity {
                                             mProgressDialog.setMessage("Please Wait...");
                                             mProgressDialog.show();
 
+
                                             mUserPlaceDatabase.child(place_id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 
                                                     if (task.isSuccessful()){
 
-                                                        mPlaceDatabase.child(place_id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        mRootPlaceDatabase.child(mCat).child(place_id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()){
 
-                                                                    final String image = dataSnapshot.child("image").getValue().toString();
-                                                                    final String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
-                                                                    final String image2 = dataSnapshot.child("image2").getValue().toString();
-                                                                    final String thumb_image2 = dataSnapshot.child("thumb_image2").getValue().toString();
-                                                                    final String image3 = dataSnapshot.child("image3").getValue().toString();
-                                                                    final String thumb_image3 = dataSnapshot.child("thumb_image3").getValue().toString();
-                                                                    final String image4 = dataSnapshot.child("image4").getValue().toString();
-                                                                    final String thumb_image4 = dataSnapshot.child("thumb_image4").getValue().toString();
-
-                                                                    mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(image);
-                                                                    mImageDelete.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    mPlaceDatabase.child(place_id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task) {
-
                                                                             if (task.isSuccessful()){
 
-                                                                                mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(thumb_image);
+                                                                                final String image = dataSnapshot.child("image").getValue().toString();
+                                                                                final String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
+                                                                                final String image2 = dataSnapshot.child("image2").getValue().toString();
+                                                                                final String thumb_image2 = dataSnapshot.child("thumb_image2").getValue().toString();
+                                                                                final String image3 = dataSnapshot.child("image3").getValue().toString();
+                                                                                final String thumb_image3 = dataSnapshot.child("thumb_image3").getValue().toString();
+                                                                                final String image4 = dataSnapshot.child("image4").getValue().toString();
+                                                                                final String thumb_image4 = dataSnapshot.child("thumb_image4").getValue().toString();
+
+                                                                                mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(image);
                                                                                 mImageDelete.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                     @Override
                                                                                     public void onComplete(@NonNull Task<Void> task) {
+
                                                                                         if (task.isSuccessful()){
 
-                                                                                            mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(image2);
+                                                                                            mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(thumb_image);
                                                                                             mImageDelete.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                 @Override
                                                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                                                     if (task.isSuccessful()){
 
-                                                                                                        mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(thumb_image2);
+                                                                                                        mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(image2);
                                                                                                         mImageDelete.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                             @Override
                                                                                                             public void onComplete(@NonNull Task<Void> task) {
-
                                                                                                                 if (task.isSuccessful()){
 
-                                                                                                                    mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(image3);
+                                                                                                                    mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(thumb_image2);
                                                                                                                     mImageDelete.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                                         @Override
                                                                                                                         public void onComplete(@NonNull Task<Void> task) {
 
                                                                                                                             if (task.isSuccessful()){
-                                                                                                                                mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(thumb_image3);
+
+                                                                                                                                mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(image3);
                                                                                                                                 mImageDelete.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                                                     @Override
                                                                                                                                     public void onComplete(@NonNull Task<Void> task) {
 
                                                                                                                                         if (task.isSuccessful()){
-                                                                                                                                            mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(image4);
+                                                                                                                                            mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(thumb_image3);
                                                                                                                                             mImageDelete.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                                                                 @Override
                                                                                                                                                 public void onComplete(@NonNull Task<Void> task) {
 
                                                                                                                                                     if (task.isSuccessful()){
+                                                                                                                                                        mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(image4);
+                                                                                                                                                        mImageDelete.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                                                                            @Override
+                                                                                                                                                            public void onComplete(@NonNull Task<Void> task) {
 
-                                                                                                                                                        mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(thumb_image4);
-                                                                                                                                                        mImageDelete.delete();
-                                                                                                                                                        mProgressDialog.dismiss();
+                                                                                                                                                                if (task.isSuccessful()){
+
+                                                                                                                                                                    mImageDelete = FirebaseStorage.getInstance().getReferenceFromUrl(thumb_image4);
+                                                                                                                                                                    mImageDelete.delete();
+                                                                                                                                                                    mProgressDialog.dismiss();
+
+                                                                                                                                                                }
+
+                                                                                                                                                            }
+                                                                                                                                                        });
 
                                                                                                                                                     }
 
@@ -236,32 +258,33 @@ public class PlaceActivity extends AppCompatActivity {
                                                                                                                     });
 
                                                                                                                 }
-
                                                                                                             }
                                                                                                         });
 
                                                                                                     }
                                                                                                 }
                                                                                             });
-
+                                                                                        }else {
+                                                                                            Toast.makeText(PlaceActivity.this, "Please check internet connection and try again. ", Toast.LENGTH_SHORT).show();
+                                                                                            mProgressDialog.hide();
                                                                                         }
+
                                                                                     }
                                                                                 });
-                                                                            }else {
-                                                                                Toast.makeText(PlaceActivity.this, "Please check internet connection and try again. ", Toast.LENGTH_SHORT).show();
-                                                                                mProgressDialog.hide();
-                                                                            }
 
+                                                                                Toast.makeText(PlaceActivity.this, "Success Deleteing", Toast.LENGTH_SHORT).show();
+
+                                                                            }else {
+                                                                                Toast.makeText(PlaceActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                                                            }
                                                                         }
                                                                     });
 
-                                                                    Toast.makeText(PlaceActivity.this, "Success Deleteing", Toast.LENGTH_SHORT).show();
-
-                                                                }else {
-                                                                    Toast.makeText(PlaceActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             }
                                                         });
+
+
                                                     }
 
                                                 }

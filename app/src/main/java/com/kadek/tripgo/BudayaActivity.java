@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,13 +44,41 @@ public class BudayaActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Budaya");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mBudayaDatabase = FirebaseDatabase.getInstance().getReference().child("Places");
+        mBudayaDatabase = FirebaseDatabase.getInstance().getReference().child("Budaya");
         mBudayaDatabase.keepSynced(true);
 
         mBudayaList = (RecyclerView) findViewById(R.id.budaya_list);
         mBudayaList.setHasFixedSize(true);
         mBudayaList.setLayoutManager(new LinearLayoutManager(this));
     }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.search_toolbar:
+                Intent detailIntent = new Intent(BudayaActivity.this, SearchCatActivity.class);
+                detailIntent.putExtra("type", "Budaya");
+                startActivity(detailIntent);
+                detailIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
 
@@ -62,7 +92,7 @@ public class BudayaActivity extends AppCompatActivity {
                 Places.class,
                 R.layout.place_single_layout,
                 BahariActivity.PlacesViewHolder.class,
-                mBudayaDatabase.orderByChild("category").equalTo("Budaya")
+                mBudayaDatabase.orderByChild("name")
 
         ) {
             @Override

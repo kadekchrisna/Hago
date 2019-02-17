@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
-    
+    tools:context=".SearchCatActivity">
+
+
     <LinearLayout
-        android:id="@+id/search_linear"
+        android:id="@+id/search_cat_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -15,7 +16,7 @@
 
 
         <EditText
-            android:id="@+id/inputSearch"
+            android:id="@+id/inputSearchCat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Search Here"
@@ -32,7 +33,7 @@
             />
 
         <ImageButton
-            android:id="@+id/butonSearch"
+            android:id="@+id/buttonSearchCat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_search_white_36"
@@ -46,14 +47,25 @@
 
 
     </LinearLayout>
-    
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_list"
-        android:layout_below="@+id/search_linear"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_cat_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_cat_linear">
+
+    </android.support.v7.widget.RecyclerView>h
+
+
+    <TextView
+        android:id="@+id/search_cat_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tempat Wisata Tidak Tersedia"
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"/>
 
 
 </RelativeLayout>

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,16 +39,44 @@ public class CagaralamActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.cagaralam_app_bar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Cagar Alam");
+        getSupportActionBar().setTitle("Alam");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mCagaralamDatabase = FirebaseDatabase.getInstance().getReference().child("Places");
+        mCagaralamDatabase = FirebaseDatabase.getInstance().getReference().child("Alam");
         mCagaralamDatabase.keepSynced(true);
 
         mCagaralamList = (RecyclerView) findViewById(R.id.cagaralam_list);
         mCagaralamList.setHasFixedSize(true);
         mCagaralamList.setLayoutManager(new LinearLayoutManager(this));
     }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.search_toolbar:
+                Intent detailIntent = new Intent(CagaralamActivity.this, SearchCatActivity.class);
+                detailIntent.putExtra("type", "Alam");
+                startActivity(detailIntent);
+                detailIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
 
@@ -59,7 +89,7 @@ public class CagaralamActivity extends AppCompatActivity {
                 Places.class,
                 R.layout.place_single_layout,
                 BahariActivity.PlacesViewHolder.class,
-                mCagaralamDatabase.orderByChild("category").equalTo("Cagar Alam")
+                mCagaralamDatabase.orderByChild("name")
 
         ) {
             @Override

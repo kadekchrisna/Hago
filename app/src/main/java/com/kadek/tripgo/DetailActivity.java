@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -58,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
     private ImageButton mGoButton;
     private Double mLongitude, mLatitude;
     private ImageView mImageView1, mImageView2, mImageView3, mImageView4, mImageVid;
-    private ImageButton mPhoneDialer, mChat, mYoutubePlayer;
+    private ImageButton mPhoneDialer, mChat, mYoutubePlayer, mAR;
     private RecyclerView mProductRecView;
     private RelativeLayout mRelative;
 
@@ -94,6 +95,7 @@ public class DetailActivity extends AppCompatActivity {
         mChat = (ImageButton) findViewById(R.id.detail_imgbutton_chat);
         mYoutubePlayer = (ImageButton) findViewById(R.id.detail_image_playvid);
         mDescPlace = (TextView) findViewById(R.id.detail_text_description);
+        mAR = (ImageButton) findViewById(R.id.detail_button_ar);
 
 
         mProductRecView = (RecyclerView) findViewById(R.id.product_list_detail);
@@ -156,6 +158,14 @@ public class DetailActivity extends AppCompatActivity {
                                 }else {
 
                                     mChat.setVisibility(View.VISIBLE);
+                                }
+
+
+
+                                if (name.equals("Pahawang")){
+
+                                    mAR.setVisibility(View.VISIBLE);
+
                                 }
 
 
@@ -301,6 +311,22 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        mAR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://ar.pahawangtravel.id/"));
+                startActivity(intent);
+
+
+            }
+        });
+
+
+
 
     }
 
@@ -343,6 +369,8 @@ public class DetailActivity extends AppCompatActivity {
                             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+
+
 
                                     Intent intent = new Intent();
                                     intent.setAction(Intent.ACTION_VIEW);

@@ -18,19 +18,18 @@
             android:id="@+id/detail_text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama Tempat"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            android:layout_marginTop="23dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="23dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="15dp"
-            />
+            android:text="Nama Tempat"
+            android:textSize="24dp"
+            android:textStyle="bold" />
 
         <HorizontalScrollView
+            android:id="@+id/detail_image_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/detail_image_slider"
             android:layout_below="@+id/detail_button_go">
 
 
@@ -44,40 +43,40 @@
                     android:id="@+id/detail_image1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerInside"
                     android:adjustViewBounds="true"
                     android:maxHeight="280dp"
                     android:minHeight="280dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/placeholder" />
 
                 <ImageView
                     android:id="@+id/detail_image2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerInside"
                     android:adjustViewBounds="true"
                     android:maxHeight="280dp"
                     android:minHeight="280dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/placeholder" />
 
                 <ImageView
                     android:id="@+id/detail_image3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerInside"
                     android:adjustViewBounds="true"
                     android:maxHeight="280dp"
                     android:minHeight="280dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/placeholder" />
 
                 <ImageView
                     android:id="@+id/detail_image4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerInside"
                     android:adjustViewBounds="true"
                     android:maxHeight="280dp"
                     android:minHeight="280dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/placeholder" />
 
 
@@ -99,9 +98,9 @@
                 android:layout_alignStart="@+id/detail_text_description"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/colorPrimary"
                 android:src="@drawable/baseline_phone_white_36"
-                android:layout_weight="1"
                 android:text="Button" />
 
             <ImageButton
@@ -109,11 +108,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/detail_text_description"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/colorPrimary"
                 android:src="@drawable/baseline_message_white_36"
-                android:layout_weight="1"
                 android:text="Button" />
 
         </LinearLayout>
@@ -124,23 +123,36 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/detail_linear_button"
             android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text"
             android:gravity="center_horizontal"
+            android:text="@string/large_text"
 
-             />
+            />
+
         <ImageButton
             android:id="@+id/detail_button_go"
             android:layout_width="68dp"
             android:layout_height="60dp"
-            android:layout_alignEnd="@+id/detail_text_description"
             android:layout_below="@id/detail_text_name"
+            android:layout_alignEnd="@+id/detail_text_description"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginEnd="18dp"
+            android:layout_marginBottom="20dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:src="@drawable/poinmap"
-            />
+            android:src="@drawable/poinmap" />
+        <ImageButton
+            android:id="@+id/detail_button_ar"
+            android:layout_width="68dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/detail_text_name"
+            android:layout_toLeftOf="@id/detail_button_go"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="20dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:visibility="invisible"
+            android:src="@drawable/ar" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/product_list_detail"
@@ -152,7 +164,6 @@
             android:layout_marginBottom="16dp">
 
         </android.support.v7.widget.RecyclerView>
-
 
 
     </RelativeLayout>

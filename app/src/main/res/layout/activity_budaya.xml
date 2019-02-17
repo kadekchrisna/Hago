@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".BudayaActivity">
 
-    <include layout="@layout/app_bar_layout" android:id="@+id/budaya_app_bar" />
+    <include layout="@layout/search_app_bar_layout" android:id="@+id/budaya_app_bar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/budaya_list"

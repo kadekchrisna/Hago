@@ -69,7 +69,7 @@ public class EditPlacesActivity extends AppCompatActivity {
     private Double mLongitude, mLatitude;
     private ArrayAdapter<CharSequence> mArrayAdapter;
     private String mCategory;
-    private DatabaseReference mPlaceDatabase, mUserPlaceDatabase;
+    private DatabaseReference mPlaceDatabase, mUserPlaceDatabase, mRootPlacedDatabase;
     private FirebaseUser mCurrentUser;
     private String currentUid;
 
@@ -87,7 +87,7 @@ public class EditPlacesActivity extends AppCompatActivity {
 
     private String placeUid;
 
-
+    Map update_hashMap = new HashMap();
 
     private Boolean clicked = true;
     private Boolean clicked2 = true;
@@ -133,7 +133,7 @@ public class EditPlacesActivity extends AppCompatActivity {
         currentUid = mCurrentUser.getUid();
 
 
-
+        mRootPlacedDatabase = FirebaseDatabase.getInstance().getReference();
         mPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Places").child(placeUid);
         mUserPlaceDatabase = FirebaseDatabase.getInstance().getReference().child("Owner").child(currentUid);
 
@@ -291,11 +291,10 @@ public class EditPlacesActivity extends AppCompatActivity {
                     String description = mInputDescription.getEditText().getText().toString();
                     String youtube = mInputYoutubeId.getEditText().getText().toString();
 
-                    String category = mCategory;
+                    final String category = mCategory;
 
                     String mYoutube = getYouTubeId(youtube);
 
-                    Map update_hashMap = new HashMap();
                     update_hashMap.put("name", name);
                     update_hashMap.put("phone", phone);
                     update_hashMap.put("price", price);
@@ -318,16 +317,29 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                             if (task.isSuccessful()){
 
-                                mUserPlaceDatabase.child(placeUid).updateChildren(update_hashMap_owner).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                mRootPlacedDatabase.child(category).child(placeUid).updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener() {
                                     @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
+                                    public void onComplete(@NonNull Task task) {
 
-                                        Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_SHORT).show();
-                                        mProgressDialog.dismiss();
-                                        Intent backIntent = new Intent(EditPlacesActivity.this, PlaceActivity.class);
-                                        startActivity(backIntent);
-                                        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        finish();
+                                        if (task.isSuccessful()){
+
+
+                                            mUserPlaceDatabase.child(placeUid).updateChildren(update_hashMap_owner).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+
+                                                    Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_SHORT).show();
+                                                    mProgressDialog.dismiss();
+                                                    Intent backIntent = new Intent(EditPlacesActivity.this, PlaceActivity.class);
+                                                    startActivity(backIntent);
+                                                    backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    finish();
+
+                                                }
+                                            });
+
+
+                                        }
 
                                     }
                                 });
@@ -385,32 +397,9 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                                         if (task.isSuccessful()){
 
-
-                                                            mPlaceDatabase.child("image").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-
-                                                                    if (task.isSuccessful()){
-
-                                                                        mPlaceDatabase.child("thumb_image").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                            @Override
-                                                                            public void onComplete(@NonNull Task<Void> task) {
-
-
-                                                                                mProgressDialog.dismiss();
-                                                                                clicked = false;
-                                                                                mImageButton1.setImageResource(R.drawable.baseline_add_24);
-
-
-                                                                            }
-                                                                        });
-
-                                                                    }
-
-                                                                }
-                                                            });
-
-
+                                                            mProgressDialog.dismiss();
+                                                            clicked = false;
+                                                            mImageButton1.setImageResource(R.drawable.baseline_add_24);
 
 
                                                         }else {
@@ -469,30 +458,9 @@ public class EditPlacesActivity extends AppCompatActivity {
                                                         if (task.isSuccessful()){
 
 
-                                                            mPlaceDatabase.child("image2").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-
-                                                                    if (task.isSuccessful()){
-
-                                                                        mPlaceDatabase.child("thumb_image2").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                            @Override
-                                                                            public void onComplete(@NonNull Task<Void> task) {
-
-
-                                                                                mProgressDialog.dismiss();
-                                                                                clicked2 = false;
-                                                                                mImageButton2.setImageResource(R.drawable.baseline_add_24);
-
-
-                                                                            }
-                                                                        });
-
-                                                                    }
-
-                                                                }
-                                                            });
-
+                                                            mProgressDialog.dismiss();
+                                                            clicked2 = false;
+                                                            mImageButton2.setImageResource(R.drawable.baseline_add_24);
 
 
 
@@ -552,33 +520,9 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                                         if (task.isSuccessful()){
 
-
-                                                            mPlaceDatabase.child("image3").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-
-                                                                    if (task.isSuccessful()){
-
-                                                                        mPlaceDatabase.child("thumb_image3").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                            @Override
-                                                                            public void onComplete(@NonNull Task<Void> task) {
-
-
-                                                                                mProgressDialog.dismiss();
-                                                                                clicked3 = false;
-                                                                                mImageButton3.setImageResource(R.drawable.baseline_add_24);
-
-
-                                                                            }
-                                                                        });
-
-                                                                    }
-
-                                                                }
-                                                            });
-
-
-
+                                                            mProgressDialog.dismiss();
+                                                            clicked3 = false;
+                                                            mImageButton3.setImageResource(R.drawable.baseline_add_24);
 
                                                         }else {
                                                             mProgressDialog.hide();
@@ -635,31 +579,9 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                                         if (task.isSuccessful()){
 
-
-                                                            mPlaceDatabase.child("image4").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-
-                                                                    if (task.isSuccessful()){
-
-                                                                        mPlaceDatabase.child("thumb_image4").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                            @Override
-                                                                            public void onComplete(@NonNull Task<Void> task) {
-
-
-                                                                                mProgressDialog.dismiss();
-                                                                                clicked4 = false;
-                                                                                mImageButton4.setImageResource(R.drawable.baseline_add_24);
-
-
-                                                                            }
-                                                                        });
-
-                                                                    }
-
-                                                                }
-                                                            });
-
+                                                            mProgressDialog.dismiss();
+                                                            clicked4 = false;
+                                                            mImageButton4.setImageResource(R.drawable.baseline_add_24);
 
 
 
@@ -756,22 +678,14 @@ public class EditPlacesActivity extends AppCompatActivity {
                                         thumb_downloadUrl = thumb_task.getResult().getDownloadUrl().toString();
                                         if (thumb_task.isSuccessful()) {
 
-                                            Map update_hashMap = new HashMap();
                                             update_hashMap.put("image", downloadUrl);
                                             update_hashMap.put("thumb_image", thumb_downloadUrl);
-                                            mPlaceDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
-                                                        mProgressDialog.dismiss();
-                                                        mImageButton1.setScaleType(FIT_XY);
-                                                        Picasso.with(EditPlacesActivity.this).load(thumb_downloadUrl).into(mImageButton1);
-                                                        clicked = true;
 
-                                                    }
-                                                }
-                                            });
+                                            Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
+                                            mProgressDialog.dismiss();
+                                            mImageButton1.setScaleType(FIT_XY);
+                                            Picasso.with(EditPlacesActivity.this).load(thumb_downloadUrl).into(mImageButton1);
+                                            clicked = true;
 
                                         } else {
                                             Toast.makeText(EditPlacesActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
@@ -808,23 +722,14 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                         if (thumb_task.isSuccessful()) {
 
-                                            Map update_hashMap = new HashMap();
                                             update_hashMap.put("image2", downloadUrl2);
                                             update_hashMap.put("thumb_image2", thumb_downloadUrl2);
 
-                                            mPlaceDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
-                                                        mProgressDialog.dismiss();
-                                                        mImageButton2.setScaleType(FIT_XY);
-                                                        Picasso.with(EditPlacesActivity.this).load(thumb_downloadUrl2).into(mImageButton2);
-                                                        clicked2 = true;
-
-                                                    }
-                                                }
-                                            });
+                                            Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
+                                            mProgressDialog.dismiss();
+                                            mImageButton2.setScaleType(FIT_XY);
+                                            Picasso.with(EditPlacesActivity.this).load(thumb_downloadUrl2).into(mImageButton2);
+                                            clicked2 = true;
 
                                         } else {
                                             Toast.makeText(EditPlacesActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
@@ -863,23 +768,14 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                         if (thumb_task.isSuccessful()) {
 
-                                            Map update_hashMap = new HashMap();
                                             update_hashMap.put("image3", downloadUrl3);
                                             update_hashMap.put("thumb_image3", thumb_downloadUrl3);
 
-                                            mPlaceDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
-                                                        mProgressDialog.dismiss();
-                                                        mImageButton3.setScaleType(FIT_XY);
-                                                        Picasso.with(EditPlacesActivity.this).load(thumb_downloadUrl3).into(mImageButton3);
-                                                        clicked3 = true;
-
-                                                    }
-                                                }
-                                            });
+                                            Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
+                                            mProgressDialog.dismiss();
+                                            mImageButton3.setScaleType(FIT_XY);
+                                            Picasso.with(EditPlacesActivity.this).load(thumb_downloadUrl3).into(mImageButton3);
+                                            clicked3 = true;
 
                                         } else {
                                             Toast.makeText(EditPlacesActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
@@ -918,23 +814,14 @@ public class EditPlacesActivity extends AppCompatActivity {
 
                                         if (thumb_task.isSuccessful()) {
 
-                                            Map update_hashMap = new HashMap();
                                             update_hashMap.put("image4", downloadUrl4);
                                             update_hashMap.put("thumb_image4", thumb_downloadUrl4);
 
-                                            mPlaceDatabase.updateChildren(update_hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
-                                                        mProgressDialog.dismiss();
-                                                        mImageButton4.setScaleType(FIT_XY);
-                                                        Picasso.with(EditPlacesActivity.this).load(thumb_downloadUrl4).into(mImageButton4);
-                                                        clicked4 = true;
-
-                                                    }
-                                                }
-                                            });
+                                            Toast.makeText(EditPlacesActivity.this, "Success Uploading", Toast.LENGTH_LONG).show();
+                                            mProgressDialog.dismiss();
+                                            mImageButton4.setScaleType(FIT_XY);
+                                            Picasso.with(EditPlacesActivity.this).load(thumb_downloadUrl4).into(mImageButton4);
+                                            clicked4 = true;
 
                                         } else {
                                             Toast.makeText(EditPlacesActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();

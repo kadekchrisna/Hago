@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".CagaralamActivity">
 
-    <include layout="@layout/app_bar_layout" android:id="@+id/cagaralam_app_bar" />
+    <include layout="@layout/search_app_bar_layout" android:id="@+id/cagaralam_app_bar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cagaralam_list"

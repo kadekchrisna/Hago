@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    
     public static boolean hasPermissions(Context context, String... permissions) {
         if (context != null && permissions != null) {
             for (String permission : permissions) {

@@ -19,7 +19,7 @@
         <item>Pilih Kategori</item>
         <item>Bahari</item>
         <item>Budaya</item>
-        <item>Cagar Alam</item>
+        <item>Alam</item>
         <item>Buatan</item>
 
     </string-array>
@@ -45,5 +45,10 @@
     <string name="event_berakhir">Event Berakhir</string>
     <string name="event_mulai">Event Mulai</string>
     <string name="checkbox_event">Centang untuk mengaitkan ke tempat Wisata</string>
+
+
+    <string name="youtubeapi">AIzaSyDmW3ENWq3-3BjiFwAbq0qt7hRADXQ6_8o</string>
+    <string name="search">Search</string>
+    <string name="textPrice">Tiket Masuk Rp</string>
 
 </resources>

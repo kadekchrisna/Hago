@@ -34,6 +34,9 @@ public class YoutubeActivity extends YouTubeBaseActivity{
                 if (!b){
                     youTubePlayer.loadVideo(youtubeId);
                     youTubePlayer.setFullscreen(true);
+                    youTubePlayer.setShowFullscreenButton(false);
+                    youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+
                 }
 
 

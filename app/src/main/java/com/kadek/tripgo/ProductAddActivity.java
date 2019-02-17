@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -54,7 +55,7 @@ public class ProductAddActivity extends AppCompatActivity {
 
     private DatabaseReference mProductDatabase, mUserPlaceDatabase, mPlaceDatabase, mProductOwnDatabase, mUserProductDatabase;
     private FirebaseUser mCurrentUser;
-    private String currentUid, mCategory, mNamePlace, mIdPlace, mTrueLink;
+    private String currentUid, mCategory, mNamePlace, mIdPlace, mTrueLink, mCase;
 
     private List<String> list = new ArrayList<String>();
     private Map map = new HashMap();
@@ -159,7 +160,6 @@ public class ProductAddActivity extends AppCompatActivity {
 
                     Object key = map.get(mCategory);
                     mIdPlace = String.valueOf(key);
-                    Toast.makeText(ProductAddActivity.this, ""+key, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -186,9 +186,35 @@ public class ProductAddActivity extends AppCompatActivity {
                     mProgressDialog = new ProgressDialog(ProductAddActivity.this);
                     mProgressDialog.setTitle("Saving Changes");
                     mProgressDialog.setMessage("Please Wait...");
+                    mProgressDialog.setCanceledOnTouchOutside(false);
                     mProgressDialog.show();
+
                     mTrueLink = mLink.getEditText().getText().toString();
-                    new linkParser().execute(mTrueLink);
+                    if (URLUtil.isHttpsUrl(mTrueLink)){
+                        mCase = mTrueLink.substring(mTrueLink.indexOf(".")+1,mTrueLink.lastIndexOf(".com"));
+
+
+                        if (mCase.equals("bukalapak")){
+
+                            mTrueLink = mTrueLink.replace("https://m.", "https://www.");
+                            //new linkParser().execute(mTrueLink);
+
+                        }else if (mCase.equals("tokopedia")){
+
+                            mTrueLink = mTrueLink.replace("https://m.", "https://www.");
+                            //new linkParser().execute(mTrueLink);
+
+                        }else{
+                            mProgressDialog.dismiss();
+                            Toast.makeText(ProductAddActivity.this, "Masukan produk hanya dari Tokopedia atau Bukalapak", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else{
+                        mProgressDialog.dismiss();
+                        Toast.makeText(ProductAddActivity.this, "Masukan produk hanya dari Tokopedia atau Bukalapak", Toast.LENGTH_SHORT).show();
+                    }
+
+
 
                 }
 
@@ -202,7 +228,7 @@ public class ProductAddActivity extends AppCompatActivity {
 
     public class linkParser extends AsyncTask<String, Void, String> {
 
-        private String pName, pPrice, pLink, link;
+        private String pName, pPrice, pLink;
 
 
         @Override
@@ -211,13 +237,28 @@ public class ProductAddActivity extends AppCompatActivity {
 
             try {
 
-                document = Jsoup.connect(mTrueLink).get();
-                Elements newsHeadlines = document.select("source[srcset]");
-                Elements mPName = document.select(".product-detailed__name");
-                Elements mPPrice = document.select(".product-detailed-price");
-                pName = mPName.tagName("h1").text().toString();
-                pPrice = mPPrice.attr("data-reduced-price").toString();
-                pLink = newsHeadlines.attr("srcset").toString();
+                if (mCase.equals("tokopedia")){
+
+                    document = Jsoup.connect(mTrueLink).get();
+                    Elements newsHeadlines = document.select(".content-main-img");
+                    Elements mPName = document.select("#product-name");
+                    Elements mPPrice = document.select("#product_price_int");
+                    pName = mPName.attr("value").toString();
+                    pPrice = mPPrice.attr("value").toString();
+                    Elements mPImage = newsHeadlines.select("img");
+                    pLink = mPImage.attr("src").toString();
+
+
+                }else if (mCase.equals("bukalapak")){
+
+                    document = Jsoup.connect(mTrueLink).get();
+                    Elements newsHeadlines = document.select(".c-product-image-gallery__image");
+                    Elements mPName = document.select(".c-product-detail__name");
+                    Elements mPPrice = document.select(".c-product-detail-price");
+                    pName = mPName.tagName("h1").text().toString();
+                    pPrice = mPPrice.attr("data-reduced-price").toString();
+                    pLink = newsHeadlines.attr("href").toString();
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -230,74 +271,90 @@ public class ProductAddActivity extends AppCompatActivity {
 
 
             final Map linkMap = new HashMap();
-            linkMap.put("name", pName);
-            linkMap.put("place", mNamePlace);
-            linkMap.put("price", pPrice);
-            linkMap.put("image", pLink);
-            linkMap.put("link", mTrueLink);
-            linkMap.put("idplace", mIdPlace);
-            final String mProductKey = mProductDatabase.push().getKey();
-            final Map prodMap = new HashMap();
-            prodMap.put("product",mProductKey);
+            if (pName.isEmpty() || pPrice.isEmpty() || pLink.isEmpty()){
+                Toast.makeText(ProductAddActivity.this, "Masukan link produk dengan lengkap", Toast.LENGTH_LONG).show();
+                mProgressDialog.dismiss();
+            }else{
 
-            mProductOwnDatabase.child(mIdPlace).child(mProductKey).setValue(prodMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
+                linkMap.put("name", pName);
+                linkMap.put("place", mNamePlace);
+                linkMap.put("price", pPrice);
+                linkMap.put("image", pLink);
+                linkMap.put("link", mTrueLink);
+                linkMap.put("idplace", mIdPlace);
+                final String mProductKey = mProductDatabase.push().getKey();
+                final Map prodMap = new HashMap();
+                prodMap.put("product",mProductKey);
 
-                    if(task.isSuccessful()){
+                mProductOwnDatabase.child(mIdPlace).child(mProductKey).setValue(prodMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
 
-                        mUserProductDatabase.child("ProductUser").child(currentUid).child(mProductKey).setValue(prodMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
 
-                                if (task.isSuccessful()){
+                            mUserProductDatabase.child("ProductUser").child(currentUid).child(mProductKey).setValue(prodMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
 
-                                    mProductDatabase.child(mProductKey).setValue(linkMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
 
-                                            if (task.isSuccessful()){
-                                                mProgressDialog.dismiss();
-                                                Intent backIntent = new Intent(ProductAddActivity.this, ProductActivity.class);
-                                                startActivity(backIntent);
-                                                finish();
+                                        mProductDatabase.child(mProductKey).setValue(linkMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
 
-                                            }else {
+                                                if (task.isSuccessful()){
+                                                    mProgressDialog.dismiss();
+                                                    Intent backIntent = new Intent(ProductAddActivity.this, ProductActivity.class);
+                                                    backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(backIntent);
+                                                    finish();
+
+                                                }else {
 
 
-                                                Toast.makeText(ProductAddActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
-                                                mProgressDialog.dismiss();
+                                                    Toast.makeText(ProductAddActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
+                                                    mProgressDialog.dismiss();
 
+
+                                                }
 
                                             }
-
-                                        }
-                                    });
+                                        });
 
 
-                                }else {
+                                    }else {
 
-                                    Toast.makeText(ProductAddActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
-                                    mProgressDialog.dismiss();
+                                        Toast.makeText(ProductAddActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
+                                        mProgressDialog.dismiss();
+
+                                    }
 
                                 }
+                            });
 
-                            }
-                        });
+                        }else {
 
-                    }else {
+                            Toast.makeText(ProductAddActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
+                            mProgressDialog.dismiss();
 
-                        Toast.makeText(ProductAddActivity.this, "Error in uploading", Toast.LENGTH_LONG).show();
-                        mProgressDialog.dismiss();
+                        }
 
                     }
+                });
+            }
 
-                }
-            });
+
 
 
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent backIntent = new Intent(ProductAddActivity.this, AdminActivity.class);
+        backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(backIntent);
+        finish();
+    }
 }
+

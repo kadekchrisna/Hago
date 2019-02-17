@@ -8,18 +8,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -27,7 +31,7 @@ import com.squareup.picasso.Picasso;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchCatActivity extends AppCompatActivity {
 
     private EditText mInputSearch;
     private ImageButton mButtonSearch;
@@ -42,15 +46,34 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        mSearchDatabse = FirebaseDatabase.getInstance().getReference("Places");
+        setContentView(R.layout.activity_search_cat);
 
-        mInputSearch = (EditText) findViewById(R.id.inputSearch);
-        mButtonSearch = (ImageButton) findViewById(R.id.butonSearch);
+        final String type = getIntent().getStringExtra("type");
 
-        mListSearch = (RecyclerView) findViewById(R.id.search_list);
+        switch (type){
+            case "Buatan":
+                mSearchDatabse = FirebaseDatabase.getInstance().getReference().child("Buatan");
+                break;
+
+            case "Alam":
+                mSearchDatabse = FirebaseDatabase.getInstance().getReference().child("Alam");
+                break;
+
+            case "Bahari":
+                mSearchDatabse = FirebaseDatabase.getInstance().getReference().child("Bahari");
+                break;
+
+            case "Budaya":
+                mSearchDatabse = FirebaseDatabase.getInstance().getReference().child("Budaya");
+                break;
+        }
+
+        mInputSearch = (EditText) findViewById(R.id.inputSearchCat);
+        mButtonSearch = (ImageButton) findViewById(R.id.buttonSearchCat);
+        mListSearch = (RecyclerView) findViewById(R.id.search_cat_list);
         mListSearch.setHasFixedSize(true);
         mListSearch.setLayoutManager(new LinearLayoutManager(this));
+
 
 
         mButtonSearch.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +82,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 if (mInputSearch.getText().toString().isEmpty()){
 
-                    Toast.makeText(SearchActivity.this, "Please insert text first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchCatActivity.this, "Please insert text first", Toast.LENGTH_SHORT).show();
 
                 }else {
                     String searchText = mInputSearch.getText().toString();
@@ -82,7 +105,7 @@ public class SearchActivity extends AppCompatActivity {
                         (i == KeyEvent.KEYCODE_ENTER)) {
                     if (mInputSearch.getText().toString().isEmpty()){
 
-                        Toast.makeText(SearchActivity.this, "Please insert text first", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SearchCatActivity.this, "Please insert text first", Toast.LENGTH_SHORT).show();
                         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
@@ -102,55 +125,54 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 
 
     private void firebaseSearch(final String searchText) {
 
-        Query firebaseQuery = mSearchDatabse.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
+        final Query firebaseQuery = mSearchDatabse.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
 
 
-        FirebaseRecyclerAdapter<Search, SearchViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Search, SearchViewHolder>(
+        FirebaseRecyclerAdapter<Search, SearchCatViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Search, SearchCatViewHolder>(
 
 
                 Search.class,
                 R.layout.place_single_layout,
-                SearchViewHolder.class,
+                SearchCatViewHolder.class,
                 firebaseQuery
 
 
         ) {
             @Override
-            protected void populateViewHolder(SearchViewHolder viewHolder, Search model, int position) {
-
+            protected void populateViewHolder(final SearchCatViewHolder viewHolder, final Search model, final int position) {
 
                 viewHolder.setDetails(getApplicationContext(), model.getName(), model.getPrice(), model.getImage());
+
 
                 final String placeUid = getRef(position).getKey();
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        Intent detailIntent = new Intent(SearchActivity.this, DetailActivity.class);
+                        Intent detailIntent = new Intent(SearchCatActivity.this, DetailActivity.class);
                         detailIntent.putExtra("placeUid", placeUid);
                         startActivity(detailIntent);
                         detailIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         finish();
                     }
                 });
-
             }
         };
         mListSearch.setAdapter(firebaseRecyclerAdapter);
 
     }
 
-
-    public static class SearchViewHolder extends RecyclerView.ViewHolder {
+    public static class SearchCatViewHolder extends RecyclerView.ViewHolder {
 
         View mView;
 
-        public SearchViewHolder(View itemView) {
+        public SearchCatViewHolder(View itemView) {
 
             super(itemView);
 
@@ -189,4 +211,6 @@ public class SearchActivity extends AppCompatActivity {
 
         }
     }
+
 }
+

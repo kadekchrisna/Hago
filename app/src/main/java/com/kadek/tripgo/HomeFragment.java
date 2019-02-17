@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class HomeFragment extends Fragment {
 
-    private Button mBahariButton, mQrButton, mAgrowisataButton, mCagaralamButton, mBudayaButton;
+    private Button mBahariButton, mQrButton, mAgrowisataButton, mCagaralamButton, mBudayaButton, mNearMeButton;
     private Button mSearchButton;
     private View mViewHome;
 
@@ -43,6 +43,16 @@ public class HomeFragment extends Fragment {
         mCagaralamButton = (Button) mViewHome.findViewById(R.id.home_button_cagaralam);
         mQrButton = (Button) mViewHome.findViewById(R.id.home_button_qr);
         mSearchButton = (Button) mViewHome.findViewById(R.id.home_button_search);
+        mNearMeButton = (Button) mViewHome.findViewById(R.id.home_button_map);
+
+
+        mNearMeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapIntent = new Intent(getContext(), MapsActivity.class);
+                startActivity(mapIntent);
+            }
+        });
 
         mBahariButton.setOnClickListener(new View.OnClickListener() {
             @Override
